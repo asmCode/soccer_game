@@ -17,7 +17,7 @@ public class MatchController
     {
         if (m_userInput.Direction != PlayerDirection.None)
         {
-            m_match.MovePlayer(0, 0, m_userInput.Direction);
+            m_match.SetPlayerPosition(0, 0, m_match.GetPlayerPosition(0, 0) + Vector3.forward * deltaTime);
         }
     }
 }

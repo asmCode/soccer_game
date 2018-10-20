@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class Player
 {
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public Player(byte team, byte index, Vector3 position)
+    {
+        Team = team;
+        Index = index;
+        Position = position;
+    }
+
+    public byte Team { get; set; }
+    public byte Index { get; set; }
+    public Vector3 Position { get; set; }
+    public PlayerDirection Direction { get; set; }
 }

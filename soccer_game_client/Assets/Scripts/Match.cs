@@ -4,12 +4,27 @@ using UnityEngine;
 
 public class Match
 {
-    private const int PlayerCount = 11;
+    private Team[] m_teams = new Team[2];
 
-    private Player[] team1 = new Player[PlayerCount];
-    private Player[] team2 = new Player[PlayerCount];
-
-    public void MovePlayer(byte team, byte playerIndex, PlayerDirection playerDirection)
+    public Match()
     {
+        m_teams[0] = new Team();
+        m_teams[1] = new Team();
+
+        for (byte i = 0; i < Team.PlayerCount; i++)
+        {
+            m_teams[0].Players[i] = new Player(0, i, Vector3.zero);
+            m_teams[1].Players[i] = new Player(1, i, Vector3.zero);
+        }
+    }
+
+    public Vector3 GetPlayerPosition(byte team, byte playerIndex)
+    {
+        return m_teams[team].Players[playerIndex].Position;
+    }
+
+    public void SetPlayerPosition(byte team, byte playerIndex, Vector3 position)
+    {
+        m_teams[team].Players[playerIndex].Position = position;
     }
 }

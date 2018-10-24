@@ -4,21 +4,18 @@ using UnityEngine;
 
 public class MouseAndKbInput : UserInput
 {
-    public override PlayerDirection Direction { get; protected set; }
-    public override bool Shoot { get; protected set; }
-
-    private void Update()
+    public override PlayerDirection GetDirection()
     {
-        Direction = PlayerDirection.None;
-
         if (Input.GetKey(KeyCode.W))
         {
-            Direction = PlayerDirection.Up;
+            return PlayerDirection.Up;
         }
 
-        if (Input.GetKey(KeyCode.Space))
-        {
-            Shoot = true;
-        }
+        return PlayerDirection.None;
+    }
+
+    public override bool GetAction()
+    {
+        return Input.GetKey(KeyCode.Space);
     }
 }

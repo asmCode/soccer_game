@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement
+public class Action
 {
+    public float m_dt;
     public byte m_team;
-    public int m_playerIndex;
+    public byte m_playerIndex;
     public PlayerDirection m_playerDirection;
 }

@@ -18,6 +18,7 @@ public class MatchController
     public void Update(float deltaTime)
     {
         m_inputCtrl.Update(deltaTime, 0);
+        m_netCtrl.Update();
 
         while (!m_inputCtrl.MessageQueue.Empty())
             m_netCtrl.SendMessage(m_inputCtrl.MessageQueue.Dequeue());

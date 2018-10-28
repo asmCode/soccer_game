@@ -33,12 +33,8 @@ public class MatchController
         {
             case MessageType.PlayerMove:
                 var playerMoveMsg = msg.m_message as MovePlayer;
-                var direction = playerMoveMsg.m_playerDirection;
-
-                if (direction == PlayerDirection.Up)
-                {
-                    m_match.SetPlayerPosition(0, 0, m_match.GetPlayerPosition(0, 0) + Vector3.forward * deltaTime);
-                }
+                var moveVector = PlayerDirectionVector.GetVector(playerMoveMsg.m_playerDirection);
+                m_match.SetPlayerPosition(0, 0, m_match.GetPlayerPosition(0, 0) + moveVector * playerMoveMsg.m_dt);
                 break;
         }
     }

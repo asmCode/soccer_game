@@ -6,4 +6,5 @@ public abstract class NetworkCommunication
 {
     public abstract void SendMessage(Message message);
     public abstract Message GetMessage();
+    public abstract void Cleanup();
 }

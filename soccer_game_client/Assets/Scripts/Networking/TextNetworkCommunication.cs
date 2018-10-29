@@ -14,8 +14,11 @@ public class TextNetworkCommunication : NetworkCommunication
     {
         m_msgSerializer = new TextMessageSerializer();
 
-        m_outFile = new StreamWriter(outFileName, false);
-        m_inFile = new StreamReader(inFileName);
+        var outFileStream = new FileStream(inFileName, FileMode.Truncate, FileAccess.Write, FileShare.Read);
+        m_outFile = new StreamWriter(outFileStream);
+
+        var inFileStream = new FileStream(inFileName, FileMode.Open, FileAccess.Read, FileShare.Write);
+        m_inFile = new StreamReader(inFileStream);
     }
 
     public override void SendMessage(Message message)
@@ -37,6 +40,12 @@ public class TextNetworkCommunication : NetworkCommunication
             return null;
 
         return m_msgSerializer.Deserialize(Encoding.ASCII.GetBytes(text));
+    }
+
+    public override void Cleanup()
+    {
+        m_outFile.Close();
+        m_inFile.Close();
     }
 
     private void SaveToFile(byte[] data)

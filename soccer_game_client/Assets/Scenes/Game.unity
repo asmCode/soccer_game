@@ -407,6 +407,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 723890bbc9f273742bda30f12e5143fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_isServer: 1
   m_matchView: {fileID: 1122312269}
 --- !u!1 &1724316630
 GameObject:

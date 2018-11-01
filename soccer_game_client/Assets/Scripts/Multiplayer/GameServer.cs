@@ -1,4 +1,5 @@
-﻿using Ssg.Core.Networking;
+﻿using UnityEngine;
+using Ssg.Core.Networking;
 
 public abstract class GameServer
 {
@@ -7,7 +8,7 @@ public abstract class GameServer
     private MessageSerializer m_msgSerializer;
     private MessageQueue m_msgQueue = new MessageQueue();
 
-    event System.Action<int> ClientConnected;
+    public event System.Action<int> ClientConnected;
 
     public GameServer()
     {
@@ -17,18 +18,30 @@ public abstract class GameServer
 
     public abstract void StartServer();
     public abstract void StopServer();
+    public abstract void Update();
 
-    public void Update()
+    public int GetClientCount()
     {
+        int clients = 0;
 
+        if (m_con1 != null)
+            clients++;
+
+        if (m_con2 != null)
+            clients++;
+
+        return clients;
     }
 
     public void SendToAll(Message message)
     {
         var networkMsg = CreateNetworkMessage(message);
 
-        m_con1.Send(networkMsg);
-        m_con2.Send(networkMsg);
+        if (m_con1 != null)
+            m_con1.Send(networkMsg);
+
+        if (m_con2 != null)
+            m_con2.Send(networkMsg);
     }
 
     public void SendToClient(int clientId, Message message)
@@ -53,5 +66,18 @@ public abstract class GameServer
         var networkMsg = new Ssg.Core.Networking.Message();
         networkMsg.Data = m_msgSerializer.Serialize(message);
         return networkMsg;
+    }
+
+    protected void NotifyNewConnection(Connection connection)
+    {
+        if (m_con1 == null)
+            m_con1 = connection;
+        else if (m_con2 == null)
+            m_con2 = connection;
+
+        Debug.Log("new connection");
+
+        if (ClientConnected != null)
+            ClientConnected(0);
     }
 }

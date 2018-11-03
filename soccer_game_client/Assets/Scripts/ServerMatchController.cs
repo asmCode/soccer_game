@@ -21,5 +21,18 @@ public class ServerMatchController : MatchController
     public void Update(float deltaTime)
     {
         m_gameServer.Update();
+        ProcessMessages();
+    }
+
+    public void ProcessMessages()
+    {
+        while (true)
+        {
+            var message = m_gameServer.GetMessage();
+            if (message == null)
+                break;
+
+            m_match.ProcessMessage(message);
+        }
     }
 }

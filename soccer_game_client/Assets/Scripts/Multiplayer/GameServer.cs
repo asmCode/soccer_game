@@ -18,7 +18,36 @@ public abstract class GameServer
 
     public abstract void StartServer();
     public abstract void StopServer();
-    public abstract void Update();
+    public abstract Connection CheckNewConnections();
+
+    public virtual void Update()
+    {
+        if (GetClientCount() != 2)
+        {
+            var connection = CheckNewConnections();
+            if (connection != null)
+                NotifyNewConnection(connection);
+        }
+
+        GetMessagesFromClient(m_con1);
+        GetMessagesFromClient(m_con2);
+    }
+
+    private void GetMessagesFromClient(Connection connection)
+    {
+        if (connection != null)
+        {
+            while (true)
+            {
+                var netMsg = connection.GetMessage();
+                if (netMsg == null)
+                    break;
+
+                var msg = m_msgSerializer.Deserialize(netMsg.Data);
+                m_msgQueue.AddMessage(msg);
+            }
+        }
+    }
 
     public int GetClientCount()
     {

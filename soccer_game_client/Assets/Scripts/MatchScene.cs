@@ -27,6 +27,9 @@ public class MatchScene : MonoBehaviour
 
     private void Update()
     {
+        if (m_matchCtrl == null)
+            return;
+
         m_matchCtrl.Update(Time.deltaTime);
     }
 

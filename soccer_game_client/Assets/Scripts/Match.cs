@@ -5,10 +5,13 @@ using UnityEngine;
 public class Match
 {
     private Team[] m_teams = new Team[2];
+    private MessageInterpreter m_messageInterpreter;
 
     public Match()
     {
-        m_teams[0] = new Team();
+        m_messageInterpreter = new MessageInterpreter();
+
+           m_teams[0] = new Team();
         m_teams[1] = new Team();
 
         for (byte i = 0; i < Team.PlayerCount; i++)
@@ -26,5 +29,10 @@ public class Match
     public void SetPlayerPosition(byte team, byte playerIndex, Vector3 position)
     {
         m_teams[team].Players[playerIndex].Position = position;
+    }
+
+    public void ProcessMessage(Message message)
+    {
+        m_messageInterpreter.ProcessMessage(this, message);
     }
 }

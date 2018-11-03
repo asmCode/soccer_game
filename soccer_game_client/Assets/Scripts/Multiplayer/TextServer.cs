@@ -23,22 +23,16 @@ public class TextGameServer : GameServer
     {
     }
 
-    public override void Update()
-    {
-        if (GetClientCount() != 2)
-        {
-            CheckNewConnections();
-        }
-    }
-
-    private void CheckNewConnections()
+    public override Ssg.Core.Networking.Connection CheckNewConnections()
     {
         int newClientIndex = GetClientCount();
         if (CheckNewClient(newClientIndex))
         {
             var connection = CreateNewConnection(newClientIndex);
-            NotifyNewConnection(connection);
+            return connection;
         }
+
+        return null;
     }
 
     private string CreateDirName()

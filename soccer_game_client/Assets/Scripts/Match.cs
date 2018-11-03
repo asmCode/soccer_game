@@ -11,7 +11,7 @@ public class Match
     {
         m_messageInterpreter = new MessageInterpreter();
 
-           m_teams[0] = new Team();
+        m_teams[0] = new Team();
         m_teams[1] = new Team();
 
         for (byte i = 0; i < Team.PlayerCount; i++)

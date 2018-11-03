@@ -6,41 +6,40 @@ public class ClientMatchController : MatchController
 {
     private InputController m_inputCtrl;
     private Match m_match;
-    private NetworkController m_netCtrl;
+    private GameClient m_gameClient;
 
     public ClientMatchController(Match match, UserInput userInput)
     {
         m_match = match;
         m_inputCtrl = new InputController(userInput, 0);
-        m_netCtrl = new NetworkController();
+        m_gameClient = GameClientFactory.Create();
     }
 
     public void Update(float deltaTime)
     {
         m_inputCtrl.Update(deltaTime, 0);
-        m_netCtrl.Update();
+        m_gameClient.Update();
+
+        ProcessNetworkMessages();
 
         while (!m_inputCtrl.MessageQueue.Empty())
-            m_netCtrl.SendMessage(m_inputCtrl.MessageQueue.Dequeue());
-
-        while (!m_netCtrl.MessageQueue.Empty())
-            ProcessMessage(deltaTime, m_netCtrl.MessageQueue.Dequeue());
+            m_gameClient.Send(m_inputCtrl.MessageQueue.Dequeue());
     }
 
     public void Cleanup()
     {
-        m_netCtrl.Cleanup();
+        m_gameClient.Disconnect();
     }
 
-    private void ProcessMessage(float deltaTime, Message msg)
+    public void ProcessNetworkMessages()
     {
-        switch (msg.m_messageType)
+        while (true)
         {
-            case MessageType.PlayerMove:
-                var playerMoveMsg = msg.m_message as MovePlayer;
-                var moveVector = PlayerDirectionVector.GetVector(playerMoveMsg.m_playerDirection);
-                m_match.SetPlayerPosition(0, 0, m_match.GetPlayerPosition(0, 0) + moveVector * playerMoveMsg.m_dt);
+            var message = m_gameClient.GetMessage();
+            if (message == null)
                 break;
+
+            m_match.ProcessMessage(message);
         }
     }
 }

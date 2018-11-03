@@ -4,5 +4,6 @@
    {
         void Send(Message message);
         Message GetMessage();
+        void Close();
    }
 }

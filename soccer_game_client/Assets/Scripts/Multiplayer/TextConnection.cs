@@ -31,5 +31,19 @@ public class TextConnection : Ssg.Core.Networking.Connection
 
     public void Send(Ssg.Core.Networking.Message message)
     {
+        SaveToFile(message.Data);
+    }
+
+    public void Close()
+    {
+        m_writeFile.Close();
+        m_readFile.Close();
+    }
+
+    private void SaveToFile(byte[] data)
+    {
+        var text = Encoding.ASCII.GetString(data);
+        m_writeFile.WriteLine(text);
+        m_writeFile.Flush();
     }
 }

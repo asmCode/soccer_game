@@ -15,12 +15,12 @@ public class TextGameServer : GameServer
 
     public override void StartServer()
     {
-        var dirName = CreateDirName();
+        var sessionName = CreateSessionName();
+        var dirName = CreateDirName(sessionName);
         m_dirInfo = Directory.CreateDirectory(dirName);
-    }
 
-    public override void StopServer()
-    {
+        var currentSessionFileName = Path.Combine(m_basePath, "current_session");
+        System.IO.File.WriteAllText(currentSessionFileName, sessionName);
     }
 
     public override Ssg.Core.Networking.Connection CheckNewConnections()
@@ -35,9 +35,14 @@ public class TextGameServer : GameServer
         return null;
     }
 
-    private string CreateDirName()
+    private string CreateSessionName()
     {
-        return Path.Combine(m_basePath, "session_" + System.DateTime.Now.Ticks.ToString());
+        return "session_" + System.DateTime.Now.Ticks.ToString();
+    }
+
+    private string CreateDirName(string sessionName)
+    {
+        return Path.Combine(m_basePath, sessionName);
     }
 
     private bool CheckNewClient(int index)

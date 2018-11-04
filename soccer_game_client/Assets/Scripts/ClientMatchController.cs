@@ -26,7 +26,7 @@ public class ClientMatchController : MatchController
         {
             var localMessage = m_inputCtrl.MessageQueue.Dequeue();
             m_gameClient.Send(localMessage);
-            m_match.ProcessMessage(localMessage);
+            // m_match.ProcessMessage(localMessage);
         }
     }
 

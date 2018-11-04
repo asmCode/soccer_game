@@ -17,7 +17,21 @@ public abstract class GameServer
     }
 
     public abstract void StartServer();
-    public abstract void StopServer();
+    public virtual void StopServer()
+    {
+        if (m_con1 != null)
+        {
+            m_con1.Close();
+            m_con1 = null;
+        }
+
+        if (m_con2 != null)
+        {
+            m_con2.Close();
+            m_con2 = null;
+        }
+    }
+
     public abstract Connection CheckNewConnections();
 
     public virtual void Update()

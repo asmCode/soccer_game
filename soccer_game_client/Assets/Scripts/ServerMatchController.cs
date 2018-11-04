@@ -16,6 +16,7 @@ public class ServerMatchController : MatchController
 
     public void Cleanup()
     {
+        m_gameServer.StopServer();
     }
 
     public void Update(float deltaTime)
@@ -33,6 +34,7 @@ public class ServerMatchController : MatchController
                 break;
 
             m_match.ProcessMessage(message);
+            m_gameServer.SendToAll(message);
         }
     }
 }

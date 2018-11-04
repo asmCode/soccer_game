@@ -12,7 +12,7 @@ public class TextConnection : Ssg.Core.Networking.Connection
     public TextConnection(bool createFiles, string writeFileName, string readFileName)
     {
         var writeFileMode = createFiles ? FileMode.Create : FileMode.Truncate;
-        var writeFileStream = new FileStream(writeFileName, writeFileMode, FileAccess.Write, FileShare.Read);
+        var writeFileStream = new FileStream(writeFileName, writeFileMode, FileAccess.Write, FileShare.ReadWrite);
         m_writeFile = new StreamWriter(writeFileStream);
 
         var readFileMode = createFiles ? FileMode.Create : FileMode.Open;

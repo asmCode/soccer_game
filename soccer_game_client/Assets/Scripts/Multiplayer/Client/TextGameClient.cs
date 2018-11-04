@@ -27,15 +27,6 @@ public class TextGameClient : GameClient
         return CreateConnection(clientIndex, sessionPath);
     }
 
-    private Ssg.Core.Networking.Connection CreateNewConnection(string sessionPath, int index)
-    {
-        string clientIn;
-        string clientOut;
-        CreateClientFileNames(index, sessionPath, out clientIn, out clientOut);
-
-        return new TextConnection(clientIn, clientOut);
-    }
-
     private string GetCurrentSessionName()
     {
         var currentSessionFileName = System.IO.Path.Combine(m_basePath, "current_session");
@@ -85,6 +76,6 @@ public class TextGameClient : GameClient
         string clientOutFile;
         CreateClientFileNames(index, sessionPath, out clientInFile, out clientOutFile);
 
-        return new TextConnection(clientOutFile, clientInFile);
+        return new TextConnection(true, clientOutFile, clientInFile);
     }
 }

@@ -9,12 +9,14 @@ public class TextConnection : Ssg.Core.Networking.Connection
     private StreamWriter m_writeFile;
     private StreamReader m_readFile;
 
-    public TextConnection(string writeFileName, string readFileName)
+    public TextConnection(bool createFiles, string writeFileName, string readFileName)
     {
-        var writeFileStream = new FileStream(writeFileName, FileMode.Truncate, FileAccess.Write, FileShare.Read);
+        var writeFileMode = createFiles ? FileMode.Create : FileMode.Truncate;
+        var writeFileStream = new FileStream(writeFileName, writeFileMode, FileAccess.Write, FileShare.Read);
         m_writeFile = new StreamWriter(writeFileStream);
 
-        var readFileStream = new FileStream(readFileName, FileMode.Open, FileAccess.Read, FileShare.Write);
+        var readFileMode = createFiles ? FileMode.Create : FileMode.Open;
+        var readFileStream = new FileStream(readFileName, readFileMode, FileAccess.ReadWrite, FileShare.Write);
         m_readFile = new StreamReader(readFileStream);
     }
 

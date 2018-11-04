@@ -29,7 +29,11 @@ public abstract class GameClient
     public virtual void Update()
     {
         if (m_connection == null)
+        {
             m_connection = Connect();
+            if (m_connection != null)
+                NotifyNewConnection();
+        }
 
         if (m_connection == null)
             return;
@@ -79,7 +83,7 @@ public abstract class GameClient
 
     protected void NotifyNewConnection()
     {
-        Debug.Log("Connected to the server.");
+        Log.Message("Connected to the server.");
 
         if (Connected != null)
             Connected();

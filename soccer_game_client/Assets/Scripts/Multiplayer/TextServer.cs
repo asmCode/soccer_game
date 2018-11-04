@@ -61,6 +61,6 @@ public class TextGameServer : GameServer
         string clientOut;
         CreateClientFileNames(index, out clientIn, out clientOut);
 
-        return new TextConnection(clientIn, clientOut);
+        return new TextConnection(false, clientIn, clientOut);
     }
 }

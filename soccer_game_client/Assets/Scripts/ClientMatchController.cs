@@ -23,7 +23,11 @@ public class ClientMatchController : MatchController
         ProcessNetworkMessages();
 
         while (!m_inputCtrl.MessageQueue.Empty())
-            m_gameClient.Send(m_inputCtrl.MessageQueue.Dequeue());
+        {
+            var localMessage = m_inputCtrl.MessageQueue.Dequeue();
+            m_gameClient.Send(localMessage);
+            m_match.ProcessMessage(localMessage);
+        }
     }
 
     public void Cleanup()

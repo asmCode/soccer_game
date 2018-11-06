@@ -31,8 +31,18 @@ public class Match
         m_teams[team].Players[playerIndex].Position = position;
     }
 
+    public void AttachBallToPlayer()
+    {
+
+    }
+
     public void ProcessMessage(Message message)
     {
         m_messageInterpreter.ProcessMessage(this, message);
+    }
+
+    public void NotifyPlayerBallCollision(byte teamIndex, byte playerIndex)
+    {
+
     }
 }

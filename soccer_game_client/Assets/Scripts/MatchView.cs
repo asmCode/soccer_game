@@ -7,6 +7,7 @@ public class MatchView : MonoBehaviour
     private Match m_match;
     public List<PlayerView>[] m_teams = new List<PlayerView>[2];
     public Transform m_teamsContainter;
+    public BallView m_ballView;
 
     public void Init(Match match)
     {
@@ -21,6 +22,9 @@ public class MatchView : MonoBehaviour
             return;
 
         m_teams[0][0].Position = m_match.GetPlayerPosition(0, 0);
+
+
+        m_ballView.transform.position = m_match.GetBallPosition();
     }
 
     private void InitTeams()

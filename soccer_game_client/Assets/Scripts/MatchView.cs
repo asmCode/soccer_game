@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MatchView : MonoBehaviour
 {
-    public PlayerView m_playerPrefab;
     public Transform m_teamsContainter;
     public BallView m_ballView;
 

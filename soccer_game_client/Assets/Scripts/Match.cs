@@ -10,6 +10,8 @@ public class Match
 
     public Match()
     {
+        PlayerProps.Instance = new PlayerProps(new Vector3(0, 0, 2.0f));
+
         m_messageInterpreter = new MessageInterpreter();
 
         m_teams[0] = new Team();
@@ -24,7 +26,10 @@ public class Match
 
     public Vector3 GetBallPosition()
     {
-        return Vector3.zero;
+        if (m_ball.Player == null)
+            return new Vector3(3, 0, 3);
+
+        return m_ball.Player.Position;
         // m_ball = .
     }
 

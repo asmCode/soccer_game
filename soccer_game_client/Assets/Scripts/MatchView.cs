@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class MatchView : MonoBehaviour
 {
-    private Match m_match;
-    public List<PlayerView>[] m_teams = new List<PlayerView>[2];
+    public PlayerView m_playerPrefab;
     public Transform m_teamsContainter;
     public BallView m_ballView;
+
+    private Match m_match;
+    private List<PlayerView>[] m_teams = new List<PlayerView>[2];
 
     public void Init(Match match)
     {

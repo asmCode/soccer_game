@@ -24,7 +24,8 @@ public class Match
 
     public Vector3 GetBallPosition()
     {
-        m_ball = 
+        return Vector3.zero;
+        // m_ball = .
     }
 
     public Vector3 GetPlayerPosition(byte team, byte playerIndex)

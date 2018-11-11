@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Team
+public enum MatchControlType
 {
-    public List<Player> Players = new List<Player>();
+    Local,
+    Client,
+    Server
 }

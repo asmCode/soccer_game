@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MatchScene : MonoBehaviour
 {
-    public bool m_isServer;
+    public MatchControlType m_matchControlType;
 
     public MatchView m_matchView;
 
@@ -15,13 +15,27 @@ public class MatchScene : MonoBehaviour
     {
         m_match = new Match();
 
-        if (m_isServer)
+        switch (m_matchControlType)
         {
-            m_matchCtrl = ServerBuilder.Create(m_match);
-        }
-        else
-        {
-            m_matchCtrl = ClientBuilder.Create(m_match, m_matchView);
+            case MatchControlType.Local:
+                {
+                    var userInput = new MouseAndKbInput();
+                    m_matchCtrl = new LocalMatchController(m_match, userInput);
+                    m_matchView.Init(m_match);
+                    break;
+                }
+
+            case MatchControlType.Client:
+                {
+                    m_matchCtrl = ClientBuilder.Create(m_match, m_matchView);
+                    break;
+                }
+
+            case MatchControlType.Server:
+                {
+                    m_matchCtrl = ServerBuilder.Create(m_match);
+                    break;
+                }
         }
     }
 

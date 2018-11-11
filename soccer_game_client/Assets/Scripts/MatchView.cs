@@ -28,7 +28,7 @@ public class MatchView : MonoBehaviour
         {
             var players = teams[teamIndex].Players;
 
-            for (int playerIndex = 0; playerIndex < players.Length; playerIndex++)
+            for (int playerIndex = 0; playerIndex < players.Count; playerIndex++)
             {
                 if (playerIndex == m_teams[teamIndex].Count)
                     break;

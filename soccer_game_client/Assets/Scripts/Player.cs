@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class Player
 {
-    public Player(byte team, byte index, Vector3 position)
+    public Player(byte team, byte index, Vector3 position, PlayerDirection playerDirection)
     {
         Team = team;
         Index = index;
         Position = position;
+        Direction = playerDirection;
     }
 
     public byte Team { get; set; }

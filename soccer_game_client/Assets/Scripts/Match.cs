@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,21 +19,23 @@ public class Match
         PlayerProps.Instance = new PlayerProps(0.5f);
 
         m_messageInterpreter = new MessageInterpreter();
+    }
 
+    public void SetPlayerInitialData(List<PlayerInitialData> players)
+    {
         m_teams[0] = new Team();
         m_teams[1] = new Team();
 
-        for (byte i = 0; i < Team.PlayerCount; i++)
+        foreach (var data in players)
         {
-            m_teams[0].Players[i] = new Player(0, i, Vector3.zero);
-            m_teams[1].Players[i] = new Player(1, i, Vector3.zero);
+            m_teams[data.Team].Players.Add(new Player(data.Team, data.Index, data.Position, data.Direction));
         }
     }
 
     public Vector3 GetBallPosition()
     {
         if (m_ball.Player == null)
-            return new Vector3(3, 0, 3);
+            return Vector3.zero;
 
         return m_ball.Player.Position + m_ball.Player.GetDirectionVector() * PlayerProps.Instance.BallDistance;
     }

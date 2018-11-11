@@ -8,9 +8,14 @@ public class Match
     private Ball m_ball = new Ball();
     private MessageInterpreter m_messageInterpreter;
 
+    public Team[] Teams
+    {
+        get { return m_teams; }
+    }
+
     public Match()
     {
-        PlayerProps.Instance = new PlayerProps(new Vector3(0, 0, 2.0f));
+        PlayerProps.Instance = new PlayerProps(0.5f);
 
         m_messageInterpreter = new MessageInterpreter();
 
@@ -29,8 +34,7 @@ public class Match
         if (m_ball.Player == null)
             return new Vector3(3, 0, 3);
 
-        return m_ball.Player.Position;
-        // m_ball = .
+        return m_ball.Player.Position + m_ball.Player.GetDirectionVector() * PlayerProps.Instance.BallDistance;
     }
 
     public Vector3 GetPlayerPosition(byte team, byte playerIndex)
@@ -38,9 +42,16 @@ public class Match
         return m_teams[team].Players[playerIndex].Position;
     }
 
-    public void SetPlayerPosition(byte team, byte playerIndex, Vector3 position)
+    public Player GetPlayer(byte team, byte playerIndex)
     {
-        m_teams[team].Players[playerIndex].Position = position;
+        return m_teams[team].Players[playerIndex];
+    }
+
+    public void SetPlayerPosition(byte team, byte playerIndex, Vector3 position, PlayerDirection direction)
+    {
+        var player = m_teams[team].Players[playerIndex];
+        player.Position = position;
+        player.Direction = direction;
     }
 
     public void AttachBallToPlayer()

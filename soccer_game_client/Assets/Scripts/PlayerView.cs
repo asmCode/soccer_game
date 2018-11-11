@@ -9,7 +9,6 @@ public class PlayerView : MonoBehaviour
     public byte TeamIndex { get; private set; }
     public byte PlayerIndex { get; private set; }
 
-
     public void Init(Match match, byte teamIndex, byte playerIndex)
     {
         m_match = match;
@@ -21,6 +20,11 @@ public class PlayerView : MonoBehaviour
     {
         get { return transform.position; }
         set { transform.position = value; }
+    }
+
+    public Vector3 Direction
+    {
+        set { transform.forward = value; }
     }
 
     public void TriggerBallCollision()

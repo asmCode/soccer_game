@@ -15,4 +15,9 @@ public class Player
     public byte Index { get; set; }
     public Vector3 Position { get; set; }
     public PlayerDirection Direction { get; set; }
+
+    public Vector3 GetDirectionVector()
+    {
+        return PlayerDirectionVector.GetVector(Direction);
+    }
 }

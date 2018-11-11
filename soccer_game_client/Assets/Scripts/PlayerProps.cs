@@ -6,14 +6,14 @@ public class PlayerProps
 {
     public static PlayerProps Instance;
 
-    public Vector3 BallOffset
+    public float BallDistance
     {
         get;
         private set;
     }
 
-    public PlayerProps(Vector3 ballOffset)
+    public PlayerProps(float ballDistance)
     {
-        BallOffset = ballOffset;
+        BallDistance = ballDistance;
     }
 }

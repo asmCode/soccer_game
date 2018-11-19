@@ -13,6 +13,11 @@ public class MessageInterpreter
                 var moveVector = PlayerDirectionVector.GetVector(playerMoveMsg.m_playerDirection) * GameSettings.PlayerSpeed;
                 match.SetPlayerPosition(0, 0, match.GetPlayerPosition(0, 0) + moveVector * playerMoveMsg.m_dt, playerMoveMsg.m_playerDirection);
                 break;
+
+            case MessageType.PlayerAction:
+                var playerActionMsg = message.m_message as Action;
+                match.PlayerAction(playerActionMsg.m_team, playerActionMsg.m_duration);
+                break;
         }
     }
 }

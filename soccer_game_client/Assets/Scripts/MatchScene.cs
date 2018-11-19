@@ -13,7 +13,7 @@ public class MatchScene : MonoBehaviour
 
     private void Awake()
     {
-        m_match = new Match();
+        m_match = new Match(m_matchView.m_ballView);
 
         switch (m_matchControlType)
         {

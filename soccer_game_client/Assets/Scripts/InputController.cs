@@ -6,6 +6,8 @@ public class InputController
 {
     private UserInput m_input;
     private byte m_team;
+    private bool m_prevActionState;
+    private float m_actionStartTime;
 
     public MessageQueue MessageQueue { get; private set; }
 
@@ -26,6 +28,28 @@ public class InputController
         if (direction != PlayerDirection.None)
         {
             MessageQueue.AddMessage(MovePlayer.Create(deltaTime, m_team, playerIndex, direction));
+        }
+
+        if (m_prevActionState != m_input.GetAction())
+        {
+            if (m_input.GetAction())
+            {
+                m_actionStartTime = Time.time;
+            }
+            else
+            {
+                var actionMsg = new Action();
+                actionMsg.m_team = m_team;
+                actionMsg.m_duration = Time.time - m_actionStartTime;
+
+                var msg = new Message();
+                msg.m_messageType = MessageType.PlayerAction;
+                msg.m_message = actionMsg;
+
+                MessageQueue.AddMessage(msg);
+            }
+
+            m_prevActionState = m_input.GetAction();
         }
     }
 }

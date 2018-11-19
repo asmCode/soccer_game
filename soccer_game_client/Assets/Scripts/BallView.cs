@@ -2,15 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BallView : MonoBehaviour {
+public class BallView : MonoBehaviour
+{
+    private Rigidbody m_rigibody;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public void SetVelocity(Vector3 velocity)
+    {
+        m_rigibody.velocity = velocity;
+    }
+
+    private void Awake()
+    {
+        m_rigibody = GetComponent<Rigidbody>();
+    }
+
+    private void Update()
+    {
+
+    }
 }

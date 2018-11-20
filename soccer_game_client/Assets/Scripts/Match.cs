@@ -22,7 +22,7 @@ public class Match
         m_messageInterpreter = new MessageInterpreter();
     }
 
-    public void SetPlayerInitialData(List<PlayerInitialData> players)
+    public void SetPlayers(List<PlayerInitialData> players)
     {
         m_teams[0] = new Team();
         m_teams[1] = new Team();

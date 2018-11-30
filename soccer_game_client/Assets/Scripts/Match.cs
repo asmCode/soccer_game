@@ -22,15 +22,13 @@ public class Match
         m_messageInterpreter = new MessageInterpreter();
     }
 
-    public void SetPlayers(List<PlayerInitialData> players)
+    public void SetPlayers(List<IPlayer> players)
     {
         m_teams[0] = new Team();
         m_teams[1] = new Team();
 
         foreach (var data in players)
-        {
-            m_teams[data.Team].Players.Add(new Player(data.Team, data.Index, data.Position, data.Direction));
-        }
+            m_teams[data.Team].Players.Add(data);
     }
 
     public void PlayerAction(byte team, float duration)
@@ -39,7 +37,7 @@ public class Match
             return;
 
         m_ball.ClearPlayer();
-        m_ballView.SetVelocity(ShootVelocity.GetVelocity(m_teams[team].ActivePlayer.Direction, duration));
+        m_ballView.SetVelocity(ShootVelocity.GetVelocity(m_teams[team].ActivePlayer.GetDirection(), duration));
     }
 
     public Vector3 GetBallPosition()
@@ -47,15 +45,15 @@ public class Match
         if (m_ball.Player == null)
             return m_ballView.transform.position;
 
-        return m_ball.Player.Position + m_ball.Player.GetDirectionVector() * PlayerProps.Instance.BallDistance;
+        return m_ball.Player.GetPosition() + m_ball.Player.GetDirectionVector() * PlayerProps.Instance.BallDistance;
     }
 
     public Vector3 GetPlayerPosition(byte team, byte playerIndex)
     {
-        return m_teams[team].Players[playerIndex].Position;
+        return m_teams[team].Players[playerIndex].GetPosition();
     }
 
-    public Player GetPlayer(byte team, byte playerIndex)
+    public IPlayer GetPlayer(byte team, byte playerIndex)
     {
         return m_teams[team].Players[playerIndex];
     }
@@ -63,8 +61,8 @@ public class Match
     public void SetPlayerPosition(byte team, byte playerIndex, Vector3 position, PlayerDirection direction)
     {
         var player = m_teams[team].Players[playerIndex];
-        player.Position = position;
-        player.Direction = direction;
+        player.SetPosition(position);
+        player.SetDirection(direction);
     }
 
     public void AttachBallToPlayer()

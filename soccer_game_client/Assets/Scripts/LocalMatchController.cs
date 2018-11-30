@@ -12,10 +12,10 @@ public class LocalMatchController : MatchController
         m_match = match;
         m_inputCtrl = new InputController(userInput, 0);
 
-        var initialData = new PlayerInitialDataProvider();
+        var initialData = new PlayersProvider();
         var players = initialData.GetPlayers();
 
-        m_match.SetPlayerInitialData(players);
+        m_match.SetPlayers(players);
     }
 
     public void Update(float deltaTime)

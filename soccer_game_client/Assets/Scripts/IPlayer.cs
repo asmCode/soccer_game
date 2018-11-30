@@ -12,4 +12,6 @@ public interface IPlayer
 
     void SetDirection(PlayerDirection direction);
     PlayerDirection GetDirection();
+
+    Vector3 GetDirectionVector();
 }

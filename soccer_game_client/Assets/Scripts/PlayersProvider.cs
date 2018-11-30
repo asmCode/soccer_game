@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInitialDataProvider
+public class PlayersProvider
 {
-    public List<PlayerInitialData> GetPlayers()
+    public List<IPlayer> GetPlayers()
     {
-        var players = new List<PlayerInitialData>();
+        var players = new List<IPlayer>();
 
         GetPlayersFromTeam(players, GameObject.Find("Teams/Team1").transform, 0);
         GetPlayersFromTeam(players, GameObject.Find("Teams/Team2").transform, 1);
@@ -14,19 +14,15 @@ public class PlayerInitialDataProvider
         return players;
     }
 
-    private void GetPlayersFromTeam(List<PlayerInitialData> players, Transform teamContainer, byte team)
+    private void GetPlayersFromTeam(List<IPlayer> players, Transform teamContainer, byte team)
     {
         for (int i = 0; i < teamContainer.childCount; i++)
         {
             var child = teamContainer.GetChild(i);
             var playerView = child.GetComponent<PlayerView>();
+            var direction = team == 0 ? PlayerDirection.Up : PlayerDirection.Bottom;
 
-            var data = new PlayerInitialData();
-            data.Team = team;
-            data.Index = (byte)i;
-            data.Position = playerView.transform.position;
-            data.Direction = team == 0 ? PlayerDirection.Up : PlayerDirection.Bottom;
-
+            var data = new Player(playerView, team, (byte)i, direction);
             players.Add(data);
         }
     }

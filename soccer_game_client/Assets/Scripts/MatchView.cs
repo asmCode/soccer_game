@@ -22,26 +22,6 @@ public class MatchView : MonoBehaviour
         if (m_match == null)
             return;
 
-        var teams = m_match.Teams;
-
-        for (int teamIndex = 0; teamIndex < teams.Length; teamIndex++)
-        {
-            var players = teams[teamIndex].Players;
-
-            for (int playerIndex = 0; playerIndex < players.Count; playerIndex++)
-            {
-                if (playerIndex == m_teams[teamIndex].Count)
-                    break;
-
-                var player = players[playerIndex];
-
-                m_teams[teamIndex][playerIndex].Position = player.Position;
-
-                if (player.Direction != PlayerDirection.None)
-                    m_teams[teamIndex][playerIndex].Direction = PlayerDirectionVector.GetVector(player.Direction);
-            }
-        }
-
         m_ballView.transform.position = m_match.GetBallPosition();
     }
 

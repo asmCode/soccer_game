@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Ball
 {
-    public Player Player { get; private set; }
+    public IPlayer Player { get; private set; }
 
-    public void SetPlayer(Player player)
+    public void SetPlayer(IPlayer player)
     {
         Player = player;
     }

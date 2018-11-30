@@ -10,14 +10,13 @@ public class Player : IPlayer
     public byte Team { get; set; }
     public byte Index { get; set; }
 
-    public Player(PlayerView playerView, byte team, byte index, Vector3 position, PlayerDirection playerDirection)
+    public Player(PlayerView playerView, byte team, byte index, PlayerDirection playerDirection)
     {
         m_playerView = playerView;
         Team = team;
         Index = index;
         m_direction = playerDirection;
 
-        SetPosition(position);
         SetDirection(playerDirection);
     }
 
@@ -44,6 +43,6 @@ public class Player : IPlayer
 
     public Vector3 GetDirectionVector()
     {
-        return PlayerDirectionVector.GetVector(Direction);
+        return PlayerDirectionVector.GetVector(m_direction);
     }
 }

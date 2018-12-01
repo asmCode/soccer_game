@@ -16,6 +16,11 @@ public abstract class GameClient
         m_msgQueue = new MessageQueue();
     }
 
+    public bool IsConnected()
+    {
+        return m_connection != null;
+    }
+
     public abstract Connection Connect();
     public virtual void Disconnect()
     {

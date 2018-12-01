@@ -17,16 +17,18 @@ public class ClientMatchController : MatchController
 
     public void Update(float deltaTime)
     {
-        m_inputCtrl.Update(deltaTime, 0);
         m_gameClient.Update();
+        if (m_gameClient.IsConnected())
+            return;
 
+        m_inputCtrl.Update(deltaTime, 0);
         ProcessNetworkMessages();
 
         while (!m_inputCtrl.MessageQueue.Empty())
         {
             var localMessage = m_inputCtrl.MessageQueue.Dequeue();
-            // m_gameClient.Send(localMessage);
-            m_match.ProcessMessage(localMessage);
+            m_gameClient.Send(localMessage);
+            // m_match.ProcessMessage(localMessage);
         }
 
         m_match.Update(deltaTime);

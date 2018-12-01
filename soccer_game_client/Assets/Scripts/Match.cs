@@ -8,6 +8,7 @@ public class Match
     private Team[] m_teams = new Team[2];
     private IBall m_ball;
     private MessageInterpreter m_messageInterpreter;
+    private ssg.Physics.IPhysics m_physics = new ssg.Physics.UnityPhysics();
 
     public Team[] Teams
     {
@@ -29,10 +30,8 @@ public class Match
             var ballPos = ballPlayer.GetPosition() + ballPlayer.GetDirectionVector() * PlayerProps.Instance.BallDistance;
             m_ball.SetPosition(ballPos);
         }
-        else
-        {
-            // Update physics.
-        }
+
+        m_physics.Update(dt);
     }
 
     public void SetPlayers(List<IPlayer> players)

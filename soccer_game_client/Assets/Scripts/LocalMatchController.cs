@@ -27,6 +27,8 @@ public class LocalMatchController : MatchController
             var localMessage = m_inputCtrl.MessageQueue.Dequeue();
             m_match.ProcessMessage(localMessage);
         }
+
+        m_match.Update(deltaTime);
     }
 
     public void Cleanup()

@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class BallProvider
 {
-    public static Ball GetBall()
+    public static IBall GetBall()
     {
-        return GameObject.Find("Ball").GetComponent<Ball>();
+        var ballView = GameObject.Find("Ball").GetComponent<BallView>();
+        return new Ball(ballView);
     }
 }

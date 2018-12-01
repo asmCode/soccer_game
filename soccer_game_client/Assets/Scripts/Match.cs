@@ -6,20 +6,33 @@ using UnityEngine;
 public class Match
 {
     private Team[] m_teams = new Team[2];
-    private Ball m_ball = new Ball();
+    private IBall m_ball;
     private MessageInterpreter m_messageInterpreter;
-    private BallView m_ballView;
-    
+
     public Team[] Teams
     {
         get { return m_teams; }
     }
 
-    public Match(BallView ballView)
+    public Match()
     {
-        m_ballView = ballView;
+        m_ball = BallProvider.GetBall();
         PlayerProps.Instance = new PlayerProps(0.5f);
         m_messageInterpreter = new MessageInterpreter();
+    }
+
+    public void Update(float dt)
+    {
+        var ballPlayer = m_ball.GetPlayer();
+        if (ballPlayer != null)
+        {
+            var ballPos = ballPlayer.GetPosition() + ballPlayer.GetDirectionVector() * PlayerProps.Instance.BallDistance;
+            m_ball.SetPosition(ballPos);
+        }
+        else
+        {
+            // Update physics.
+        }
     }
 
     public void SetPlayers(List<IPlayer> players)
@@ -37,15 +50,13 @@ public class Match
             return;
 
         m_ball.ClearPlayer();
-        m_ballView.SetVelocity(ShootVelocity.GetVelocity(m_teams[team].ActivePlayer.GetDirection(), duration));
+        m_ball.EnablePhysics(true);
+        m_ball.SetVelocity(ShootVelocity.GetVelocity(m_teams[team].ActivePlayer.GetDirection(), duration));
     }
 
     public Vector3 GetBallPosition()
     {
-        if (m_ball.Player == null)
-            return m_ballView.transform.position;
-
-        return m_ball.Player.GetPosition() + m_ball.Player.GetDirectionVector() * PlayerProps.Instance.BallDistance;
+        return m_ball.GetPosition();
     }
 
     public Vector3 GetPlayerPosition(byte team, byte playerIndex)
@@ -77,6 +88,7 @@ public class Match
 
     public void NotifyPlayerBallCollision(byte teamIndex, byte playerIndex)
     {
+        m_ball.EnablePhysics(false);
         m_ball.SetPlayer(m_teams[teamIndex].Players[playerIndex]);
         m_teams[teamIndex].ActivePlayer = m_teams[teamIndex].Players[playerIndex];
     }

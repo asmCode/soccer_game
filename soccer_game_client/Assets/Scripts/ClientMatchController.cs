@@ -28,6 +28,8 @@ public class ClientMatchController : MatchController
             // m_gameClient.Send(localMessage);
             m_match.ProcessMessage(localMessage);
         }
+
+        m_match.Update(deltaTime);
     }
 
     public void Cleanup()

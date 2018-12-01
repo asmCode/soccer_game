@@ -19,10 +19,6 @@ public class MatchView : MonoBehaviour
 
     private void Update()
     {
-        if (m_match == null)
-            return;
-
-        m_ballView.transform.position = m_match.GetBallPosition();
     }
 
     private void InitTeams()

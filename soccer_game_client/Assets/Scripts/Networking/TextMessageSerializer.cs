@@ -12,7 +12,15 @@ public class TextMessageSerializer : MessageSerializer
         var command = text.Split(' ');
         Debug.Assert(command.Length > 0);
 
-        if (command[0] == "PlayerMove")
+        if (command[0] == "Action")
+        {
+            Debug.Assert(command.Length == 3);
+
+            return Action.Create(
+                byte.Parse(command[1].Trim()),
+                float.Parse(command[2].Trim()));
+        }
+        else if (command[0] == "PlayerMove")
         {
             Debug.Assert(command.Length == 5);
 
@@ -48,6 +56,13 @@ public class TextMessageSerializer : MessageSerializer
 
         switch (message.m_messageType)
         {
+            case MessageType.PlayerAction:
+                var action = message.m_message as Action;
+                serialized = string.Format("Action {0} {1:0.000}",
+                    action.m_team,
+                    action.m_duration);
+                break;
+
             case MessageType.PlayerMove:
                 var playerMove = message.m_message as MovePlayer;
                 serialized = string.Format("PlayerMove {0:0.000} {1} {2} {3}",

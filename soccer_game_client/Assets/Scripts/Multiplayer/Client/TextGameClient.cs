@@ -76,6 +76,8 @@ public class TextGameClient : GameClient
         string clientOutFile;
         CreateClientFileNames(index, sessionPath, out clientInFile, out clientOutFile);
 
+        Debug.Log("Connected to text server: Session Id: " + GetCurrentSessionName());
+
         return new TextConnection(true, clientOutFile, clientInFile);
     }
 }

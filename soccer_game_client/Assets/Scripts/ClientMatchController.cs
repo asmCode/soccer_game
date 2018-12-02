@@ -13,12 +13,16 @@ public class ClientMatchController : MatchController
         m_match = match;
         m_inputCtrl = new InputController(userInput, 0);
         m_gameClient = GameClientFactory.Create();
+
+        var initialData = new PlayersProvider();
+        var players = initialData.GetPlayers();
+        m_match.SetPlayers(players);
     }
 
     public void Update(float deltaTime)
     {
         m_gameClient.Update();
-        if (m_gameClient.IsConnected())
+        if (!m_gameClient.IsConnected())
             return;
 
         m_inputCtrl.Update(deltaTime, 0);

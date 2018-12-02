@@ -34,6 +34,7 @@ public class MatchScene : MonoBehaviour
             case MatchControlType.Server:
                 {
                     m_matchCtrl = ServerBuilder.Create(m_match);
+                    m_matchView.Init(m_match);
                     break;
                 }
         }

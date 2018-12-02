@@ -14,7 +14,6 @@ public class LocalMatchController : MatchController
 
         var initialData = new PlayersProvider();
         var players = initialData.GetPlayers();
-
         m_match.SetPlayers(players);
     }
 

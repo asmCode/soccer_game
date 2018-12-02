@@ -91,4 +91,14 @@ public class Match
         m_ball.SetPlayer(m_teams[teamIndex].Players[playerIndex]);
         m_teams[teamIndex].ActivePlayer = m_teams[teamIndex].Players[playerIndex];
     }
+
+    public List<IPlayer> GetPlayers()
+    {
+        var players = new List<IPlayer>();
+
+        players.AddRange(m_teams[0].Players);
+        players.AddRange(m_teams[1].Players);
+
+        return players;
+    }
 }

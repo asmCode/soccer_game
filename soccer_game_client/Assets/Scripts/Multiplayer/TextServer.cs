@@ -21,6 +21,8 @@ public class TextGameServer : GameServer
 
         var currentSessionFileName = Path.Combine(m_basePath, "current_session");
         System.IO.File.WriteAllText(currentSessionFileName, sessionName);
+
+        Debug.Log("Starting text server. Session id: " + sessionName);
     }
 
     public override Ssg.Core.Networking.Connection CheckNewConnections()

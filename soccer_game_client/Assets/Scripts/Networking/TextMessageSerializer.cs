@@ -22,6 +22,21 @@ public class TextMessageSerializer : MessageSerializer
                 byte.Parse(command[3].Trim()),
                 (PlayerDirection)byte.Parse(command[4].Trim()));
         }
+        else if (command[0] == "PlayerPosition")
+        {
+            Debug.Assert(command.Length == 7);
+
+            var position = new Vector3(
+                    float.Parse(command[3].Trim()),
+                    float.Parse(command[4].Trim()),
+                    float.Parse(command[5].Trim()));
+
+            return PlayerPosition.Create(
+                byte.Parse(command[2].Trim()),
+                byte.Parse(command[3].Trim()),
+                position,
+                (PlayerDirection)byte.Parse(command[4].Trim()));
+        }
 
         return null;
     }
@@ -40,6 +55,17 @@ public class TextMessageSerializer : MessageSerializer
                     playerMove.m_team,
                     playerMove.m_playerIndex,
                     (byte)playerMove.m_playerDirection);
+                break;
+
+            case MessageType.PlayerPosition:
+                var playerPosition = message.m_message as PlayerPosition;
+                serialized = string.Format("PlayerPosition {0} {1} {2:0.0000} {3:0.0000} {4:0.0000} {5}",
+                    playerPosition.m_team,
+                    playerPosition.m_index,
+                    playerPosition.m_position.x,
+                    playerPosition.m_position.y,
+                    playerPosition.m_position.z,
+                    (byte)playerPosition.m_direction);
                 break;
         }
 

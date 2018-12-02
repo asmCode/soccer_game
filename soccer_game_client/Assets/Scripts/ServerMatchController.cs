@@ -12,6 +12,10 @@ public class ServerMatchController : MatchController
         m_match = match;
         m_gameServer = GameServerFactory.Create();
         m_gameServer.StartServer();
+
+        var initialData = new PlayersProvider();
+        var players = initialData.GetPlayers();
+        m_match.SetPlayers(players);
     }
 
     public void Cleanup()
@@ -23,6 +27,8 @@ public class ServerMatchController : MatchController
     {
         m_gameServer.Update();
         ProcessMessages();
+        m_match.Update(deltaTime);
+        UpdateClients();
     }
 
     public void ProcessMessages()
@@ -34,7 +40,17 @@ public class ServerMatchController : MatchController
                 break;
 
             m_match.ProcessMessage(message);
-            m_gameServer.SendToAll(message);
+        }
+    }
+
+    private void UpdateClients()
+    {
+        var players = m_match.GetPlayers();
+
+        foreach (var player in players)
+        {
+            var msg = PlayerPosition.Create(player.Team, player.Index, player.GetPosition(), player.GetDirection());
+            m_gameServer.SendToAll(msg);
         }
     }
 }

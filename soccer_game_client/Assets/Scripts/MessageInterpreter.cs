@@ -23,6 +23,11 @@ public class MessageInterpreter
                 var playerPositionMsg = message.m_message as PlayerPosition;
                 match.SetPlayerPosition(playerPositionMsg.m_team, playerPositionMsg.m_index, playerPositionMsg.m_position, playerPositionMsg.m_direction);
                 break;
+
+            case MessageType.BallPosition:
+                var ballPositionMsg = message.m_message as BallPosition;
+                match.SetBallPosition(ballPositionMsg.m_position);
+                break;
         }
     }
 }

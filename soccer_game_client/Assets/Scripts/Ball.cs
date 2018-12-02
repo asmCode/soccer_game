@@ -39,7 +39,7 @@ public class Ball : IBall
 
     public void SetPosition(Vector3 position)
     {
-        m_ballView.transform.position = position;
+        m_ballView.SetPosition(position);
     }
 
     public void SetVelocity(Vector3 velocity)

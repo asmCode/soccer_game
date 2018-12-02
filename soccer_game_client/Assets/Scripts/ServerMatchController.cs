@@ -52,5 +52,8 @@ public class ServerMatchController : MatchController
             var msg = PlayerPosition.Create(player.Team, player.Index, player.GetPosition(), player.GetDirection());
             m_gameServer.SendToAll(msg);
         }
+
+        var ballPosition = BallPosition.Create(m_match.GetBallPosition());
+        m_gameServer.SendToAll(ballPosition);
     }
 }

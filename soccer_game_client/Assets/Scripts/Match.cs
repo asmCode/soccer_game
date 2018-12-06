@@ -9,6 +9,7 @@ public class Match
     private IBall m_ball;
     private MessageInterpreter m_messageInterpreter;
     private ssg.Physics.IPhysics m_physics = new ssg.Physics.UnityPhysics();
+    private IMatchLogic m_logic;
 
     public Team[] Teams
     {
@@ -20,6 +21,11 @@ public class Match
         m_ball = BallProvider.GetBall();
         PlayerProps.Instance = new PlayerProps(0.5f);
         m_messageInterpreter = new MessageInterpreter();
+    }
+
+    public void SetLogic(IMatchLogic logic)
+    {
+        m_logic = logic;
     }
 
     public void Update(float dt)
@@ -45,12 +51,14 @@ public class Match
 
     public void PlayerAction(byte team, float duration)
     {
-        if (m_teams[team].ActivePlayer == null)
+        var activePlayer = m_ball.GetPlayer();
+
+        if (activePlayer == null)
             return;
 
         m_ball.ClearPlayer();
         m_ball.EnablePhysics(true);
-        m_ball.SetVelocity(ShootVelocity.GetVelocity(m_teams[team].ActivePlayer.GetDirection(), duration));
+        m_ball.SetVelocity(ShootVelocity.GetVelocity(activePlayer.GetDirection(), duration));
     }
 
     public void SetBallPosition(Vector3 position)
@@ -68,9 +76,9 @@ public class Match
         return m_teams[team].Players[playerIndex].GetPosition();
     }
 
-    public IPlayer GetPlayer(byte team, byte playerIndex)
+    public IPlayer GetPlayer(PlayerId playerId)
     {
-        return m_teams[team].Players[playerIndex];
+        return m_teams[playerId.Team].Players[playerId.Index];
     }
 
     public void SetPlayerPosition(byte team, byte playerIndex, Vector3 position, PlayerDirection direction)
@@ -80,9 +88,10 @@ public class Match
         player.SetDirection(direction);
     }
 
-    public void AttachBallToPlayer()
+    public void AttachBallToPlayer(PlayerId playerId)
     {
-
+        var player = GetPlayer(playerId);
+        m_ball.SetPlayer(player);
     }
 
     public void ProcessMessage(Message message)
@@ -90,11 +99,14 @@ public class Match
         m_messageInterpreter.ProcessMessage(this, message);
     }
 
-    public void NotifyPlayerBallCollision(byte teamIndex, byte playerIndex)
+    public void NotifyPlayerBallCollision(PlayerId playerId)
     {
-        m_ball.EnablePhysics(false);
-        m_ball.SetPlayer(m_teams[teamIndex].Players[playerIndex]);
-        m_teams[teamIndex].ActivePlayer = m_teams[teamIndex].Players[playerIndex];
+        m_logic.BallAndPlayerCollision(playerId);
+    }
+
+    public IBall GetBall()
+    {
+        return m_ball;
     }
 
     public List<IPlayer> GetPlayers()

@@ -27,12 +27,14 @@ public class MatchScene : MonoBehaviour
 
             case MatchControlType.Client:
                 {
+                    m_match.SetLogic(new ClientMatchLogic(m_match));
                     m_matchCtrl = ClientBuilder.Create(m_match, m_matchView);
                     break;
                 }
 
             case MatchControlType.Server:
                 {
+                    m_match.SetLogic(new ServerMatchLogic(m_match));
                     m_matchCtrl = ServerBuilder.Create(m_match);
                     m_matchView.Init(m_match);
                     break;

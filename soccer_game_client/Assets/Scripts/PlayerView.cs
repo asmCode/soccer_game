@@ -5,15 +5,18 @@ using UnityEngine;
 public class PlayerView : MonoBehaviour
 {
     private Match m_match;
+    private PlayerId m_playerId;
 
-    public byte TeamIndex { get; private set; }
-    public byte PlayerIndex { get; private set; }
+    public PlayerId PlayerId
+    {
+        get { return m_playerId; }
+    }
 
     public void Init(Match match, byte teamIndex, byte playerIndex)
     {
         m_match = match;
-        TeamIndex = teamIndex;
-        PlayerIndex = playerIndex;
+        m_playerId.Team = teamIndex;
+        m_playerId.Index = playerIndex;
     }
 
     public Vector3 Position
@@ -29,6 +32,6 @@ public class PlayerView : MonoBehaviour
 
     public void TriggerBallCollision()
     {
-        m_match.NotifyPlayerBallCollision(TeamIndex, PlayerIndex);
+        m_match.NotifyPlayerBallCollision(PlayerId);
     }
 }

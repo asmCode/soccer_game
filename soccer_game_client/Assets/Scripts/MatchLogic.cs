@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Team
+public interface IMatchLogic
 {
-    public List<IPlayer> Players = new List<IPlayer>();
+    void BallAndPlayerCollision(PlayerId playerId);
 }

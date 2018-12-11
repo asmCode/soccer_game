@@ -36,6 +36,8 @@ public class UdpConnection : Ssg.Core.Networking.Connection
 
     public void Send(Ssg.Core.Networking.Message message)
     {
+        // What is next
+        // Implement it;)
     }
 
     public void Close()

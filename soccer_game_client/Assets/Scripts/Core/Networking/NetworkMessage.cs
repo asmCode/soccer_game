@@ -4,8 +4,9 @@ using UnityEngine;
 
 namespace Ssg.Core.Networking
 {
-    public class Message
+    public class NetworkMessage
     {
-        public byte[] Data { get; set; }
+        public short Type { get; set; }
+        public object Data { get; set; }
     }
 }

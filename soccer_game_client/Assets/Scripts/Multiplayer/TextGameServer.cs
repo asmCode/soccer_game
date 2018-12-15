@@ -25,7 +25,7 @@ public class TextGameServer : GameServer
         Debug.Log("Starting text server. Session id: " + sessionName);
     }
 
-    public override Ssg.Core.Networking.Connection CheckNewConnections()
+    public Ssg.Core.Networking.Connection CheckNewConnections()
     {
         int newClientIndex = GetClientCount();
         if (CheckNewClient(newClientIndex))
@@ -69,5 +69,15 @@ public class TextGameServer : GameServer
         CreateClientFileNames(index, out clientIn, out clientOut);
 
         return new TextConnection(false, clientIn, clientOut);
+    }
+
+    public override void StopServer()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override byte[] RecvMessage()
+    {
+        throw new System.NotImplementedException();
     }
 }

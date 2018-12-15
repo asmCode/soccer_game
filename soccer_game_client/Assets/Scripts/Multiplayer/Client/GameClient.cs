@@ -57,8 +57,8 @@ public abstract class GameClient
             if (netMsg == null)
                 break;
 
-            var msg = m_msgSerializer.Deserialize(netMsg.Data);
-            m_msgQueue.AddMessage(msg);
+            // var msg = m_msgSerializer.Deserialize(netMsg.Data);
+            // m_msgQueue.AddMessage(msg);
         }
     }
 
@@ -79,9 +79,9 @@ public abstract class GameClient
         return m_msgQueue.Dequeue();
     }
 
-    private Ssg.Core.Networking.Message CreateNetworkMessage(Message message)
+    private NetworkMessage CreateNetworkMessage(Message message)
     {
-        var networkMsg = new Ssg.Core.Networking.Message();
+        var networkMsg = new NetworkMessage();
         networkMsg.Data = m_msgSerializer.Serialize(message);
         return networkMsg;
     }

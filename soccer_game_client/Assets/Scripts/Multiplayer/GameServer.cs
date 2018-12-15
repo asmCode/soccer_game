@@ -3,124 +3,61 @@ using Ssg.Core.Networking;
 
 public abstract class GameServer
 {
-    private Connection m_con1;
-    private Connection m_con2;
-    private MessageSerializer m_msgSerializer;
-    private MessageQueue m_msgQueue = new MessageQueue();
+    private NetworkMessageSerializer m_msgSerializer = new NetworkMessageSerializerBinary();
+    private MessageQueue m_gameMsgQueue = new MessageQueue();
 
     public event System.Action<int> ClientConnected;
 
-    public GameServer()
-    {
-        m_msgSerializer = MessageSerializerFactory.Create();
-        m_msgQueue = new MessageQueue();
-    }
-
     public abstract void StartServer();
-    public virtual void StopServer()
-    {
-        if (m_con1 != null)
-        {
-            m_con1.Close();
-            m_con1 = null;
-        }
-
-        if (m_con2 != null)
-        {
-            m_con2.Close();
-            m_con2 = null;
-        }
-    }
-
-    public abstract Connection CheckNewConnections();
+    public abstract void StopServer();
+    public abstract byte[] RecvMessage();
 
     public virtual void Update()
     {
-        if (GetClientCount() != 2)
+        while (true)
         {
-            var connection = CheckNewConnections();
-            if (connection != null)
-                NotifyNewConnection(connection);
-        }
+            var msgData = RecvMessage();
+            if (msgData == null)
+                break;
 
-        GetMessagesFromClient(m_con1);
-        GetMessagesFromClient(m_con2);
-    }
-
-    private void GetMessagesFromClient(Connection connection)
-    {
-        if (connection != null)
-        {
-            while (true)
-            {
-                var netMsg = connection.GetMessage();
-                if (netMsg == null)
-                    break;
-
-                var msg = m_msgSerializer.Deserialize(netMsg.Data);
-                m_msgQueue.AddMessage(msg);
-            }
+            var msg = m_msgSerializer.Deserialize(msgData);
+            ProcessMessage(msg);
         }
     }
 
     public int GetClientCount()
     {
-        int clients = 0;
-
-        if (m_con1 != null)
-            clients++;
-
-        if (m_con2 != null)
-            clients++;
-
-        return clients;
+        return 0;
     }
 
     public void SendToAll(Message message)
     {
-        var networkMsg = CreateNetworkMessage(message);
-
-        if (m_con1 != null)
-            m_con1.Send(networkMsg);
-
-        if (m_con2 != null)
-            m_con2.Send(networkMsg);
     }
 
     public void SendToClient(int clientId, Message message)
     {
-        var networkMsg = CreateNetworkMessage(message);
-        if (clientId == 1)
-            m_con1.Send(networkMsg);
-        else if (clientId == 2)
-            m_con2.Send(networkMsg);
     }
 
     public Message GetMessage()
     {
-        if (m_msgQueue.Empty())
-            return null;
-
-        return m_msgQueue.Dequeue();
+        return null;
     }
 
-    private Ssg.Core.Networking.Message CreateNetworkMessage(Message message)
+    protected void NotifyNewConnection(int connectionId)
     {
-        var networkMsg = new Ssg.Core.Networking.Message();
-        networkMsg.Data = m_msgSerializer.Serialize(message);
-        return networkMsg;
-    }
-
-    protected void NotifyNewConnection(Connection connection)
-    {
-        if (m_con1 == null)
-            m_con1 = connection;
-        else if (m_con2 == null)
-            m_con2 = connection;
-
         Debug.Log("new connection");
 
         if (ClientConnected != null)
             ClientConnected(0);
+    }
+
+    public bool IsWaitingForPlayers()
+    {
+        return GetClientCount() != 2;
+    }
+
+    private void ProcessMessage(NetworkMessage netMsg)
+    {
+        Debug.LogFormat("Network message received from client: {0}", netMsg.Type);
     }
 }

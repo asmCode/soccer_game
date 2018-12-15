@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Net;
 
 public class TextGameClient : GameClient
 {
@@ -14,6 +15,15 @@ public class TextGameClient : GameClient
 
     public override Ssg.Core.Networking.Connection Connect()
     {
+        /////////////////////////
+
+        UdpSocket s = new UdpSocket(0);
+        var endPoint = new IPEndPoint(IPAddress.Parse("192.168.0.107"), 0);
+        s.Send(new byte[] { 1, 2, 3 }, endPoint);
+
+
+        ////////////////////////////
+
         var sessionName = GetCurrentSessionName();
         if (sessionName == null)
             return null;

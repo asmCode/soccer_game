@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Text;
+using Ssg.Core.Networking;
 
 public class TextConnection : Ssg.Core.Networking.Connection
 {
@@ -20,20 +21,20 @@ public class TextConnection : Ssg.Core.Networking.Connection
         m_readFile = new StreamReader(readFileStream);
     }
 
-    public Ssg.Core.Networking.Message GetMessage()
+    public NetworkMessage GetMessage()
     {
         var text = m_readFile.ReadLine();
         if (text == null)
             return null;
 
-        var msg = new Ssg.Core.Networking.Message();
+        var msg = new NetworkMessage();
         msg.Data = Encoding.ASCII.GetBytes(text);
         return msg;
     }
 
-    public void Send(Ssg.Core.Networking.Message message)
+    public void Send(NetworkMessage message)
     {
-        SaveToFile(message.Data);
+        // SaveToFile(message.Data);
     }
 
     public void Close()

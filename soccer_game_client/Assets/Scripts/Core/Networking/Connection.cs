@@ -2,8 +2,8 @@
 {
    public interface Connection
    {
-        void Send(Message message);
-        Message GetMessage();
+        void Send(NetworkMessage message);
+        NetworkMessage GetMessage();
         void Close();
    }
 }

@@ -5,39 +5,43 @@ using System.IO;
 using System.Text;
 using System.Net;
 using System.Net.Sockets;
+using Ssg.Core.Networking;
 
-public class UdpConnection : Ssg.Core.Networking.Connection
+public class UdpSocket
 {
-    private const int Port = 48951;
     private const int BufferSize = 256;
     private Socket m_socket;
     private byte[] m_buffer = new byte[BufferSize];
+    private int m_port;
 
-    public UdpConnection()
+    public UdpSocket(int port)
     {
         m_socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
         m_socket.Blocking = false;
+        m_port = port;
     }
 
-    public Ssg.Core.Networking.Message GetMessage()
+    public byte[] Receive(ref IPEndPoint ipEndPoint)
     {
         if (m_socket.Available == 0)
+        {
+            Debug.Log("Not available");
             return null;
+        }
 
-        var ipEndPoint = new IPEndPoint(IPAddress.Any, Port);
+        Debug.Log("Available");
+
         var endPoint = (EndPoint)ipEndPoint;
         var messageSize = m_socket.ReceiveFrom(m_buffer, ref endPoint);
 
-        var msg = new Ssg.Core.Networking.Message();
-        msg.Data = new byte[messageSize];
-        System.Array.Copy(m_buffer, msg.Data, messageSize);
-        return msg;
+        var data = new byte[messageSize];
+        System.Array.Copy(m_buffer, data, messageSize);
+        return data;
     }
 
-    public void Send(Ssg.Core.Networking.Message message)
+    public void Send(byte[] data, IPEndPoint ipEndPoint)
     {
-        // What is next
-        // Implement it;)
+        m_socket.SendTo(data, ipEndPoint);
     }
 
     public void Close()

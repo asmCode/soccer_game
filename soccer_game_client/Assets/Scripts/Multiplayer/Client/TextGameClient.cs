@@ -17,8 +17,8 @@ public class TextGameClient : GameClient
     {
         /////////////////////////
 
-        UdpSocket s = new UdpSocket(0);
-        var endPoint = new IPEndPoint(IPAddress.Parse("192.168.0.107"), 0);
+        UdpSocket s = new UdpSocket(GameSettings.ServerDefaultPort);
+        var endPoint = new IPEndPoint(IPAddress.Parse("192.168.0.107"), GameSettings.ServerDefaultPort);
         s.Send(new byte[] { 1, 2, 3 }, endPoint);
 
 

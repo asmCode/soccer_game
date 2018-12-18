@@ -51,7 +51,7 @@ public class NetTest : MonoBehaviour
     {
         Debug.Log("SendToServer");
 
-        IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("192.168.0.107"), port);
+        IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("192.168.0.104"), port);
 
         m_clientSocket.SendTo(new byte[3] { 1, 2, 3 }, endPoint);
     }

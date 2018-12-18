@@ -35,6 +35,8 @@ public class NetTest : MonoBehaviour
 
     public void StartClient()
     {
+        Debug.Log("StartClient");
+
         m_clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
         m_clientSocket.Blocking = false;
 
@@ -69,7 +71,7 @@ public class NetTest : MonoBehaviour
         EndPoint endPoint = (EndPoint)ipEndPoint;
         int size = m_serverSocket.ReceiveFrom(data, ref endPoint);
 
-        Debug.LogFormat("Received {0} bytes from {1}:{2}", size, ipEndPoint.Address.ToString(), ipEndPoint.Port);
+        Debug.LogFormat("Received {0} bytes from {1}:{2}", size, ((IPEndPoint)endPoint).Address.ToString(), ((IPEndPoint)endPoint).Port);
     }
 
     public void ReceiveFromServer()

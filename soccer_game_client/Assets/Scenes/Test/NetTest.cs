@@ -10,6 +10,8 @@ public class NetTest : MonoBehaviour
 
     Socket m_serverSocket;
     Socket m_clientSocket;
+
+    EndPoint clientEndPoint;
     // Use this for initialization
     void Start()
     {
@@ -47,6 +49,8 @@ public class NetTest : MonoBehaviour
     public void SendToClient()
     {
         Debug.Log("SendToClient");
+
+        m_clientSocket.SendTo(new byte[4] { 1, 2, 3, 4 }, clientEndPoint);
     }
 
     public void SendToServer()
@@ -68,13 +72,25 @@ public class NetTest : MonoBehaviour
 
         var data = new byte[256];
         IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Any, 0);
-        EndPoint endPoint = (EndPoint)ipEndPoint;
-        int size = m_serverSocket.ReceiveFrom(data, ref endPoint);
+        clientEndPoint = (EndPoint)ipEndPoint;
+        int size = m_serverSocket.ReceiveFrom(data, ref clientEndPoint);
 
-        Debug.LogFormat("Received {0} bytes from {1}:{2}", size, ((IPEndPoint)endPoint).Address.ToString(), ((IPEndPoint)endPoint).Port);
+        Debug.LogFormat("Received {0} bytes from {1}:{2}", size, ((IPEndPoint)clientEndPoint).Address.ToString(), ((IPEndPoint)clientEndPoint).Port);
     }
 
     public void ReceiveFromServer()
     {
+        if (m_clientSocket.Available == 0)
+        {
+            Debug.Log("Not available");
+            return;
+        }
+
+        var data = new byte[256];
+        IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Any, 0);
+        EndPoint endPoint = (EndPoint)ipEndPoint;
+        int size = m_clientSocket.ReceiveFrom(data, ref endPoint);
+
+        Debug.LogFormat("Received {0} bytes from {1}:{2}", size, ((IPEndPoint)endPoint).Address.ToString(), ((IPEndPoint)endPoint).Port);
     }
 }

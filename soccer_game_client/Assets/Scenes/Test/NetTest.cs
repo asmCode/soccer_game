@@ -44,20 +44,21 @@ public class NetTest : MonoBehaviour
 
         IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Any, 0);
         m_clientSocket.Bind(localEndPoint);
+        Debug.Log(((IPEndPoint)m_clientSocket.LocalEndPoint).Port.ToString());
     }
 
     public void SendToClient()
     {
         Debug.Log("SendToClient");
 
-        m_clientSocket.SendTo(new byte[4] { 1, 2, 3, 4 }, clientEndPoint);
+        m_serverSocket.SendTo(new byte[4] { 1, 2, 3, 4 }, clientEndPoint);
     }
 
     public void SendToServer()
     {
         Debug.Log("SendToServer");
 
-        IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("192.168.0.104"), port);
+        IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("192.168.0.110"), port);
 
         m_clientSocket.SendTo(new byte[3] { 1, 2, 3 }, endPoint);
     }

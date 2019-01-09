@@ -15,15 +15,6 @@ public class TextGameClient : GameClient
 
     public override Ssg.Core.Networking.Connection Connect()
     {
-        /////////////////////////
-
-        UdpSocket s = new UdpSocket(GameSettings.ServerDefaultPort);
-        var endPoint = new IPEndPoint(IPAddress.Parse("192.168.0.107"), GameSettings.ServerDefaultPort);
-        s.Send(new byte[] { 1, 2, 3 }, endPoint);
-
-
-        ////////////////////////////
-
         var sessionName = GetCurrentSessionName();
         if (sessionName == null)
             return null;

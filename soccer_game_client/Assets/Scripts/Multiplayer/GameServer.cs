@@ -1,26 +1,33 @@
 ﻿using UnityEngine;
 using Ssg.Core.Networking;
 
-public abstract class GameServer
+public class GameServer
 {
     private NetworkMessageSerializer m_msgSerializer = new NetworkMessageSerializerBinary();
     private MessageQueue m_gameMsgQueue = new MessageQueue();
 
     public event System.Action<int> ClientConnected;
 
-    public abstract void StartServer();
-    public abstract void StopServer();
-    public abstract byte[] RecvMessage();
+    private UdpGameServer m_serverCommunication = new UdpGameServer(GameSettings.ServerDefaultPort);
+
+    public void StartServer()
+    {
+        m_serverCommunication.StartServer();
+    }
+
+    public void StopServer()
+    {
+        m_serverCommunication.StopServer();
+    }
 
     public virtual void Update()
     {
         while (true)
         {
-            var msgData = RecvMessage();
-            if (msgData == null)
+            if (!m_serverCommunication.ReceiveData())
                 break;
 
-            var msg = m_msgSerializer.Deserialize(msgData);
+            var msg = m_msgSerializer.Deserialize(m_serverCommunication.ReceivedData);
             ProcessMessage(msg);
         }
     }

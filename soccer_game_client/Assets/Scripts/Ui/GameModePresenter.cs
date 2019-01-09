@@ -6,7 +6,7 @@ public class GameModePresenter : MonoBehaviour
 {
     public void UIEventStartServer()
     {
-        Debug.Log("server");
+        Game.Get().StartServer();
     }
 
     public void UIEventFindOnlineMatch()

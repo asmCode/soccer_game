@@ -11,35 +11,43 @@ public class UdpSocket
 {
     private const int BufferSize = 256;
     private Socket m_socket;
-    private byte[] m_buffer = new byte[BufferSize];
-    private int m_port;
+
+    public byte[] ReceivedData
+    {
+        get;
+        private set;
+    }
+
+    public int ReceivedDataSize
+    {
+        get;
+        private set;
+    }
 
     public UdpSocket(int port)
     {
+        ReceivedData = new byte[BufferSize];
+        ReceivedDataSize = 0;
+
         m_socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
         m_socket.Blocking = false;
-        m_port = port;
 
         IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Any, port);
         m_socket.Bind(localEndPoint);
     }
 
-    public byte[] Receive(ref IPEndPoint ipEndPoint)
+    public bool Receive(ref IPEndPoint ipEndPoint)
     {
         if (m_socket.Available == 0)
         {
-            Debug.Log("Not available");
-            return null;
+            ReceivedDataSize = 0;
+            return false;
         }
 
-        Debug.Log("Available");
-
         var endPoint = (EndPoint)ipEndPoint;
-        var messageSize = m_socket.ReceiveFrom(m_buffer, ref endPoint);
+        ReceivedDataSize = m_socket.ReceiveFrom(ReceivedData, ref endPoint);
 
-        var data = new byte[messageSize];
-        System.Array.Copy(m_buffer, data, messageSize);
-        return data;
+        return true;
     }
 
     public void Send(byte[] data, IPEndPoint ipEndPoint)
@@ -50,5 +58,7 @@ public class UdpSocket
     public void Close()
     {
         m_socket.Close();
+        m_socket.Dispose();
+        m_socket = null;
     }
 }

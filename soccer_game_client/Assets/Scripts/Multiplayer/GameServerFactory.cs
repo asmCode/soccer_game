@@ -11,11 +11,13 @@ public class GameServerFactory
 
     private static GameServer CreateTextServer()
     {
-        return new TextGameServer("../sessions/");
+        // return new TextGameServer("../sessions/");
+        return null;
     }
 
     private static GameServer CreateUdpGameServer()
     {
-        return new UdpGameServer(GameSettings.ServerDefaultPort);
+        // return new UdpGameServer(GameSettings.ServerDefaultPort);
+        return null;
     }
 }

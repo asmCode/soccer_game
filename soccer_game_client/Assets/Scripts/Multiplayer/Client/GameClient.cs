@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using Ssg.Core.Networking;
 
-public abstract class GameClient
+public class GameClient
 {
-    private Connection m_connection;
+    // private ClientCommunication 
 
     private MessageSerializer m_msgSerializer;
     private MessageQueue m_msgQueue = new MessageQueue();
@@ -21,7 +21,7 @@ public abstract class GameClient
         return m_connection != null;
     }
 
-    public abstract Connection Connect();
+    // public abstract Connection Connect();
     public virtual void Disconnect()
     {
         if (m_connection == null)
@@ -33,17 +33,17 @@ public abstract class GameClient
 
     public virtual void Update()
     {
-        if (m_connection == null)
-        {
-            m_connection = Connect();
-            if (m_connection != null)
-                NotifyNewConnection();
-        }
+        //if (m_connection == null)
+        //{
+        //    m_connection = Connect();
+        //    if (m_connection != null)
+        //        NotifyNewConnection();
+        //}
 
-        if (m_connection == null)
-            return;
+        //if (m_connection == null)
+        //    return;
 
-        GetMessagesFromSever();
+        //GetMessagesFromSever();
     }
 
     private void GetMessagesFromSever()

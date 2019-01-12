@@ -6,6 +6,7 @@ public class GameClientFactory
 {
     public static GameClient Create()
     {
-        return new TextGameClient("../sessions/");
+        // return new TextGameClient("../sessions/");
+        return null;
     }
 }

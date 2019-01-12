@@ -1,14 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.IO;
-using System.Net;
-using System.Net.Sockets;
+﻿using System.Net;
 
 public class UdpGameServer
 {
     private int m_port;
     private UdpSocket m_socket;
+    private UdpClientAddress m_clientAddress;
 
     public byte[] ReceivedData
     {
@@ -18,6 +14,11 @@ public class UdpGameServer
     public int ReceivedDataSize
     {
         get { return m_socket.ReceivedDataSize; }
+    }
+
+    public ClientAddress ClientAddress
+    {
+        get { return m_clientAddress; }
     }
 
     public UdpGameServer(int port)
@@ -39,11 +40,20 @@ public class UdpGameServer
     {
         IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, 0);
 
-        return m_socket.Receive(ref endPoint);
+        if (!m_socket.Receive(ref endPoint))
+            return false;
+
+        m_clientAddress = new UdpClientAddress(endPoint);
+
+        return true;
     }
 
-    public void SendData(byte[] data)
+    public void SendData(byte[] data, ClientAddress clientAddress)
     {
-        // m_socket.Send(data)
+        var udpClientAddress = clientAddress as UdpClientAddress;
+        if (udpClientAddress == null)
+            return;
+
+        m_socket.Send(data, udpClientAddress.EndPoint);
     }
 }

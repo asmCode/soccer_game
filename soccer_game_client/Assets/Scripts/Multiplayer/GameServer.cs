@@ -12,6 +12,7 @@ public class GameServer
 
     public void StartServer()
     {
+        Debug.Log("Staring server.");
         m_serverCommunication.StartServer();
     }
 

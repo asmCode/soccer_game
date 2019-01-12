@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Game
+public class Game : MonoBehaviour
 {
     private static Game m_instance;
 
@@ -11,7 +11,7 @@ public class Game
     public static Game Get()
     {
         if (m_instance == null)
-            m_instance = new Game();
+            m_instance = GameObject.Find("Game").GetComponent<Game>();
 
         return m_instance;
     }
@@ -27,4 +27,6 @@ public class Game
         m_gameServer = new GameServer();
         m_gameServer.StartServer();
     }
+
+    // public void 
 }

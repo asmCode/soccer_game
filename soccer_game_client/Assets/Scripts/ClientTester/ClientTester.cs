@@ -18,7 +18,7 @@ public class ClientTester : MonoBehaviour
 
     void Update()
     {
-
+        m_gameClient.Update();
     }
 
     public void UIEventJoin()

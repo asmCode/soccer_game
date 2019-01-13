@@ -46,6 +46,7 @@ public class UdpSocket
 
         var endPoint = (EndPoint)ipEndPoint;
         size = m_socket.ReceiveFrom(data, ref endPoint);
+        ipEndPoint = (IPEndPoint)endPoint;
 
         return true;
     }

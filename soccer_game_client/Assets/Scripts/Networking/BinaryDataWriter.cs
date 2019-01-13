@@ -3,15 +3,15 @@ using UnityEngine;
 
 public class BinaryDataWriter : IDataWriter
 {
-    private static byte[] Buffer = new byte[256];
-    private static MemoryStream m_stream = new MemoryStream(Buffer);
-    private static BinaryWriter m_reader = new BinaryWriter(m_stream);
+    private byte[] m_data = new byte[256];
+    private MemoryStream m_stream;
+    private BinaryWriter m_writer;
 
     public byte[] Data
     {
         get
         {
-            throw new System.NotImplementedException();
+            return m_data;
         }
     }
 
@@ -19,57 +19,61 @@ public class BinaryDataWriter : IDataWriter
     {
         get
         {
-            throw new System.NotImplementedException();
+            return (int)m_stream.Position;
         }
     }
 
     public BinaryDataWriter()
     {
-        m_stream.Seek(0, SeekOrigin.Begin);
+        m_data = new byte[256];
+        m_stream = new MemoryStream(m_data);
+        m_writer = new BinaryWriter(m_stream);
     }
 
     public void Reset()
     {
-        throw new System.NotImplementedException();
+        m_stream.Seek(0, SeekOrigin.Begin);
     }
 
     public void Flush()
     {
-        throw new System.NotImplementedException();
+        m_writer.Flush();
     }
 
     public void Write(NetworkMessageType data)
     {
-        throw new System.NotImplementedException();
+        m_writer.Write((byte)data);
     }
 
     public void Write(string data)
     {
-        throw new System.NotImplementedException();
+        m_writer.Write(data);
     }
 
     public void Write(byte data)
     {
-        throw new System.NotImplementedException();
+        m_writer.Write(data);
     }
 
     public void Write(short data)
     {
-        throw new System.NotImplementedException();
+        m_writer.Write(data);
     }
 
     public void Write(int data)
     {
-        throw new System.NotImplementedException();
+        m_writer.Write(data);
     }
 
     public void Write(float data)
     {
-        throw new System.NotImplementedException();
+        m_writer.Write(data);
     }
 
     public void Write(Vector3 data)
     {
-        throw new System.NotImplementedException();
+        m_writer.Write(data.x);
+        m_writer.Write(data.y);
+        m_writer.Write(data.z);
     }
 }

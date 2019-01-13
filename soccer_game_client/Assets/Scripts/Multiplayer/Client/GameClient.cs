@@ -7,7 +7,7 @@ public class GameClient
     private INetworkCommunication m_com;
 
     private MessageSerializer m_msgSerializer;
-    private NetworkMessageSerializer m_netMsgSerializer = new NetworkMessageSerializer(null, null);
+    private NetworkMessageSerializer m_netMsgSerializer = new NetworkMessageSerializer(new BinaryDataWriter(), new BinaryDataReader());
     private MessageQueue m_msgQueue = new MessageQueue();
 
     public event System.Action Connected;
@@ -95,7 +95,6 @@ public class GameClient
 
         var serverAddressGetter = new ServerAddressGetter();
         m_com.Send(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize, serverAddressGetter.GetServerAddress());
-
     }
 
     private NetworkMessage CreateNetworkMessage(Message message)

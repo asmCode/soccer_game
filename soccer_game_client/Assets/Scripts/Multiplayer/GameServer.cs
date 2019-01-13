@@ -77,5 +77,13 @@ public class GameServer
     private void ProcessMessage(NetworkMessage netMsg)
     {
         Debug.LogFormat("Network message received from client: {0}", netMsg.m_type);
+
+        switch (netMsg.m_type)
+        {
+            case NetworkMessageType.JoinRequest:
+                var joinRequestMsg = netMsg.m_msg as JoinRequest;
+                Debug.LogFormat("Motherfucker {0} wanna join", joinRequestMsg.m_playerName);
+                break;
+        }
     }
 }

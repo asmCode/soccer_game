@@ -58,7 +58,6 @@ public class UdpSocket
     public void Close()
     {
         m_socket.Close();
-        m_socket.Dispose();
         m_socket = null;
     }
 }

@@ -3,7 +3,7 @@ using Ssg.Core.Networking;
 
 public class GameServer
 {
-    private NetworkMessageSerializer m_msgSerializer = new NetworkMessageSerializerBinary();
+    private NetworkMessageSerializer m_msgSerializer = new NetworkMessageSerializer(null, null);
     private MessageQueue m_gameMsgQueue = new MessageQueue();
 
     public event System.Action<int> ClientConnected;
@@ -66,6 +66,6 @@ public class GameServer
 
     private void ProcessMessage(NetworkMessage netMsg)
     {
-        Debug.LogFormat("Network message received from client: {0}", netMsg.Type);
+        //Debug.LogFormat("Network message received from client: {0}", netMsg.);
     }
 }

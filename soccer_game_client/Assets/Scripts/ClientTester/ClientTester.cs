@@ -20,4 +20,9 @@ public class ClientTester : MonoBehaviour
     {
 
     }
+
+    public void UIEventJoin()
+    {
+        m_gameClient.Join();
+    }
 }

@@ -41,16 +41,19 @@ public class GameClient
 
     public void Update()
     {
-        int size;
-        INetworkAddress address;
-        if (!m_com.Receive(m_data, out size, out address))
-            return;
+        while (true)
+        {
+            int size;
+            INetworkAddress address;
+            if (!m_com.Receive(m_data, out size, out address))
+                return;
 
-        var msg = m_netMsgSerializer.Deserialize(m_data, size);
-        if (msg == null)
-            return;
+            var msg = m_netMsgSerializer.Deserialize(m_data, size);
+            if (msg == null)
+                return;
 
-        ProcessMessage(msg);
+            ProcessMessage(msg);
+        }
     }
 
     private void GetMessagesFromSever()

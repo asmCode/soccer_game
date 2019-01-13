@@ -3,34 +3,44 @@ using Ssg.Core.Networking;
 
 public class GameServer
 {
-    private NetworkMessageSerializer m_msgSerializer = new NetworkMessageSerializer(null, null);
+    private byte[] m_data;
+    private NetworkMessageSerializer m_netMsgSerializer = new NetworkMessageSerializer(new BinaryDataWriter(), new BinaryDataReader());
     private MessageQueue m_gameMsgQueue = new MessageQueue();
 
     public event System.Action<int> ClientConnected;
 
-    // private UdpGameServer m_serverCommunication = new UdpGameServer(GameSettings.ServerDefaultPort);
+    private INetworkCommunication m_com;
+
+    public GameServer()
+    {
+        m_data = new byte[256];
+    }
 
     public void StartServer()
     {
         Debug.Log("Staring server.");
-        //m_serverCommunication.StartServer();
+
+        m_com = new UdpCommunication(GameSettings.ServerDefaultPort);
+        m_com.Initialize();
     }
 
     public void StopServer()
     {
-        //m_serverCommunication.StopServer();
+        m_com.Close();
     }
 
     public virtual void Update()
     {
-        //while (true)
-        //{
-        //    if (!m_serverCommunication.ReceiveData())
-        //        break;
+        while (true)
+        {
+            int size;
+            INetworkAddress address;
+            if (!m_com.Receive(m_data, out size, out address))
+                return;
 
-        //    var msg = m_msgSerializer.Deserialize(m_serverCommunication.ReceivedData);
-        //    ProcessMessage(msg);
-        //}
+            var msg = m_netMsgSerializer.Deserialize(m_data, size);
+            ProcessMessage(msg);
+        }
     }
 
     public int GetClientCount()
@@ -66,6 +76,6 @@ public class GameServer
 
     private void ProcessMessage(NetworkMessage netMsg)
     {
-        //Debug.LogFormat("Network message received from client: {0}", netMsg.);
+        Debug.LogFormat("Network message received from client: {0}", netMsg.m_type);
     }
 }

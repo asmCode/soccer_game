@@ -8,29 +8,29 @@ public class GameServer
 
     public event System.Action<int> ClientConnected;
 
-    private UdpGameServer m_serverCommunication = new UdpGameServer(GameSettings.ServerDefaultPort);
+    // private UdpGameServer m_serverCommunication = new UdpGameServer(GameSettings.ServerDefaultPort);
 
     public void StartServer()
     {
         Debug.Log("Staring server.");
-        m_serverCommunication.StartServer();
+        //m_serverCommunication.StartServer();
     }
 
     public void StopServer()
     {
-        m_serverCommunication.StopServer();
+        //m_serverCommunication.StopServer();
     }
 
     public virtual void Update()
     {
-        while (true)
-        {
-            if (!m_serverCommunication.ReceiveData())
-                break;
+        //while (true)
+        //{
+        //    if (!m_serverCommunication.ReceiveData())
+        //        break;
 
-            var msg = m_msgSerializer.Deserialize(m_serverCommunication.ReceivedData);
-            ProcessMessage(msg);
-        }
+        //    var msg = m_msgSerializer.Deserialize(m_serverCommunication.ReceivedData);
+        //    ProcessMessage(msg);
+        //}
     }
 
     public int GetClientCount()

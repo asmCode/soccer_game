@@ -9,25 +9,25 @@ using Ssg.Core.Networking;
 
 public class UdpSocket
 {
-    private const int BufferSize = 256;
+    // private const int BufferSize = 256;
     private Socket m_socket;
 
-    public byte[] ReceivedData
-    {
-        get;
-        private set;
-    }
+    //public byte[] ReceivedData
+    //{
+    //    get;
+    //    private set;
+    //}
 
-    public int ReceivedDataSize
-    {
-        get;
-        private set;
-    }
+    //public int ReceivedDataSize
+    //{
+    //    get;
+    //    private set;
+    //}
 
     public UdpSocket(int port)
     {
-        ReceivedData = new byte[BufferSize];
-        ReceivedDataSize = 0;
+        //ReceivedData = new byte[BufferSize];
+        //ReceivedDataSize = 0;
 
         m_socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
         m_socket.Blocking = false;
@@ -36,23 +36,23 @@ public class UdpSocket
         m_socket.Bind(localEndPoint);
     }
 
-    public bool Receive(ref IPEndPoint ipEndPoint)
+    public bool Receive(byte[] data, out int size, ref IPEndPoint ipEndPoint)
     {
         if (m_socket.Available == 0)
         {
-            ReceivedDataSize = 0;
+            size = 0;
             return false;
         }
 
         var endPoint = (EndPoint)ipEndPoint;
-        ReceivedDataSize = m_socket.ReceiveFrom(ReceivedData, ref endPoint);
+        size = m_socket.ReceiveFrom(data, ref endPoint);
 
         return true;
     }
 
-    public void Send(byte[] data, IPEndPoint ipEndPoint)
+    public void Send(byte[] data, int size, IPEndPoint ipEndPoint)
     {
-        m_socket.SendTo(data, ipEndPoint);
+        m_socket.SendTo(data, size, SocketFlags.None, ipEndPoint);
     }
 
     public void Close()

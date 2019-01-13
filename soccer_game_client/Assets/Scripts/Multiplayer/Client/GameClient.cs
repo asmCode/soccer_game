@@ -3,20 +3,24 @@ using Ssg.Core.Networking;
 
 public class GameClient
 {
-    // private ClientCommunication 
+    private byte[] m_data;
+    private INetworkCommunication m_com;
 
     private MessageSerializer m_msgSerializer;
     private NetworkMessageSerializer m_netMsgSerializer = new NetworkMessageSerializer(null, null);
     private MessageQueue m_msgQueue = new MessageQueue();
-    private ClientCommunication m_clientCommunication;
 
     public event System.Action Connected;
 
     public GameClient()
     {
+        m_data = new byte[256];
+
+        m_com = new UdpCommunication(0);
+        m_com.Initialize();
+
         m_msgSerializer = MessageSerializerFactory.Create();
         m_msgQueue = new MessageQueue();
-        m_clientCommunication = new ClientCommunication("192.168.0.110", GameSettings.ServerDefaultPort);
 }
 
     public bool IsConnected()
@@ -35,19 +39,18 @@ public class GameClient
         //m_connection = null;
     }
 
-    public virtual void Update()
+    public void Update()
     {
-        //if (m_connection == null)
-        //{
-        //    m_connection = Connect();
-        //    if (m_connection != null)
-        //        NotifyNewConnection();
-        //}
+        int size;
+        INetworkAddress address;
+        if (!m_com.Receive(m_data, out size, out address))
+            return;
 
-        //if (m_connection == null)
-        //    return;
+        var msg = m_netMsgSerializer.Deserialize(m_data, size);
+        if (msg == null)
+            return;
 
-        //GetMessagesFromSever();
+        ProcessMessage(msg);
     }
 
     private void GetMessagesFromSever()
@@ -88,9 +91,10 @@ public class GameClient
         var msg = new JoinRequest();
         msg.m_clientVersion = 0;
         msg.m_playerName = "plajer srajer";
-        var data = m_netMsgSerializer.Serialize(msg);
+        m_netMsgSerializer.Serialize(msg);
 
-        m_clientCommunication.SendMessage(data);
+        var serverAddressGetter = new ServerAddressGetter();
+        m_com.Send(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize, serverAddressGetter.GetServerAddress());
 
     }
 
@@ -109,5 +113,15 @@ public class GameClient
 
         if (Connected != null)
             Connected();
+    }
+
+    private void ProcessMessage(NetworkMessage msg)
+    {
+        switch (msg.m_type)
+        {
+            case NetworkMessageType.JoinAccept:
+                Debug.Log("Join Accept");
+                break;
+        }
     }
 }

@@ -34,6 +34,13 @@ public class NetworkMessageSerializer
         m_writer.Flush();
     }
 
+    public void Serialize(JoinAccept message)
+    {
+        m_writer.Reset();
+        m_writer.Write(NetworkMessageType.JoinAccept);
+        m_writer.Flush();
+    }
+
     public NetworkMessage Deserialize(byte[] data, int size)
     {
         var message = new NetworkMessage();

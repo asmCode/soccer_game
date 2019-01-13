@@ -10,6 +10,7 @@ public class GameServer
     public event System.Action<int> ClientConnected;
 
     private INetworkCommunication m_com;
+    private INetworkAddress m_serverAddress;
 
     public GameServer()
     {
@@ -39,7 +40,7 @@ public class GameServer
                 return;
 
             var msg = m_netMsgSerializer.Deserialize(m_data, size);
-            ProcessMessage(msg);
+            ProcessMessage(msg, address);
         }
     }
 
@@ -74,7 +75,7 @@ public class GameServer
         return GetClientCount() != 2;
     }
 
-    private void ProcessMessage(NetworkMessage netMsg)
+    private void ProcessMessage(NetworkMessage netMsg, INetworkAddress netAddr)
     {
         Debug.LogFormat("Network message received from client: {0}", netMsg.m_type);
 
@@ -83,6 +84,10 @@ public class GameServer
             case NetworkMessageType.JoinRequest:
                 var joinRequestMsg = netMsg.m_msg as JoinRequest;
                 Debug.LogFormat("Motherfucker {0} wanna join", joinRequestMsg.m_playerName);
+
+                var joinAccept = new JoinAccept();
+                m_netMsgSerializer.Serialize(joinAccept);
+                m_com.Send(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize, netAddr);
                 break;
         }
     }

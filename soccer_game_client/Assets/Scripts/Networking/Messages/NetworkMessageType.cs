@@ -2,7 +2,10 @@
 {
     // Client
     JoinRequest,
+    ReadyToStart,
 
     // Server
     JoinAccept,
+    OpponentFound,
+    StartMatch
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Ssg.Core.Networking;
+using System;
 
 public class GameServer
 {
@@ -7,14 +8,18 @@ public class GameServer
     private NetworkMessageSerializer m_netMsgSerializer = new NetworkMessageSerializer(new BinaryDataWriter(), new BinaryDataReader());
     private MessageQueue m_gameMsgQueue = new MessageQueue();
 
-    public event System.Action<int> ClientConnected;
+    public event System.Action PlayersConnected;
 
+    private IGameServerState m_state;
     private INetworkCommunication m_com;
     private INetworkAddress m_serverAddress;
+
+    private ClientInfo[] m_clientInfos;
 
     public GameServer()
     {
         m_data = new byte[256];
+        m_clientInfos = new ClientInfo[2];
     }
 
     public void StartServer()
@@ -23,11 +28,47 @@ public class GameServer
 
         m_com = new UdpCommunication(GameSettings.ServerDefaultPort);
         m_com.Initialize();
+
+        m_state = WaitingForPlayers.Get();
     }
 
     public void StopServer()
     {
         m_com.Close();
+    }
+
+    public void AddClient(ClientInfo clientInfo)
+    {
+        if (m_clientInfos[0] == null)
+        {
+            m_clientInfos[0] = clientInfo;
+            return;
+        }
+
+        if (m_clientInfos[1] == null)
+        {
+            m_clientInfos[1] = clientInfo;
+            return;
+        }
+    }
+
+    public bool IsClientConnected(INetworkAddress address)
+    {
+        return
+            (m_clientInfos[0] != null && m_clientInfos[0].Address.Equals(address)) ||
+            (m_clientInfos[1] != null && m_clientInfos[1].Address.Equals(address));
+
+    }
+
+    public int GetClientCount()
+    {
+        if (m_clientInfos[1] != null)
+            return 2;
+
+        if (m_clientInfos[0] != null)
+            return 1;
+
+        return 0;
     }
 
     public virtual void Update()
@@ -37,16 +78,21 @@ public class GameServer
             int size;
             INetworkAddress address;
             if (!m_com.Receive(m_data, out size, out address))
-                return;
+                break;
 
             var msg = m_netMsgSerializer.Deserialize(m_data, size);
-            ProcessMessage(msg, address);
+
+            m_state.ProcessMessage(this, msg, address);
         }
+
+        m_state.Update(this);
     }
 
-    public int GetClientCount()
+    public void AcceptClient(INetworkAddress address)
     {
-        return 0;
+        var joinAccept = new JoinAccept();
+        m_netMsgSerializer.Serialize(joinAccept);
+        m_com.Send(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize, address);
     }
 
     public void SendToAll(Message message)
@@ -62,33 +108,9 @@ public class GameServer
         return null;
     }
 
-    protected void NotifyNewConnection(int connectionId)
+    public void NotifyPlayersConnected()
     {
-        Debug.Log("new connection");
-
-        if (ClientConnected != null)
-            ClientConnected(0);
-    }
-
-    public bool IsWaitingForPlayers()
-    {
-        return GetClientCount() != 2;
-    }
-
-    private void ProcessMessage(NetworkMessage netMsg, INetworkAddress netAddr)
-    {
-        Debug.LogFormat("Network message received from client: {0}", netMsg.m_type);
-
-        switch (netMsg.m_type)
-        {
-            case NetworkMessageType.JoinRequest:
-                var joinRequestMsg = netMsg.m_msg as JoinRequest;
-                Debug.LogFormat("Motherfucker {0} wanna join", joinRequestMsg.m_playerName);
-
-                var joinAccept = new JoinAccept();
-                m_netMsgSerializer.Serialize(joinAccept);
-                m_com.Send(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize, netAddr);
-                break;
-        }
+        if (PlayersConnected != null)
+            PlayersConnected();
     }
 }

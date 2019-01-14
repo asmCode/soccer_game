@@ -41,6 +41,28 @@ public class NetworkMessageSerializer
         m_writer.Flush();
     }
 
+    public void Serialize(ReadyToStart message)
+    {
+        m_writer.Reset();
+        m_writer.Write(NetworkMessageType.ReadyToStart);
+        m_writer.Flush();
+    }
+
+    public void Serialize(OpponentFound message)
+    {
+        m_writer.Reset();
+        m_writer.Write(NetworkMessageType.OpponentFound);
+        m_writer.Write(message.m_playerName);
+        m_writer.Flush();
+    }
+
+    public void Serialize(StartMatch message)
+    {
+        m_writer.Reset();
+        m_writer.Write(NetworkMessageType.StartMatch);
+        m_writer.Flush();
+    }
+
     public NetworkMessage Deserialize(byte[] data, int size)
     {
         var message = new NetworkMessage();
@@ -57,8 +79,29 @@ public class NetworkMessageSerializer
                     message.m_msg = msg;
                     break;
                 }
+
+            case NetworkMessageType.JoinAccept:
+                break;
+
+            case NetworkMessageType.OpponentFound:
+                {
+                    var msg = new OpponentFound();
+                    m_reader.Read(out msg.m_playerName);
+                    message.m_msg = msg;
+                    break;
+                }
+
+            case NetworkMessageType.ReadyToStart:
+                break;
+
+            case NetworkMessageType.StartMatch:
+                break;
+
+            default:
+                Debug.Log("Unknown network message.");
+                break;
         }
-        
+
         return message;
     }
 }

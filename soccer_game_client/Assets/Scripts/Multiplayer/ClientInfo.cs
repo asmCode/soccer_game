@@ -12,4 +12,5 @@ public class ClientInfo
 
     public string Name { get; set; }
     public INetworkAddress Address { get; set; }
+    public bool IsReadyToStart { get; set; }
 }

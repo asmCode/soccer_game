@@ -44,5 +44,10 @@ public class WaitingForPlayers : IGameServerState
 
         gameServer.AddClient(new ClientInfo(msg.m_playerName, address));
         gameServer.AcceptClient(address);
+        gameServer.SendOpponentFound();
+
+        // 
+        if (gameServer.GetClientCount() == 2)
+            gameServer.NotifyPlayersConnected();
     }
 }

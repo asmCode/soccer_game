@@ -6,16 +6,21 @@ using UnityEngine.SceneManagement;
 public class ServerScene : MonoBehaviour
 {
     private static readonly string MatchSceneName = "Match";
-
-    private GameServer m_gameServer;
     private GameServerController m_gameServerController;
     private Match m_match;
 
+    public GameServer GameServer
+    {
+        get;
+        private set;
+    }
+
+
     private void Awake()
     {
-        m_gameServer = new GameServer();
-        m_gameServer.PlayersConnected += HandlePlayersConnected;
-        m_gameServerController = new GameServerController(m_gameServer);
+        GameServer = new GameServer();
+        GameServer.PlayersConnected += HandlePlayersConnected;
+        m_gameServerController = new GameServerController(GameServer);
 
         // This is for debug purpose.
         LoadMatchScene();
@@ -36,13 +41,13 @@ public class ServerScene : MonoBehaviour
 
     private void OnDisable()
     {
-        m_gameServer.StopServer();
+        GameServer.StopServer();
         SceneManager.sceneLoaded -= SceneLoaded;
     }
 
     private void LoadMatchScene()
     {
-        m_gameServer.PlayersConnected -= HandlePlayersConnected;
+        GameServer.PlayersConnected -= HandlePlayersConnected;
         SceneManager.sceneLoaded += SceneLoaded;
         SceneManager.LoadScene(MatchSceneName, LoadSceneMode.Additive);
     }

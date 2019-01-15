@@ -19,8 +19,11 @@ public class Match
     public Match()
     {
         m_ball = BallProvider.GetBall();
-        PlayerProps.Instance = new PlayerProps(0.5f);
         m_messageInterpreter = new MessageInterpreter();
+
+        var playersProvider = new PlayersProvider();
+        var players = playersProvider.GetPlayers();
+        SetPlayers(players);
     }
 
     public void SetLogic(IMatchLogic logic)

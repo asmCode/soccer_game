@@ -12,10 +12,6 @@ public class ServerMatchController : MatchController
         m_match = match;
         m_gameServer = GameServerFactory.Create();
         m_gameServer.StartServer();
-
-        var initialData = new PlayersProvider();
-        var players = initialData.GetPlayers();
-        m_match.SetPlayers(players);
     }
 
     public void Cleanup()

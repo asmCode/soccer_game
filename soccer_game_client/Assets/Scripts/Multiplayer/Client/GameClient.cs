@@ -93,7 +93,7 @@ public class GameClient
     {
         var msg = new JoinRequest();
         msg.m_clientVersion = 0;
-        msg.m_playerName = "plajer srajer";
+        msg.m_playerName = SystemInfo.deviceName;
         m_netMsgSerializer.Serialize(msg);
 
         var serverAddressGetter = new ServerAddressGetter();
@@ -123,6 +123,10 @@ public class GameClient
         {
             case NetworkMessageType.JoinAccept:
                 Debug.Log("Join Accept");
+                break;
+
+            case NetworkMessageType.OpponentFound:
+                Debug.LogFormat("Opponent found: {0}", ((OpponentFound)msg.m_msg).m_playerName);
                 break;
         }
     }

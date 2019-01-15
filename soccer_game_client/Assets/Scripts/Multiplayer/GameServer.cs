@@ -95,6 +95,21 @@ public class GameServer
         m_com.Send(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize, address);
     }
 
+    public void SendOpponentFound()
+    {
+        Debug.Assert(m_clientInfos[0] != null && m_clientInfos[1] != null);
+
+        var msg = new OpponentFound();
+        msg.m_playerName = m_clientInfos[1].Name;
+        m_netMsgSerializer.Serialize(msg);
+        m_com.Send(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize, m_clientInfos[0].Address);
+
+        msg = new OpponentFound();
+        msg.m_playerName = m_clientInfos[0].Name;
+        m_netMsgSerializer.Serialize(msg);
+        m_com.Send(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize, m_clientInfos[1].Address);
+    }
+
     public void SendToAll(Message message)
     {
     }

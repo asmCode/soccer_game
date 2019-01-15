@@ -15,4 +15,6 @@ public class FakeServer : MonoBehaviour
     {
         m_gameServer = GameObject.Find("ServerScene").GetComponent<ServerScene>().GameServer;
     }
+
+    // Implement FakeCommunication
 }

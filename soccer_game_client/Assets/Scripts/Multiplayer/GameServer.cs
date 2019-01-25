@@ -60,6 +60,17 @@ public class GameServer
 
     }
 
+    public ClientInfo GetClientInfoByAddress(INetworkAddress address)
+    {
+        if (m_clientInfos[0] != null && m_clientInfos[0].Address.Equals(address))
+            return m_clientInfos[0];
+
+        if (m_clientInfos[1] != null && m_clientInfos[1].Address.Equals(address))
+            return m_clientInfos[1];
+
+        return null;
+    }
+
     public int GetClientCount()
     {
         if (m_clientInfos[1] != null)
@@ -121,6 +132,22 @@ public class GameServer
     public Message GetMessage()
     {
         return null;
+    }
+
+    public void SetReadyToStart(INetworkAddress address)
+    {
+        var clientInfo = GetClientInfoByAddress(address);
+        if (clientInfo == null)
+            return;
+
+        clientInfo.IsReadyToStart = true;
+    }
+
+    public bool ClientsReady()
+    {
+        return
+            (m_clientInfos[0] != null && m_clientInfos[0].IsReadyToStart &&
+            (m_clientInfos[1] != null && m_clientInfos[1].IsReadyToStart));
     }
 
     public void NotifyPlayersConnected()

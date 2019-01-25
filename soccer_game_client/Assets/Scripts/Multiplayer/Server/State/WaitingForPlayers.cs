@@ -66,5 +66,14 @@ public class WaitingForPlayers : IGameServerState
     private void ProcessReadyToStart(GameServer gameServer, ReadyToStart msg, INetworkAddress address)
     {
         Debug.LogFormat("ReadyToStart, Address: {0}", address.ToString());
+
+        var clientInfo = gameServer.GetClientInfoByAddress(address);
+        if (clientInfo != null && clientInfo.IsReadyToStart)
+            return;
+
+        gameServer.SetReadyToStart(address);
+
+        if (gameServer.ClientsReady())
+            Debug.Log("Clients ready to start");
     }
 }

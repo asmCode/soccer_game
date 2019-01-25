@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ServerAddressGetter
+public class ServerAddressGetter : IServerAddressGetter
 {
     public INetworkAddress GetServerAddress()
     {

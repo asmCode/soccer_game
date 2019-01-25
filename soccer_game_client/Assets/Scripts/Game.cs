@@ -24,7 +24,7 @@ public class Game : MonoBehaviour
             return;
         }
 
-        m_gameServer = new GameServer();
+        m_gameServer = new GameServer(null);
         m_gameServer.StartServer();
     }
 

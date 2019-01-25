@@ -18,12 +18,13 @@ public class ServerScene : MonoBehaviour
 
     private void Awake()
     {
-        GameServer = new GameServer();
+        var netCom = GetNetworkCommunication();
+        GameServer = new GameServer(netCom);
         GameServer.PlayersConnected += HandlePlayersConnected;
         m_gameServerController = new GameServerController(GameServer);
 
         // This is for debug purpose.
-        LoadMatchScene();
+        // LoadMatchScene();
     }
 
     private void Start()
@@ -34,6 +35,9 @@ public class ServerScene : MonoBehaviour
     private void Update()
     {
         m_gameServerController.Update(Time.deltaTime);
+
+        if (m_match == null)
+            return;
 
         var movePlayer = MovePlayer.Create(Time.deltaTime, 0, 0, PlayerDirection.UpRight);
         m_match.ProcessMessage(movePlayer);
@@ -71,5 +75,16 @@ public class ServerScene : MonoBehaviour
     private void HandlePlayersConnected()
     {
         LoadMatchScene();
+    }
+
+    private INetworkCommunication GetNetworkCommunication()
+    {
+        var fakeClientsGO = GameObject.Find("FakeClients");
+        if (fakeClientsGO == null || !fakeClientsGO.activeSelf)
+            return new UdpCommunication(GameSettings.ServerDefaultPort);
+
+        var fakeClients = fakeClientsGO.GetComponent<FakeClients>();
+
+        return fakeClients.NetworkCommunication;
     }
 }

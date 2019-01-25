@@ -16,17 +16,17 @@ public class GameServer
 
     private ClientInfo[] m_clientInfos;
 
-    public GameServer()
+    public GameServer(INetworkCommunication networkCommunication)
     {
         m_data = new byte[256];
         m_clientInfos = new ClientInfo[2];
+        m_com = networkCommunication;
     }
 
     public void StartServer()
     {
         Debug.Log("Staring server.");
 
-        m_com = new UdpCommunication(GameSettings.ServerDefaultPort);
         m_com.Initialize();
 
         m_state = WaitingForPlayers.Get();

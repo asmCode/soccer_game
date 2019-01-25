@@ -14,10 +14,20 @@ public class WaitingForPlayers : IGameServerState
 
     public void ProcessMessage(GameServer gameServer, NetworkMessage netMsg, INetworkAddress address)
     {
+        if (netMsg.m_type != NetworkMessageType.JoinRequest && !gameServer.IsClientConnected(address))
+        {
+            Debug.LogFormat("Received the message {0} from not connected client {1}", netMsg.m_type, address.ToString());
+            return;
+        }
+
         switch (netMsg.m_type)
         {
             case NetworkMessageType.JoinRequest:
                 ProcessJoinRequest(gameServer, netMsg.m_msg as JoinRequest, address);
+                break;
+
+            case NetworkMessageType.ReadyToStart:
+                ProcessReadyToStart(gameServer, netMsg.m_msg as ReadyToStart, address);
                 break;
         }
     }
@@ -51,5 +61,10 @@ public class WaitingForPlayers : IGameServerState
             gameServer.SendOpponentFound();
             gameServer.NotifyPlayersConnected();
         }
+    }
+
+    private void ProcessReadyToStart(GameServer gameServer, ReadyToStart msg, INetworkAddress address)
+    {
+        Debug.LogFormat("ReadyToStart, Address: {0}", address.ToString());
     }
 }

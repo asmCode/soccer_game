@@ -64,6 +64,8 @@ public class ServerScene : MonoBehaviour
         Debug.Log("Match scene loaded.");
 
         InitializeMatch();
+
+        // Here you have to wait for ReadyToStart from both clients and send StartMatch message.
     }
 
     private void InitializeMatch()

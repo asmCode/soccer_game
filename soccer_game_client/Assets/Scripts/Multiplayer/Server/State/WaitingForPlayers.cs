@@ -72,8 +72,5 @@ public class WaitingForPlayers : IGameServerState
             return;
 
         gameServer.SetReadyToStart(address);
-
-        if (gameServer.ClientsReady())
-            Debug.Log("Clients ready to start");
     }
 }

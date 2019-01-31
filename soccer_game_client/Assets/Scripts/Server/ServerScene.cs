@@ -36,8 +36,11 @@ public class ServerScene : MonoBehaviour
     {
         m_gameServerController.Update(Time.deltaTime);
 
-        if (m_match == null)
+        if (!MatchSceneLoaded())
             return;
+
+        if (MatchSceneLoaded() && GameServer.ClientsReady())
+            Debug.Log("dupsko");
 
         var movePlayer = MovePlayer.Create(Time.deltaTime, 0, 0, PlayerDirection.UpRight);
         m_match.ProcessMessage(movePlayer);
@@ -88,5 +91,10 @@ public class ServerScene : MonoBehaviour
         var fakeClients = fakeClientsGO.GetComponent<FakeClients>();
 
         return fakeClients.NetworkCommunication;
+    }
+
+    private bool MatchSceneLoaded()
+    {
+        return m_match != null;
     }
 }

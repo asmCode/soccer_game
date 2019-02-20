@@ -26,6 +26,7 @@ public class RawData
 // This is fake client to be used on the true Server scene. This class pretends real client.
 public class FakeClient
 {
+    private UserInput m_userInput;
     private string m_playerName;
     private NetworkMessageSerializer m_netMsgSerializer = new NetworkMessageSerializer(new BinaryDataWriter(), new BinaryDataReader());
 
@@ -41,8 +42,9 @@ public class FakeClient
         private set;
     }
 
-    public FakeClient(string playerName, string netAddress)
+    public FakeClient(UserInput input, string playerName, string netAddress)
     {
+        m_userInput = input;
         OutMessages = new Queue<RawData>();
         m_playerName = playerName;
 
@@ -69,6 +71,15 @@ public class FakeClient
 
     public void Update(float deltaTime)
     {
+        UpdateInput();
+    }
 
+    private void UpdateInput()
+    {
+        if (m_userInput == null)
+            return;
+
+        if (m_userInput.GetAction())
+            Debug.Log("action");
     }
 }

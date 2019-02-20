@@ -106,6 +106,17 @@ public class GameServer
         m_com.Send(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize, address);
     }
 
+    public void SendStartMatch()
+    {
+        Debug.Assert(m_clientInfos[0] != null && m_clientInfos[1] != null);
+
+        var msg = new StartMatch();
+        m_netMsgSerializer.Serialize(msg);
+
+        m_com.Send(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize, m_clientInfos[0].Address);
+        m_com.Send(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize, m_clientInfos[1].Address);
+    }
+
     public void SendOpponentFound()
     {
         Debug.Assert(m_clientInfos[0] != null && m_clientInfos[1] != null);

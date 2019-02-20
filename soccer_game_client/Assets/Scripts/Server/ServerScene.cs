@@ -8,6 +8,7 @@ public class ServerScene : MonoBehaviour
     private static readonly string MatchSceneName = "Match";
     private GameServerController m_gameServerController;
     private Match m_match;
+    private bool m_matchStarted;
 
     public GameServer GameServer
     {
@@ -39,11 +40,17 @@ public class ServerScene : MonoBehaviour
         if (!MatchSceneLoaded())
             return;
 
-        if (MatchSceneLoaded() && GameServer.ClientsReady())
-            Debug.Log("dupsko");
+        if (MatchSceneLoaded() && GameServer.ClientsReady() && !m_matchStarted)
+        {
+            m_matchStarted = true;
+            GameServer.SendStartMatch();
+        }
 
-        var movePlayer = MovePlayer.Create(Time.deltaTime, 0, 0, PlayerDirection.UpRight);
-        m_match.ProcessMessage(movePlayer);
+        if (m_matchStarted)
+        {
+            var movePlayer = MovePlayer.Create(Time.deltaTime, 0, 0, PlayerDirection.UpRight);
+            m_match.ProcessMessage(movePlayer);
+        }
     }
 
     private void OnDisable()
@@ -67,8 +74,6 @@ public class ServerScene : MonoBehaviour
         Debug.Log("Match scene loaded.");
 
         InitializeMatch();
-
-        // Here you have to wait for ReadyToStart from both clients and send StartMatch message.
     }
 
     private void InitializeMatch()

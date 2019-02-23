@@ -135,6 +135,7 @@ public class GameServer
 
     public void SendMatchMessage(MatchMessage message)
     {
+        
     }
 
     public void SetReadyToStart(INetworkAddress address)
@@ -160,5 +161,18 @@ public class GameServer
     {
         if (PlayersConnected != null)
             PlayersConnected();
+    }
+
+    public void AddMatchMessage(MatchMessage msg)
+    {
+        m_gameMsgQueue.AddMessage(msg);
+    }
+
+    public MatchMessage GetMatchMessage()
+    {
+        if (m_gameMsgQueue.Empty())
+            return null;
+
+        return m_gameMsgQueue.Dequeue();
     }
 }

@@ -16,7 +16,6 @@ public class ServerScene : MonoBehaviour
         private set;
     }
 
-
     private void Awake()
     {
         var netCom = GetNetworkCommunication();
@@ -48,8 +47,14 @@ public class ServerScene : MonoBehaviour
 
         if (m_matchStarted)
         {
-            var movePlayer = PlayerMove.Create(Time.deltaTime, 0, 0, PlayerDirection.UpRight);
-            m_match.ProcessMessage(movePlayer);
+            while (true)
+            {
+                var msg = GameServer.GetMatchMessage();
+                if (msg == null)
+                    break;
+
+                m_match.ProcessMessage(msg);
+            }
         }
     }
 

@@ -27,6 +27,10 @@ public class GameServerMatchState : IGameServerState
                 var playerMove = netMsg.m_msg as PlayerMove;
                 playerMove.m_team = clientInfo.Team;
                 Debug.LogFormat("PlayerMove: team={0}, dir={1}", playerMove.m_team, playerMove.m_playerDirection);
+                MatchMessage matchMsg = new MatchMessage();
+                matchMsg.m_message = playerMove;
+                matchMsg.m_messageType = MessageType.PlayerMove;
+                gameServer.AddMatchMessage(matchMsg);
                 break;
         }
     }

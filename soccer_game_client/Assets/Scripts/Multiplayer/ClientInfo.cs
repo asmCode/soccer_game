@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class ClientInfo
 {
-    public ClientInfo(string name, INetworkAddress address)
+    public ClientInfo(string name, byte team, INetworkAddress address)
     {
         Name = name;
+        Team = team;
         Address = address;
     }
 
     public string Name { get; set; }
     public INetworkAddress Address { get; set; }
     public bool IsReadyToStart { get; set; }
+    public byte Team { get; set; }
 }

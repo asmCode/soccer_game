@@ -23,7 +23,10 @@ public class GameServerMatchState : IGameServerState
         switch (netMsg.m_type)
         {
             case NetworkMessageType.PlayerMove:
-                Debug.LogFormat("Player move: {0}", (netMsg.m_msg as PlayerMove).m_playerDirection);
+                var clientInfo = gameServer.GetClientInfoByAddress(address);
+                var playerMove = netMsg.m_msg as PlayerMove;
+                playerMove.m_team = clientInfo.Team;
+                Debug.LogFormat("PlayerMove: team={0}, dir={1}", playerMove.m_team, playerMove.m_playerDirection);
                 break;
         }
     }

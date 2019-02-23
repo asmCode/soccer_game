@@ -45,14 +45,13 @@ public class GameServer
         if (m_clientInfos[0] == null)
         {
             m_clientInfos[0] = clientInfo;
-            return;
         }
-
-        if (m_clientInfos[1] == null)
+        else if (m_clientInfos[1] == null)
         {
             m_clientInfos[1] = clientInfo;
-            return;
         }
+
+        Debug.LogFormat("Added client, team={0}, addr={1}", clientInfo.Team, clientInfo.Address.ToString());
     }
 
     public bool IsClientConnected(INetworkAddress address)
@@ -60,7 +59,6 @@ public class GameServer
         return
             (m_clientInfos[0] != null && m_clientInfos[0].Address.Equals(address)) ||
             (m_clientInfos[1] != null && m_clientInfos[1].Address.Equals(address));
-
     }
 
     public ClientInfo GetClientInfoByAddress(INetworkAddress address)

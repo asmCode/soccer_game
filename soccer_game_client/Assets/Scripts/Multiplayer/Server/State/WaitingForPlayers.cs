@@ -52,7 +52,7 @@ public class WaitingForPlayers : IGameServerState
             return;
         }
 
-        gameServer.AddClient(new ClientInfo(msg.m_playerName, address));
+        gameServer.AddClient(new ClientInfo(msg.m_playerName, (byte)gameServer.GetClientCount(), address));
         gameServer.AcceptClient(address);
 
         // 

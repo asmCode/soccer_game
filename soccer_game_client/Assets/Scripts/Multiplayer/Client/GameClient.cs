@@ -81,7 +81,7 @@ public class GameClient
         //m_connection.Send(networkMsg);
     }
 
-    public MatchMessage GetMessage()
+    public MatchMessage GetMatchMessage()
     {
         if (m_msgQueue.Empty())
             return null;

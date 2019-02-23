@@ -47,7 +47,7 @@ public class ClientMatchController : MatchController
     {
         while (true)
         {
-            var message = m_gameClient.GetMessage();
+            var message = m_gameClient.GetMatchMessage();
             if (message == null)
                 break;
 

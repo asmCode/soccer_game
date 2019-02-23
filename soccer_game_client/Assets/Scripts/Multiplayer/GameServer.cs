@@ -32,6 +32,9 @@ public class GameServer
         m_state = WaitingForPlayers.Get();
     }
 
+    // Implement message queue and use it in the ServerScene.
+    // Make it possible to have one fake and one real client.
+
     public void StopServer()
     {
         m_com.Close();

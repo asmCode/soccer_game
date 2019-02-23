@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MessageInterpreter
 {
-    public void ProcessMessage(Match match, Message message)
+    public void ProcessMessage(Match match, MatchMessage message)
     {
         switch (message.m_messageType)
         {

@@ -5,7 +5,7 @@ using System.Text;
 
 public class TextMessageSerializer : MessageSerializer
 {
-    public override Message Deserialize(byte[] data)
+    public override MatchMessage Deserialize(byte[] data)
     {
         var text = Encoding.ASCII.GetString(data);
 
@@ -14,11 +14,12 @@ public class TextMessageSerializer : MessageSerializer
 
         if (command[0] == "Action")
         {
-            Debug.Assert(command.Length == 3);
+            Debug.Assert(command.Length == 4);
 
             return Action.Create(
                 byte.Parse(command[1].Trim()),
-                float.Parse(command[2].Trim()));
+                byte.Parse(command[2].Trim()),
+                float.Parse(command[3].Trim()));
         }
         else if (command[0] == "BallPosition")
         {
@@ -60,7 +61,7 @@ public class TextMessageSerializer : MessageSerializer
         return null;
     }
 
-    public override byte[] Serialize(Message message)
+    public override byte[] Serialize(MatchMessage message)
     {
         Application.targetFrameRate = 60;
         string serialized = "";
@@ -69,8 +70,9 @@ public class TextMessageSerializer : MessageSerializer
         {
             case MessageType.PlayerAction:
                 var action = message.m_message as Action;
-                serialized = string.Format("Action {0} {1:0.000}",
+                serialized = string.Format("Action {0} {1} {2:0.000}",
                     action.m_team,
+                    action.m_playerIndex,
                     action.m_duration);
                 break;
 

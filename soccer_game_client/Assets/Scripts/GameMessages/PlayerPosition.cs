@@ -9,7 +9,7 @@ public class PlayerPosition
     public Vector3 m_position;
     public PlayerDirection m_direction;
 
-    public static Message Create(byte team, byte index, Vector3 position, PlayerDirection direction)
+    public static MatchMessage Create(byte team, byte index, Vector3 position, PlayerDirection direction)
     {
         var payload = new PlayerPosition();
         payload.m_team = team;
@@ -17,7 +17,7 @@ public class PlayerPosition
         payload.m_position = position;
         payload.m_direction = direction;
 
-        var msg = new Message();
+        var msg = new MatchMessage();
         msg.m_messageType = MessageType.PlayerPosition;
         msg.m_message = payload;
 

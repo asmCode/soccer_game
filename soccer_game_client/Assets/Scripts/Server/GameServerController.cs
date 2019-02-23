@@ -25,8 +25,8 @@ public class GameServerController
     {
         m_gameServer.Update();
 
-        var message = m_gameServer.GetMessage();
-        if (message == null)
-            return;
+        //var message = m_gameServer.GetMessage();
+        //if (message == null)
+        //    return;
     }
 }

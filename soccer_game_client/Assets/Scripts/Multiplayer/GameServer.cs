@@ -132,17 +132,8 @@ public class GameServer
         m_com.Send(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize, m_clientInfos[1].Address);
     }
 
-    public void SendToAll(Message message)
+    public void SendMatchMessage(MatchMessage message)
     {
-    }
-
-    public void SendToClient(int clientId, Message message)
-    {
-    }
-
-    public Message GetMessage()
-    {
-        return null;
     }
 
     public void SetReadyToStart(INetworkAddress address)

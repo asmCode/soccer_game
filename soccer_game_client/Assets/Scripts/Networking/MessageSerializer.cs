@@ -4,6 +4,6 @@ using UnityEngine;
 
 public abstract class MessageSerializer
 {
-    public abstract byte[] Serialize(Message message);
-    public abstract Message Deserialize(byte[] data);
+    public abstract byte[] Serialize(MatchMessage message);
+    public abstract MatchMessage Deserialize(byte[] data);
 }

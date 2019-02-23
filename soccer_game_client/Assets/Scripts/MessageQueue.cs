@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MessageQueue
 {
-    private Queue<Message> m_messages = new Queue<Message>();
+    private Queue<MatchMessage> m_messages = new Queue<MatchMessage>();
 
     public bool Empty()
     {
@@ -16,12 +16,12 @@ public class MessageQueue
         m_messages.Clear();
     }
 
-    public void AddMessage(Message message)
+    public void AddMessage(MatchMessage message)
     {
         m_messages.Enqueue(message);
     }
 
-    public Message Dequeue()
+    public MatchMessage Dequeue()
     {
         if (Empty())
             return null;

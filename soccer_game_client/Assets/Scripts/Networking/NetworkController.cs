@@ -15,7 +15,7 @@ public class NetworkController
         //m_netCom = new TextNetworkCommunication("d:/dupa_out.txt", "d:/dupa_in.txt");
     }
 
-    public void SendMessage(Message message)
+    public void SendMessage(MatchMessage message)
     {
         // m_netCom.SendMessage(message);
     }

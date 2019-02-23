@@ -27,6 +27,7 @@ public class RawData
 public class FakeClient
 {
     private UserInput m_userInput;
+    private MatchInputProcessor m_inputProc;
     private string m_playerName;
     private NetworkMessageSerializer m_netMsgSerializer = new NetworkMessageSerializer(new BinaryDataWriter(), new BinaryDataReader());
 
@@ -49,6 +50,9 @@ public class FakeClient
         m_playerName = playerName;
 
         NetworkAddress = new FakeAddress(netAddress);
+
+        if (m_userInput != null)
+            m_inputProc = new MatchInputProcessor(m_userInput);
     }
 
     public void SendJoinRequest()
@@ -69,17 +73,24 @@ public class FakeClient
         OutMessages.Enqueue(new RawData(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize));
     }
 
-    public void Update(float deltaTime)
+    private void SendMatchMessage(MatchMessage msg)
     {
-        UpdateInput();
     }
 
-    private void UpdateInput()
+    public void Update(float deltaTime)
     {
-        if (m_userInput == null)
+        UpdateInput(deltaTime);
+    }
+
+    private void UpdateInput(float deltaTime)
+    {
+        if (m_inputProc == null)
             return;
 
-        if (m_userInput.GetAction())
-            Debug.Log("action");
+        m_inputProc.Update(deltaTime);
+
+        var moveMessage = m_inputProc.GetMoveMessage();
+        if (moveMessage != null)
+            SendMatchMessage(moveMessage);
     }
 }

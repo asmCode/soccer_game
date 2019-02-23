@@ -42,7 +42,7 @@ public class InputController
                 actionMsg.m_team = m_team;
                 actionMsg.m_duration = Time.time - m_actionStartTime;
 
-                var msg = new Message();
+                var msg = new MatchMessage();
                 msg.m_messageType = MessageType.PlayerAction;
                 msg.m_message = actionMsg;
 

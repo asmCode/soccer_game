@@ -9,7 +9,7 @@ public class MovePlayer
     public byte m_playerIndex;
     public PlayerDirection m_playerDirection;
 
-    public static Message Create(float dt, byte team, byte playerIndex, PlayerDirection direction)
+    public static MatchMessage Create(float dt, byte team, byte playerIndex, PlayerDirection direction)
     {
         var payload = new MovePlayer();
         payload.m_dt = dt;
@@ -17,7 +17,7 @@ public class MovePlayer
         payload.m_playerIndex = playerIndex;
         payload.m_playerDirection = direction;
 
-        var msg = new Message();
+        var msg = new MatchMessage();
         msg.m_messageType = MessageType.PlayerMove;
         msg.m_message = payload;
 

@@ -29,27 +29,27 @@ public class ServerMatchController : MatchController
 
     public void ProcessMessages()
     {
-        while (true)
-        {
-            var message = m_gameServer.GetMessage();
-            if (message == null)
-                break;
+        //while (true)
+        //{
+        //    var message = m_gameServer.GetMessage();
+        //    if (message == null)
+        //        break;
 
-            m_match.ProcessMessage(message);
-        }
+        //    m_match.ProcessMessage(message);
+        //}
     }
 
     private void UpdateClients()
     {
-        var players = m_match.GetPlayers();
+        //var players = m_match.GetPlayers();
 
-        foreach (var player in players)
-        {
-            var msg = PlayerPosition.Create(player.Team, player.Index, player.GetPosition(), player.GetDirection());
-            m_gameServer.SendToAll(msg);
-        }
+        //foreach (var player in players)
+        //{
+        //    var msg = PlayerPosition.Create(player.Team, player.Index, player.GetPosition(), player.GetDirection());
+        //    m_gameServer.SendToAll(msg);
+        //}
 
-        var ballPosition = BallPosition.Create(m_match.GetBallPosition());
-        m_gameServer.SendToAll(ballPosition);
+        //var ballPosition = BallPosition.Create(m_match.GetBallPosition());
+        //m_gameServer.SendToAll(ballPosition);
     }
 }

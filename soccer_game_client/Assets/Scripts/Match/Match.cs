@@ -97,7 +97,7 @@ public class Match
         m_ball.SetPlayer(player);
     }
 
-    public void ProcessMessage(Message message)
+    public void ProcessMessage(MatchMessage message)
     {
         m_messageInterpreter.ProcessMessage(this, message);
     }

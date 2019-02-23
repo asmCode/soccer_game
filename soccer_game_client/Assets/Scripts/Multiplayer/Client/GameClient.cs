@@ -72,7 +72,7 @@ public class GameClient
         //}
     }
 
-    public void Send(Message message)
+    public void Send(MatchMessage message)
     {
         //if (m_connection == null)
         //    return;
@@ -81,7 +81,7 @@ public class GameClient
         //m_connection.Send(networkMsg);
     }
 
-    public Message GetMessage()
+    public MatchMessage GetMessage()
     {
         if (m_msgQueue.Empty())
             return null;
@@ -100,7 +100,7 @@ public class GameClient
         m_com.Send(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize, serverAddressGetter.GetServerAddress());
     }
 
-    private NetworkMessage CreateNetworkMessage(Message message)
+    private NetworkMessage CreateNetworkMessage(MatchMessage message)
     {
         //var networkMsg = 
         //    new NetworkMessage();

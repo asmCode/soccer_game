@@ -73,8 +73,10 @@ public class FakeClient
         OutMessages.Enqueue(new RawData(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize));
     }
 
-    private void SendMatchMessage(MatchMessage msg)
+    private void SendPlayerMoveMessage(PlayerMove msg)
     {
+        m_netMsgSerializer.Serialize(msg);
+        OutMessages.Enqueue(new RawData(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize));
     }
 
     public void Update(float deltaTime)
@@ -91,6 +93,6 @@ public class FakeClient
 
         var moveMessage = m_inputProc.GetMoveMessage();
         if (moveMessage != null)
-            SendMatchMessage(moveMessage);
+            SendPlayerMoveMessage(moveMessage);
     }
 }

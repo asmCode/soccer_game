@@ -7,5 +7,9 @@
     // Server
     JoinAccept,
     OpponentFound,
-    StartMatch
+    StartMatch,
+
+    // Match
+    PlayerMove,
+    PlayerPosition,
 }

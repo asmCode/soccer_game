@@ -36,7 +36,7 @@ public class TextMessageSerializer : MessageSerializer
         {
             Debug.Assert(command.Length == 5);
 
-            return MovePlayer.Create(
+            return PlayerMove.Create(
                 float.Parse(command[1].Trim()),
                 byte.Parse(command[2].Trim()),
                 byte.Parse(command[3].Trim()),
@@ -85,7 +85,7 @@ public class TextMessageSerializer : MessageSerializer
                 break;
 
             case MessageType.PlayerMove:
-                var playerMove = message.m_message as MovePlayer;
+                var playerMove = message.m_message as PlayerMove;
                 serialized = string.Format("PlayerMove {0:0.000} {1} {2} {3}",
                     playerMove.m_dt,
                     playerMove.m_team,

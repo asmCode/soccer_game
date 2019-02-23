@@ -48,7 +48,7 @@ public class ServerScene : MonoBehaviour
 
         if (m_matchStarted)
         {
-            var movePlayer = MovePlayer.Create(Time.deltaTime, 0, 0, PlayerDirection.UpRight);
+            var movePlayer = PlayerMove.Create(Time.deltaTime, 0, 0, PlayerDirection.UpRight);
             m_match.ProcessMessage(movePlayer);
         }
     }

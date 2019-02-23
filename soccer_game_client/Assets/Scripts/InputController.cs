@@ -27,7 +27,7 @@ public class InputController
 
         if (direction != PlayerDirection.None)
         {
-            MessageQueue.AddMessage(MovePlayer.Create(deltaTime, m_team, playerIndex, direction));
+            MessageQueue.AddMessage(PlayerMove.Create(deltaTime, m_team, playerIndex, direction));
         }
 
         if (m_prevActionState != m_input.GetAction())

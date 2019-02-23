@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovePlayer
+public class PlayerMove
 {
     public float m_dt;
     public byte m_team;
@@ -11,7 +11,7 @@ public class MovePlayer
 
     public static MatchMessage Create(float dt, byte team, byte playerIndex, PlayerDirection direction)
     {
-        var payload = new MovePlayer();
+        var payload = new PlayerMove();
         payload.m_dt = dt;
         payload.m_team = team;
         payload.m_playerIndex = playerIndex;

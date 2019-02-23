@@ -63,6 +63,17 @@ public class NetworkMessageSerializer
         m_writer.Flush();
     }
 
+    public void Serialize(PlayerMove message)
+    {
+        // Neither m_team nor m_playerIndex is being sent.
+
+        m_writer.Reset();
+        m_writer.Write(NetworkMessageType.PlayerMove);
+        m_writer.Write(message.m_dt);
+        m_writer.Write((byte)message.m_playerDirection);
+        m_writer.Flush();
+    }
+
     public NetworkMessage Deserialize(byte[] data, int size)
     {
         var message = new NetworkMessage();
@@ -96,6 +107,17 @@ public class NetworkMessageSerializer
 
             case NetworkMessageType.StartMatch:
                 break;
+
+            case NetworkMessageType.PlayerMove:
+                {
+                    var msg = new PlayerMove();
+                    m_reader.Read(out msg.m_dt);
+                    byte direction;
+                    m_reader.Read(out direction);
+                    msg.m_playerDirection = (PlayerDirection)direction;
+                    message.m_msg = msg;
+                    break;
+                }
 
             default:
                 Debug.Log("Unknown network message.");

@@ -143,6 +143,9 @@ public class GameServer
             return;
 
         clientInfo.IsReadyToStart = true;
+
+        if (ClientsReady())
+            m_state = GameServerMatchState.Get();
     }
 
     public bool ClientsReady()

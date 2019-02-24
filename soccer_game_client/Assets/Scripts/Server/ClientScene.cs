@@ -18,7 +18,7 @@ public class ClientScene : MonoBehaviour
     private void Awake()
     {
         var netCom = GetNetworkCommunication();
-        GameClient = new GameClient();
+        GameClient = new GameClient(netCom);
 
         // This is for debug purpose.
         // LoadMatchScene();
@@ -92,6 +92,6 @@ public class ClientScene : MonoBehaviour
 
     public void UiEventJoinServer()
     {
-
+        GameClient.Join();
     }
 }

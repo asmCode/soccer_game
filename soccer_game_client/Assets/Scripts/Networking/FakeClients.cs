@@ -8,7 +8,7 @@ public class FakeClients : MonoBehaviour
 
     private FakeClient m_client1;
     private FakeClient m_client2;
-    private FakeServerNetworkCommunication m_netCom;
+    private FakeClientNetworkCommunication m_netCom;
 
     public INetworkCommunication NetworkCommunication
     {
@@ -31,7 +31,7 @@ public class FakeClients : MonoBehaviour
         m_client1 = new FakeClient(new MouseAndKbInput(), "Clien 1", "client-1-address");
         m_client2 = new FakeClient(null, "Clien 2", "client-2-address");
 
-        m_netCom = new FakeServerNetworkCommunication(m_client1, m_client2);
+        m_netCom = new FakeClientNetworkCommunication(m_client1, m_client2);
 
         // m_gameServer = GameObject.Find("ServerScene").GetComponent<ServerScene>().GameServer;
     }

@@ -8,7 +8,7 @@ public class ClientTester : MonoBehaviour
 
     private void Awake()
     {
-        m_gameClient = new GameClient();
+        m_gameClient = new GameClient(null);
     }
 
     void Start()

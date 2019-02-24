@@ -12,11 +12,11 @@ public class GameClient
 
     public event System.Action Connected;
 
-    public GameClient()
+    public GameClient(INetworkCommunication com)
     {
         m_data = new byte[256];
 
-        m_com = new UdpCommunication(0);
+        m_com = com;
         m_com.Initialize();
 
         m_msgSerializer = MessageSerializerFactory.Create();

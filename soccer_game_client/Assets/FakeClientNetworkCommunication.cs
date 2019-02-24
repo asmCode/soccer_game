@@ -1,19 +1,24 @@
 ﻿using UnityEngine;
 
-public class FakeServerNetworkCommunication : INetworkCommunication
+public class FakeClientNetworkCommunication : INetworkCommunication
 {
-    public FakeServerNetworkCommunication()
+    private FakeClient m_client1;
+    private FakeClient m_client2;
+
+    public FakeClientNetworkCommunication(FakeClient client1, FakeClient client2)
     {
+        m_client1 = client1;
+        m_client2 = client2;
     }
 
     public void Initialize()
     {
-        Debug.Log("FakeServer: Initialize");
+        Debug.Log("FakeClients: Initialize");
     }
 
     public void Send(byte[] data, int size, INetworkAddress address)
     {
-        Debug.LogFormat("FakeServer: Send, size = {0}", size);
+        Debug.LogFormat("FakeClients: Send, size = {0}", size);
     }
 
     public bool Receive(byte[] data, out int size, out INetworkAddress address)
@@ -21,11 +26,11 @@ public class FakeServerNetworkCommunication : INetworkCommunication
         size = 0;
         address = null;
 
-        //if (ReceiveFromClient(m_client1, data, ref size, ref address))
-        //    return true;
+        if (ReceiveFromClient(m_client1, data, ref size, ref address))
+            return true;
 
-        //if (ReceiveFromClient(m_client2, data, ref size, ref address))
-        //    return true;
+        if (ReceiveFromClient(m_client2, data, ref size, ref address))
+            return true;
 
         return false;
     }
@@ -43,6 +48,6 @@ public class FakeServerNetworkCommunication : INetworkCommunication
 
     public void Close()
     {
-        Debug.LogFormat("FakeServer: Close");
+        Debug.LogFormat("FakeClients: Close");
     }
 }

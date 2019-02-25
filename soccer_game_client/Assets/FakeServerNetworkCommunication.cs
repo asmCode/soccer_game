@@ -1,19 +1,43 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class FakeServerNetworkCommunication : INetworkCommunication
 {
+    private FakeAddress m_serverAddress;
+    private NetworkMessageSerializer m_netMsgSerializer = new NetworkMessageSerializer(new BinaryDataWriter(), new BinaryDataReader());
+
+    public Queue<RawData> OutMessages
+    {
+        get;
+        private set;
+    }
+
     public FakeServerNetworkCommunication()
     {
+        OutMessages = new Queue<RawData>();
+        m_serverAddress = new FakeAddress("server-address");
     }
 
     public void Initialize()
     {
-        Debug.Log("FakeServer: Initialize");
+        Debug.Log("FakeServerNetworkCommunication: Initialize");
     }
 
     public void Send(byte[] data, int size, INetworkAddress address)
     {
-        Debug.LogFormat("FakeServer: Send, size = {0}", size);
+        var netMsg = m_netMsgSerializer.Deserialize(data, size);
+        if (netMsg == null)
+            return;
+
+        Debug.LogFormat("FakeServerNetworkCommunication: Send, size = {0}, type = {1}", size, netMsg.m_type);
+
+        switch (netMsg.m_type)
+        {
+            case NetworkMessageType.JoinRequest:
+                var msg = new JoinAccept();
+                // TODO: add this message to OutMessages
+                break;
+        }
     }
 
     public bool Receive(byte[] data, out int size, out INetworkAddress address)
@@ -21,28 +45,17 @@ public class FakeServerNetworkCommunication : INetworkCommunication
         size = 0;
         address = null;
 
-        //if (ReceiveFromClient(m_client1, data, ref size, ref address))
-        //    return true;
-
-        //if (ReceiveFromClient(m_client2, data, ref size, ref address))
-        //    return true;
-
-        return false;
-    }
-
-    private static bool ReceiveFromClient(FakeClient client, byte[] data, ref int size, ref INetworkAddress address)
-    {
-        if (client.OutMessages.Count == 0)
+        if (OutMessages.Count == 0)
             return false;
 
-        address = client.NetworkAddress;
-        var rawData = client.OutMessages.Dequeue();
+        address = m_serverAddress;
+        var rawData = OutMessages.Dequeue();
         rawData.CopyTo(data, out size);
         return true;
     }
 
     public void Close()
     {
-        Debug.LogFormat("FakeServer: Close");
+        Debug.LogFormat("FakeServerNetworkCommunication: Close");
     }
 }

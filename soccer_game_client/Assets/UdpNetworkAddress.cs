@@ -10,7 +10,7 @@ public class UdpNetworkAddress : INetworkAddress
 
     public override string ToString()
     {
-        return EndPoint.Address.ToString();
+        return EndPoint.Address.ToString() + ":" + EndPoint.Port.ToString();
     }
 
     public override bool Equals(object obj)

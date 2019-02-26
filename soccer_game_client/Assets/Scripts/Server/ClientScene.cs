@@ -30,6 +30,8 @@ public class ClientScene : MonoBehaviour
 
     private void Update()
     {
+        GameClient.Update();
+
         if (!MatchSceneLoaded())
             return;
 

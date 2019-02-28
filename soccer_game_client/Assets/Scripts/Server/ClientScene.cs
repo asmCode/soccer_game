@@ -8,6 +8,7 @@ public class ClientScene : MonoBehaviour
     private static readonly string MatchSceneName = "Match";
     private Match m_match;
     private bool m_matchStarted;
+    private MatchInputProcessor m_inputProc;
 
     public GameClient GameClient
     {
@@ -17,9 +18,12 @@ public class ClientScene : MonoBehaviour
 
     private void Awake()
     {
+        m_inputProc = new MatchInputProcessor(new MouseAndKbInput());
+
         var netCom = GetNetworkCommunication();
         GameClient = new GameClient(netCom);
         GameClient.OpponentFound += HandleOpponentFound;
+        GameClient.MatchStarted += HandleMatchStarted;
 
         // This is for debug purpose.
         // LoadMatchScene();
@@ -38,6 +42,8 @@ public class ClientScene : MonoBehaviour
 
         if (m_matchStarted)
         {
+            UpdateInput(Time.deltaTime);
+
             while (true)
             {
                 var msg = GameClient.GetMatchMessage();
@@ -103,5 +109,28 @@ public class ClientScene : MonoBehaviour
     private void HandleOpponentFound()
     {
         LoadMatchScene();
+    }
+
+    private void HandleMatchStarted()
+    {
+        m_matchStarted = true;
+    }
+
+    private void UpdateInput(float deltaTime)
+    {
+        if (m_inputProc == null)
+            return;
+
+        m_inputProc.Update(deltaTime);
+
+        var moveMessage = m_inputProc.GetMoveMessage();
+        if (moveMessage != null)
+            SendPlayerMoveMessage(moveMessage);
+    }
+
+    private void SendPlayerMoveMessage(PlayerMove msg)
+    {
+        GameClient.m_netMsgSerializer.Serialize(msg);
+        GameClient.Send(GameClient.m_netMsgSerializer.Data, GameClient.m_netMsgSerializer.DataSize);
     }
 }

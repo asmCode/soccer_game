@@ -8,12 +8,14 @@ public class GameClient
     private INetworkCommunication m_com;
 
     private MessageSerializer m_msgSerializer;
-    private NetworkMessageSerializer m_netMsgSerializer = new NetworkMessageSerializer(new BinaryDataWriter(), new BinaryDataReader());
+    // TODO: poor design
+    public NetworkMessageSerializer m_netMsgSerializer = new NetworkMessageSerializer(new BinaryDataWriter(), new BinaryDataReader());
     private MessageQueue m_msgQueue = new MessageQueue();
     private INetworkAddress m_serverAddress;
 
     public event System.Action Connected;
     public event System.Action OpponentFound;
+    public event System.Action MatchStarted;
 
     public GameClient(INetworkCommunication com)
     {
@@ -82,13 +84,9 @@ public class GameClient
         m_com.Send(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize, m_serverAddress);
     }
 
-    public void Send(MatchMessage message)
+    public void Send(byte[] data, int size)
     {
-        //if (m_connection == null)
-        //    return;
-
-        //var networkMsg = CreateNetworkMessage(message);
-        //m_connection.Send(networkMsg);
+        m_com.Send(data, size, m_serverAddress);
     }
 
     public MatchMessage GetMatchMessage()
@@ -145,6 +143,8 @@ public class GameClient
 
             case NetworkMessageType.StartMatch:
                 Debug.LogFormat("StartMatch");
+                if (MatchStarted != null)
+                    MatchStarted();
                 break;
         }
     }

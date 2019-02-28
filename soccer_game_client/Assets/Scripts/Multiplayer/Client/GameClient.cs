@@ -11,6 +11,7 @@ public class GameClient
     private MessageQueue m_msgQueue = new MessageQueue();
 
     public event System.Action Connected;
+    public event System.Action OpponentFound;
 
     public GameClient(INetworkCommunication com)
     {
@@ -127,6 +128,8 @@ public class GameClient
 
             case NetworkMessageType.OpponentFound:
                 Debug.LogFormat("Opponent found: {0}", ((OpponentFound)msg.m_msg).m_playerName);
+                if (OpponentFound != null)
+                    OpponentFound();
                 break;
         }
     }

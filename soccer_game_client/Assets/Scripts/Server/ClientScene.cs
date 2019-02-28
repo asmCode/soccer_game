@@ -19,6 +19,7 @@ public class ClientScene : MonoBehaviour
     {
         var netCom = GetNetworkCommunication();
         GameClient = new GameClient(netCom);
+        GameClient.OpponentFound += HandleOpponentFound;
 
         // This is for debug purpose.
         // LoadMatchScene();
@@ -95,5 +96,10 @@ public class ClientScene : MonoBehaviour
     public void UiEventJoinServer()
     {
         GameClient.Join();
+    }
+
+    private void HandleOpponentFound()
+    {
+        LoadMatchScene();
     }
 }

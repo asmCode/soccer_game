@@ -110,15 +110,6 @@ public class GameClient
         m_com.Send(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize, m_serverAddress);
     }
 
-    private NetworkMessage CreateNetworkMessage(MatchMessage message)
-    {
-        //var networkMsg = 
-        //    new NetworkMessage();
-        //networkMsg.Data = m_msgSerializer.Serialize(message);
-        //return networkMsg;
-        return null;
-    }
-
     protected void NotifyNewConnection()
     {
         Log.Message("Connected to the server.");
@@ -145,6 +136,13 @@ public class GameClient
                 Debug.LogFormat("StartMatch");
                 if (MatchStarted != null)
                     MatchStarted();
+                break;
+
+            case NetworkMessageType.PlayerPosition:
+                var matchMsg = new MatchMessage();
+                matchMsg.m_messageType = MessageType.PlayerPosition;
+                matchMsg.m_message = msg.m_msg;
+                m_msgQueue.AddMessage(matchMsg);
                 break;
         }
     }

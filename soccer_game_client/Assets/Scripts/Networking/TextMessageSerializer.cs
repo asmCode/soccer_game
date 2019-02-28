@@ -51,11 +51,13 @@ public class TextMessageSerializer : MessageSerializer
                     float.Parse(command[4].Trim()),
                     float.Parse(command[5].Trim()));
 
-            return PlayerPosition.Create(
-                byte.Parse(command[1].Trim()),
-                byte.Parse(command[2].Trim()),
-                position,
-                (PlayerDirection)byte.Parse(command[6].Trim()));
+            //return PlayerPosition.Create(
+            //    byte.Parse(command[1].Trim()),
+            //    byte.Parse(command[2].Trim()),
+            //    position,
+            //    (PlayerDirection)byte.Parse(command[6].Trim()));
+
+            return null;
         }
 
         return null;

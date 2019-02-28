@@ -55,6 +55,8 @@ public class ServerScene : MonoBehaviour
 
                 m_match.ProcessMessage(msg);
             }
+
+            SendPlayersPositions();
         }
     }
 
@@ -106,5 +108,17 @@ public class ServerScene : MonoBehaviour
     private bool MatchSceneLoaded()
     {
         return m_match != null;
+    }
+
+    private void SendPlayersPositions()
+    {
+        var players = m_match.GetPlayers();
+
+        foreach (var player in players)
+        {
+            var msg = PlayerPosition.Create(player.Team, player.Index, player.GetPosition(), player.GetDirection());
+            GameServer.m_netMsgSerializer.Serialize(msg);
+            GameServer.SendToAll(GameServer.m_netMsgSerializer.Data, GameServer.m_netMsgSerializer.DataSize);
+        }
     }
 }

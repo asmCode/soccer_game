@@ -5,7 +5,8 @@ using System;
 public class GameServer
 {
     private byte[] m_data;
-    private NetworkMessageSerializer m_netMsgSerializer = new NetworkMessageSerializer(new BinaryDataWriter(), new BinaryDataReader());
+    // TODO: poor design
+    public NetworkMessageSerializer m_netMsgSerializer = new NetworkMessageSerializer(new BinaryDataWriter(), new BinaryDataReader());
     private MessageQueue m_gameMsgQueue = new MessageQueue();
 
     public event System.Action PlayersConnected;
@@ -130,9 +131,10 @@ public class GameServer
         m_com.Send(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize, m_clientInfos[1].Address);
     }
 
-    public void SendMatchMessage(MatchMessage message)
+    public void SendToAll(byte[] data, int size)
     {
-        
+        m_com.Send(data, size, m_clientInfos[0].Address);
+        m_com.Send(data, size, m_clientInfos[1].Address);
     }
 
     public void SetReadyToStart(INetworkAddress address)

@@ -112,6 +112,7 @@ public class Match
         return m_ball;
     }
 
+    // TODO: don't create list every time
     public List<IPlayer> GetPlayers()
     {
         var players = new List<IPlayer>();

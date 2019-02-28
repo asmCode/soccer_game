@@ -74,6 +74,17 @@ public class NetworkMessageSerializer
         m_writer.Flush();
     }
 
+    public void Serialize(PlayerPosition message)
+    {
+        m_writer.Reset();
+        m_writer.Write(NetworkMessageType.PlayerPosition);
+        m_writer.Write(message.m_team);
+        m_writer.Write(message.m_index);
+        m_writer.Write(message.m_position);
+        m_writer.Write((byte)message.m_direction);
+        m_writer.Flush();
+    }
+
     public NetworkMessage Deserialize(byte[] data, int size)
     {
         var message = new NetworkMessage();
@@ -115,6 +126,19 @@ public class NetworkMessageSerializer
                     byte direction;
                     m_reader.Read(out direction);
                     msg.m_playerDirection = (PlayerDirection)direction;
+                    message.m_msg = msg;
+                    break;
+                }
+
+            case NetworkMessageType.PlayerPosition:
+                {
+                    var msg = new PlayerPosition();
+                    m_reader.Read(out msg.m_team);
+                    m_reader.Read(out msg.m_index);
+                    m_reader.Read(out msg.m_position);
+                    byte direction;
+                    m_reader.Read(out direction);
+                    msg.m_direction = (PlayerDirection)direction;
                     message.m_msg = msg;
                     break;
                 }

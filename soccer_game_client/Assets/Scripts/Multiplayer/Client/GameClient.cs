@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Ssg.Core.Networking;
+using System;
 
 public class GameClient
 {
@@ -9,6 +10,7 @@ public class GameClient
     private MessageSerializer m_msgSerializer;
     private NetworkMessageSerializer m_netMsgSerializer = new NetworkMessageSerializer(new BinaryDataWriter(), new BinaryDataReader());
     private MessageQueue m_msgQueue = new MessageQueue();
+    private INetworkAddress m_serverAddress;
 
     public event System.Action Connected;
     public event System.Action OpponentFound;
@@ -73,6 +75,13 @@ public class GameClient
         //}
     }
 
+    public void SendReadyToStart()
+    {
+        var msg = new ReadyToStart();
+        m_netMsgSerializer.Serialize(msg);
+        m_com.Send(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize, m_serverAddress);
+    }
+
     public void Send(MatchMessage message)
     {
         //if (m_connection == null)
@@ -92,13 +101,15 @@ public class GameClient
 
     public void Join()
     {
+        var serverAddressGetter = new ServerAddressGetter();
+        m_serverAddress = serverAddressGetter.GetServerAddress();
+
         var msg = new JoinRequest();
         msg.m_clientVersion = 0;
         msg.m_playerName = SystemInfo.deviceName;
         m_netMsgSerializer.Serialize(msg);
 
-        var serverAddressGetter = new ServerAddressGetter();
-        m_com.Send(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize, serverAddressGetter.GetServerAddress());
+        m_com.Send(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize, m_serverAddress);
     }
 
     private NetworkMessage CreateNetworkMessage(MatchMessage message)
@@ -130,6 +141,10 @@ public class GameClient
                 Debug.LogFormat("Opponent found: {0}", ((OpponentFound)msg.m_msg).m_playerName);
                 if (OpponentFound != null)
                     OpponentFound();
+                break;
+
+            case NetworkMessageType.StartMatch:
+                Debug.LogFormat("StartMatch");
                 break;
         }
     }

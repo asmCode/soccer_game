@@ -69,6 +69,8 @@ public class ClientScene : MonoBehaviour
         Debug.Log("Match scene loaded.");
 
         InitializeMatch();
+
+        GameClient.SendReadyToStart();
     }
 
     private void InitializeMatch()

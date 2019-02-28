@@ -10,10 +10,19 @@ public class MatchScene : MonoBehaviour
         private set;
     }
 
+    public MatchView MatchView
+    {
+        get;
+        private set;
+    }
+
     private void Awake()
     {
         PlayerProps.Instance = new PlayerProps(0.5f);
         Match = new Match();
+
+        MatchView = GameObject.Find("MatchView").GetComponent<MatchView>();
+        MatchView.Init(Match);
     }
 
     private void Start()
@@ -23,6 +32,6 @@ public class MatchScene : MonoBehaviour
 
     private void Update()
     {
-        
+        Match.Update(Time.deltaTime);
     }
 }

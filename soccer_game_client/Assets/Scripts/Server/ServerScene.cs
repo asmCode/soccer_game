@@ -87,6 +87,7 @@ public class ServerScene : MonoBehaviour
     {
         var matchScene = GameObject.Find("MatchScene").GetComponent<MatchScene>();
         m_match = matchScene.Match;
+        m_match.SetLogic(new ServerMatchLogic(m_match));
     }
 
     private void HandlePlayersConnected()

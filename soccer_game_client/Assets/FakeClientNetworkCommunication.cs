@@ -18,7 +18,6 @@ public class FakeClientNetworkCommunication : INetworkCommunication
 
     public void Send(byte[] data, int size, INetworkAddress address)
     {
-        Debug.LogFormat("FakeClients: Send, size = {0}", size);
     }
 
     public bool Receive(byte[] data, out int size, out INetworkAddress address)

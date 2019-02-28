@@ -83,6 +83,7 @@ public class ClientScene : MonoBehaviour
     {
         var matchScene = GameObject.Find("MatchScene").GetComponent<MatchScene>();
         m_match = matchScene.Match;
+        m_match.SetLogic(new ClientMatchLogic(m_match));
     }
 
     private INetworkCommunication GetNetworkCommunication()

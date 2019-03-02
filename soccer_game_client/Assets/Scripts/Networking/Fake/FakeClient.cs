@@ -58,6 +58,14 @@ public class FakeClient
         OutMessages.Enqueue(new RawData(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize));
     }
 
+    private void SendPlayerActionMessage(float duration)
+    {
+        var msg = new Action();
+        msg.m_duration = duration;
+        m_netMsgSerializer.Serialize(msg);
+        OutMessages.Enqueue(new RawData(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize));
+    }
+
     public void Update(float deltaTime)
     {
         UpdateInput(deltaTime);
@@ -76,8 +84,6 @@ public class FakeClient
 
         float actionDuration;
         if (m_inputProc.GetAction(out actionDuration))
-        {
-            Debug.LogFormat("Action = {0}", actionDuration);
-        }
+            SendPlayerActionMessage(actionDuration);
     }
 }

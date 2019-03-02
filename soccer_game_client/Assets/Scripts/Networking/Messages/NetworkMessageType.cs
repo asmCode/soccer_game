@@ -10,6 +10,7 @@
     StartMatch,
 
     // Match
+    PlayerAction,
     PlayerMove,
     PlayerPosition,
 }

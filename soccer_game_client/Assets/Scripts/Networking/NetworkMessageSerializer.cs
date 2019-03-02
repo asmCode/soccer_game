@@ -85,6 +85,14 @@ public class NetworkMessageSerializer
         m_writer.Flush();
     }
 
+    public void Serialize(Action message)
+    {
+        m_writer.Reset();
+        m_writer.Write(NetworkMessageType.PlayerAction);
+        m_writer.Write(message.m_duration);
+        m_writer.Flush();
+    }
+
     public NetworkMessage Deserialize(byte[] data, int size)
     {
         var message = new NetworkMessage();
@@ -139,6 +147,14 @@ public class NetworkMessageSerializer
                     byte direction;
                     m_reader.Read(out direction);
                     msg.m_direction = (PlayerDirection)direction;
+                    message.m_msg = msg;
+                    break;
+                }
+
+            case NetworkMessageType.PlayerAction:
+                {
+                    var msg = new Action();
+                    m_reader.Read(out msg.m_duration);
                     message.m_msg = msg;
                     break;
                 }

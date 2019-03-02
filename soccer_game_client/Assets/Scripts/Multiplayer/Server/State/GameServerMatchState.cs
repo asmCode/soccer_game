@@ -23,15 +23,28 @@ public class GameServerMatchState : IGameServerState
         switch (netMsg.m_type)
         {
             case NetworkMessageType.PlayerMove:
-                var clientInfo = gameServer.GetClientInfoByAddress(address);
-                var playerMove = netMsg.m_msg as PlayerMove;
-                playerMove.m_team = clientInfo.Team;
-                MatchMessage matchMsg = new MatchMessage();
-                matchMsg.m_message = playerMove;
-                matchMsg.m_messageType = MessageType.PlayerMove;
-                gameServer.
-                    AddMatchMessage(matchMsg);
-                break;
+                {
+                    var clientInfo = gameServer.GetClientInfoByAddress(address);
+                    var playerMove = netMsg.m_msg as PlayerMove;
+                    playerMove.m_team = clientInfo.Team;
+                    MatchMessage matchMsg = new MatchMessage();
+                    matchMsg.m_message = playerMove;
+                    matchMsg.m_messageType = MessageType.PlayerMove;
+                    gameServer.AddMatchMessage(matchMsg);
+                    break;
+                }
+
+            case NetworkMessageType.PlayerAction:
+                {
+                    var clientInfo = gameServer.GetClientInfoByAddress(address);
+                    var msg = netMsg.m_msg as Action;
+                    msg.m_team = clientInfo.Team;
+                    MatchMessage matchMsg = new MatchMessage();
+                    matchMsg.m_message = msg;
+                    matchMsg.m_messageType = MessageType.PlayerAction;
+                    gameServer.AddMatchMessage(matchMsg);
+                    break;
+                }
         }
     }
 

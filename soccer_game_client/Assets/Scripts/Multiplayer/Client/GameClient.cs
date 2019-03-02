@@ -139,11 +139,22 @@ public class GameClient
                 break;
 
             case NetworkMessageType.PlayerPosition:
-                var matchMsg = new MatchMessage();
-                matchMsg.m_messageType = MessageType.PlayerPosition;
-                matchMsg.m_message = msg.m_msg;
-                m_msgQueue.AddMessage(matchMsg);
-                break;
+                {
+                    var matchMsg = new MatchMessage();
+                    matchMsg.m_messageType = MessageType.PlayerPosition;
+                    matchMsg.m_message = msg.m_msg;
+                    m_msgQueue.AddMessage(matchMsg);
+                    break;
+                }
+
+            case NetworkMessageType.BallPosition:
+                {
+                    var matchMsg = new MatchMessage();
+                    matchMsg.m_messageType = MessageType.BallPosition;
+                    matchMsg.m_message = msg.m_msg;
+                    m_msgQueue.AddMessage(matchMsg);
+                    break;
+                }
         }
     }
 }

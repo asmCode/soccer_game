@@ -42,6 +42,11 @@ public class Ball : IBall
         m_ballView.SetPosition(position);
     }
 
+    public Vector3 GetVelocity()
+    {
+        return m_ballView.GetVelocity();
+    }
+
     public void SetVelocity(Vector3 velocity)
     {
         m_ballView.SetVelocity(velocity);

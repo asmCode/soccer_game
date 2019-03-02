@@ -22,6 +22,11 @@ public class BallView : MonoBehaviour
         m_rigibody.velocity = velocity;
     }
 
+    public Vector3 GetVelocity()
+    {
+        return m_rigibody.velocity;
+    }
+
     private void Awake()
     {
         m_rigibody = GetComponent<Rigidbody>();

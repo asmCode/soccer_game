@@ -93,6 +93,15 @@ public class NetworkMessageSerializer
         m_writer.Flush();
     }
 
+    public void Serialize(BallPosition message)
+    {
+        m_writer.Reset();
+        m_writer.Write(NetworkMessageType.BallPosition);
+        m_writer.Write(message.m_position);
+        m_writer.Write(message.m_velocity);
+        m_writer.Flush();
+    }
+
     public NetworkMessage Deserialize(byte[] data, int size)
     {
         var message = new NetworkMessage();
@@ -155,6 +164,15 @@ public class NetworkMessageSerializer
                 {
                     var msg = new Action();
                     m_reader.Read(out msg.m_duration);
+                    message.m_msg = msg;
+                    break;
+                }
+
+            case NetworkMessageType.BallPosition:
+                {
+                    var msg = new BallPosition();
+                    m_reader.Read(out msg.m_position);
+                    m_reader.Read(out msg.m_velocity);
                     message.m_msg = msg;
                     break;
                 }

@@ -64,9 +64,10 @@ public class Match
         m_ball.SetVelocity(ShootVelocity.GetVelocity(activePlayer.GetDirection(), duration));
     }
 
-    public void SetBallPosition(Vector3 position)
+    public void SetBallPosition(Vector3 position, Vector3 velocity)
     {
         m_ball.SetPosition(position);
+        m_ball.SetVelocity(velocity);
     }
 
     public Vector3 GetBallPosition()

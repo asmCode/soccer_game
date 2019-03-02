@@ -10,6 +10,7 @@
     StartMatch,
 
     // Match
+    BallPosition,
     PlayerAction,
     PlayerMove,
     PlayerPosition,

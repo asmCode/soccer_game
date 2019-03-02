@@ -12,5 +12,6 @@ public interface IBall
     Vector3 GetPosition();
     void SetPosition(Vector3 position);
 
+    Vector3 GetVelocity();
     void SetVelocity(Vector3 velocity);
 }

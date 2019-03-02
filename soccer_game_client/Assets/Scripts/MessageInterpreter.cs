@@ -30,7 +30,7 @@ public class MessageInterpreter
 
             case MessageType.BallPosition:
                 var ballPositionMsg = message.m_message as BallPosition;
-                match.SetBallPosition(ballPositionMsg.m_position);
+                match.SetBallPosition(ballPositionMsg.m_position, ballPositionMsg.m_velocity);
                 break;
         }
     }

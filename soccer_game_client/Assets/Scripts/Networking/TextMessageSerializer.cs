@@ -23,14 +23,20 @@ public class TextMessageSerializer : MessageSerializer
         }
         else if (command[0] == "BallPosition")
         {
-            Debug.Assert(command.Length == 4);
+            Debug.Assert(command.Length == 7);
 
             var position = new Vector3(
                 float.Parse(command[1].Trim()),
                 float.Parse(command[2].Trim()),
                 float.Parse(command[3].Trim()));
 
-            return BallPosition.Create(position);
+            var velocity = new Vector3(
+                float.Parse(command[4].Trim()),
+                float.Parse(command[5].Trim()),
+                float.Parse(command[6].Trim()));
+
+            // return BallPosition.Create(position, velocity);
+            return null;
         }
         else if (command[0] == "PlayerMove")
         {

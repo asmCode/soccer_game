@@ -127,10 +127,22 @@ public class ClientScene : MonoBehaviour
         var moveMessage = m_inputProc.GetMoveMessage();
         if (moveMessage != null)
             SendPlayerMoveMessage(moveMessage);
+
+        float actionDuration;
+        if (m_inputProc.GetAction(out actionDuration))
+            SendPlayerActionMessage(actionDuration);
     }
 
     private void SendPlayerMoveMessage(PlayerMove msg)
     {
+        GameClient.m_netMsgSerializer.Serialize(msg);
+        GameClient.Send(GameClient.m_netMsgSerializer.Data, GameClient.m_netMsgSerializer.DataSize);
+    }
+
+    private void SendPlayerActionMessage(float duration)
+    {
+        var msg = new Action();
+        msg.m_duration = duration;
         GameClient.m_netMsgSerializer.Serialize(msg);
         GameClient.Send(GameClient.m_netMsgSerializer.Data, GameClient.m_netMsgSerializer.DataSize);
     }

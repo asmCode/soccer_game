@@ -73,5 +73,11 @@ public class FakeClient
         var moveMessage = m_inputProc.GetMoveMessage();
         if (moveMessage != null)
             SendPlayerMoveMessage(moveMessage);
+
+        float actionDuration;
+        if (m_inputProc.GetAction(out actionDuration))
+        {
+            Debug.LogFormat("Action = {0}", actionDuration);
+        }
     }
 }

@@ -53,6 +53,14 @@ public class FakeClients : MonoBehaviour
 
     public void UIEventClien2ReadyToStart()
     {
+        m_client1.SendReadyToStart();
+    }
+
+    public void UIEventStartAll()
+    {
+        m_client1.SendJoinRequest();
+        m_client2.SendJoinRequest();
+        m_client1.SendReadyToStart();
         m_client2.SendReadyToStart();
     }
 }

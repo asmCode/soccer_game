@@ -90,7 +90,11 @@ public class ClientScene : MonoBehaviour
     {
         var fakeServerGO = GameObject.Find("FakeServer");
         if (fakeServerGO == null || !fakeServerGO.activeSelf)
-            return new UdpCommunication(0);
+        {
+            var udpCom = new UdpCommunication(0);
+            return new DelayedNetworkCommunication(udpCom);
+        }
+
 
         var fakeServer = fakeServerGO.GetComponent<FakeServer>();
 

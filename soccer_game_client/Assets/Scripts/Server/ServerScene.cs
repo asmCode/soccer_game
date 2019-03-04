@@ -100,7 +100,10 @@ public class ServerScene : MonoBehaviour
     {
         var fakeClientsGO = GameObject.Find("FakeClients");
         if (fakeClientsGO == null || !fakeClientsGO.activeSelf)
-            return new UdpCommunication(GameSettings.ServerDefaultPort);
+        {
+            var udpCom = new UdpCommunication(GameSettings.ServerDefaultPort);
+            return new DelayedNetworkCommunication(udpCom);
+        }
 
         var fakeClients = fakeClientsGO.GetComponent<FakeClients>();
 

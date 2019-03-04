@@ -9,6 +9,7 @@ public interface IBall
     void ClearPlayer();
 
     void EnablePhysics(bool enable);
+    bool IsPhysicsEnabled();
     Vector3 GetPosition();
     void SetPosition(Vector3 position);
 

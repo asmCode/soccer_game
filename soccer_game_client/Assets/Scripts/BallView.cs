@@ -11,6 +11,11 @@ public class BallView : MonoBehaviour
         m_rigibody.isKinematic = !enable;
     }
 
+    public bool IsPhysicsEnbaled()
+    {
+        return !m_rigibody.isKinematic;
+    }
+
     public void SetPosition(Vector3 position)
     {
         transform.position = position;

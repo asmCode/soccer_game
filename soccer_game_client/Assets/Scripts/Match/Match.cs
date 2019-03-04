@@ -8,7 +8,7 @@ public class Match
     private Team[] m_teams = new Team[2];
     private IBall m_ball;
     private MessageInterpreter m_messageInterpreter;
-    private ssg.Physics.IPhysics m_physics = new ssg.Physics.UnityPhysics();
+    private ssg.Physics.IPhysics m_physics;
     private IMatchLogic m_logic;
 
     public Team[] Teams
@@ -20,6 +20,8 @@ public class Match
     {
         m_ball = BallProvider.GetBall();
         m_messageInterpreter = new MessageInterpreter();
+
+        m_physics = new ssg.Physics.SoccerPhysics(m_ball);
 
         var playersProvider = new PlayersProvider();
         var players = playersProvider.GetPlayers();

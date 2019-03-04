@@ -32,6 +32,11 @@ public class Ball : IBall
         m_ballView.EnablePhysics(enable);
     }
 
+    public bool IsPhysicsEnabled()
+    {
+        return m_ballView.IsPhysicsEnbaled(); 
+    }
+
     public Vector3 GetPosition()
     {
         return m_ballView.transform.position;

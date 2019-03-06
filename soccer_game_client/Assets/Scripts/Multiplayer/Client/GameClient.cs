@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using Ssg.Core.Networking;
-using System;
 
 public class GameClient
 {

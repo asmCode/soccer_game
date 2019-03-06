@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-using Ssg.Core.Networking;
+﻿using UnityEngine;
 
 public class NetworkMessageSerializer
 {

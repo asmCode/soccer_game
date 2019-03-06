@@ -1,34 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.IO;
-using System.Text;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
-using Ssg.Core.Networking;
 
 public class UdpSocket
 {
-    // private const int BufferSize = 256;
     private Socket m_socket;
-
-    //public byte[] ReceivedData
-    //{
-    //    get;
-    //    private set;
-    //}
-
-    //public int ReceivedDataSize
-    //{
-    //    get;
-    //    private set;
-    //}
 
     public UdpSocket(int port)
     {
-        //ReceivedData = new byte[BufferSize];
-        //ReceivedDataSize = 0;
-
         m_socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
         m_socket.Blocking = false;
 

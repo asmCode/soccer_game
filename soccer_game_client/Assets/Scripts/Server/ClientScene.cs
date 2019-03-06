@@ -9,6 +9,7 @@ public class ClientScene : MonoBehaviour
     private Match m_match;
     private bool m_matchStarted;
     private MatchInputProcessor m_inputProc;
+    private MessageSynchonizer m_msgSync = new MessageSynchonizer();
 
     public GameClient GameClient
     {

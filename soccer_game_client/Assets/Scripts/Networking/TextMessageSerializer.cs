@@ -42,11 +42,13 @@ public class TextMessageSerializer : MessageSerializer
         {
             Debug.Assert(command.Length == 5);
 
-            return PlayerMove.Create(
-                float.Parse(command[1].Trim()),
-                byte.Parse(command[2].Trim()),
-                byte.Parse(command[3].Trim()),
-                (PlayerDirection)byte.Parse(command[4].Trim()));
+            //return PlayerMove.Create(
+            //    float.Parse(command[1].Trim()),
+            //    byte.Parse(command[2].Trim()),
+            //    byte.Parse(command[3].Trim()),
+            //    (PlayerDirection)byte.Parse(command[4].Trim()));
+
+            return null;
         }
         else if (command[0] == "PlayerPosition")
         {

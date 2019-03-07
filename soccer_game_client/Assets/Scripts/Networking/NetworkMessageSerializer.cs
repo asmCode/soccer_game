@@ -65,6 +65,7 @@ public class NetworkMessageSerializer
 
         m_writer.Reset();
         m_writer.Write(NetworkMessageType.PlayerMove);
+        m_writer.Write(message.m_messageNumber);
         m_writer.Write(message.m_dt);
         m_writer.Write((byte)message.m_playerDirection);
         m_writer.Flush();
@@ -135,6 +136,7 @@ public class NetworkMessageSerializer
             case NetworkMessageType.PlayerMove:
                 {
                     var msg = new PlayerMove();
+                    m_reader.Read(out msg.m_messageNumber);
                     m_reader.Read(out msg.m_dt);
                     byte direction;
                     m_reader.Read(out direction);

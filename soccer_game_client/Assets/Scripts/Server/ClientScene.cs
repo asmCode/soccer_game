@@ -11,6 +11,8 @@ public class ClientScene : MonoBehaviour
     private MatchInputProcessor m_inputProc;
     private MessageSynchonizer m_msgSync = new MessageSynchonizer();
 
+    private int m_clientMessageNumber;
+
     public GameClient GameClient
     {
         get;
@@ -131,7 +133,11 @@ public class ClientScene : MonoBehaviour
 
         var moveMessage = m_inputProc.GetMoveMessage();
         if (moveMessage != null)
+        {
+            moveMessage.m_messageNumber = m_clientMessageNumber;
+            m_clientMessageNumber++;
             SendPlayerMoveMessage(moveMessage);
+        }
 
         float actionDuration;
         if (m_inputProc.GetAction(out actionDuration))

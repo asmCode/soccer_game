@@ -79,6 +79,7 @@ public class FakeClient
         m_inputProc.Update(deltaTime);
 
         var moveMessage = m_inputProc.GetMoveMessage();
+        moveMessage.m_messageNumber = 0;
         if (moveMessage != null)
             SendPlayerMoveMessage(moveMessage);
 

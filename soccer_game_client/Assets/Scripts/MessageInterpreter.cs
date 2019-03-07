@@ -16,6 +16,8 @@ public class MessageInterpreter
                     0,
                     match.GetPlayerPosition(playerMoveMsg.m_team, 0) + moveVector * playerMoveMsg.m_dt,
                     playerMoveMsg.m_playerDirection);
+
+                Debug.LogFormat("message number: {0}", playerMoveMsg.m_messageNumber);
                 break;
 
             case MessageType.PlayerAction:

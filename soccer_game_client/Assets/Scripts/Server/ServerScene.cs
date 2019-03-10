@@ -131,8 +131,12 @@ public class ServerScene : MonoBehaviour
     {
         var ball = m_match.GetBall();
 
-        var msg = BallPosition.Create(ball.GetPosition(), ball.GetVelocity());
+        var msg = BallPosition.Create(GameServer.ClientInfos[0].LastMsgNum, ball.GetPosition(), ball.GetVelocity());
         GameServer.m_netMsgSerializer.Serialize(msg);
-        GameServer.SendToAll(GameServer.m_netMsgSerializer.Data, GameServer.m_netMsgSerializer.DataSize);
+        GameServer.Send(GameServer.m_netMsgSerializer.Data, GameServer.m_netMsgSerializer.DataSize, GameServer.ClientInfos[0].Address);
+
+        msg = BallPosition.Create(GameServer.ClientInfos[1].LastMsgNum, ball.GetPosition(), ball.GetVelocity());
+        GameServer.m_netMsgSerializer.Serialize(msg);
+        GameServer.Send(GameServer.m_netMsgSerializer.Data, GameServer.m_netMsgSerializer.DataSize, GameServer.ClientInfos[1].Address);
     }
 }

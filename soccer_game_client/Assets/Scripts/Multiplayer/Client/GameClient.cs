@@ -5,8 +5,11 @@ public class GameClient
     private byte[] m_data;
     private INetworkCommunication m_com;
 
+    // TODO: poor design, should client know what team is that?
+    public byte Team { get; private set; }
+
     private MessageSerializer m_msgSerializer;
-    // TODO: poor design
+    // TODO: poor design, shouldn't be public.
     public NetworkMessageSerializer m_netMsgSerializer = new NetworkMessageSerializer(new BinaryDataWriter(), new BinaryDataReader());
     private MessageQueue m_msgQueue = new MessageQueue();
     private INetworkAddress m_serverAddress;
@@ -121,8 +124,13 @@ public class GameClient
         switch (msg.m_type)
         {
             case NetworkMessageType.JoinAccept:
-                Debug.Log("Join Accept");
-                break;
+                {
+                    Debug.Log("Join Accept");
+
+                    Team = ((JoinAccept)msg.m_msg).m_team;
+
+                    break;
+                }
 
             case NetworkMessageType.OpponentFound:
                 Debug.LogFormat("Opponent found: {0}", ((OpponentFound)msg.m_msg).m_playerName);

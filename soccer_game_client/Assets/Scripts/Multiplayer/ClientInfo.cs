@@ -15,4 +15,6 @@ public class ClientInfo
     public INetworkAddress Address { get; set; }
     public bool IsReadyToStart { get; set; }
     public byte Team { get; set; }
+
+    public int LastMsgNum { get; set; }
 }

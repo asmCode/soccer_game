@@ -31,6 +31,9 @@ public class GameServerMatchState : IGameServerState
                     matchMsg.m_message = playerMove;
                     matchMsg.m_messageType = MessageType.PlayerMove;
                     gameServer.AddMatchMessage(matchMsg);
+
+                    // Not sure it it supposed to be here.
+                    clientInfo.LastMsgNum = playerMove.m_messageNumber;
                     break;
                 }
 

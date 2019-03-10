@@ -2,9 +2,9 @@
 
 public class MessageSynchonizer
 {
-    private List<NetworkMessage> m_messages = new List<NetworkMessage>();
+    private List<PlayerMove> m_messages = new List<PlayerMove>();
 
-    public List<NetworkMessage> Messages
+    public List<PlayerMove> Messages
     {
         get
         {
@@ -12,7 +12,7 @@ public class MessageSynchonizer
         }
     }
 
-    public void AddMessage(NetworkMessage msg)
+    public void AddMessage(PlayerMove msg)
     {
         m_messages.Add(msg);
     }
@@ -23,13 +23,16 @@ public class MessageSynchonizer
 
         foreach (var msg in m_messages)
         {
-            if (msg.m_number <= messageNumber)
+            if (msg.m_messageNumber <= messageNumber)
                 count++;
             else
                 break;
         }
 
         if (count > 0)
+        {
             m_messages.RemoveRange(0, count);
+            // UnityEngine.Debug.LogFormat("Removed {0} messges", count);
+        }
     }
 }

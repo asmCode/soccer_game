@@ -13,12 +13,16 @@ public class GameServer
     private INetworkCommunication m_com;
     private INetworkAddress m_serverAddress;
 
-    private ClientInfo[] m_clientInfos;
-
+    public ClientInfo[] ClientInfos
+    {
+        get;
+        private set;
+    }
+    
     public GameServer(INetworkCommunication networkCommunication)
     {
         m_data = new byte[256];
-        m_clientInfos = new ClientInfo[2];
+        ClientInfos = new ClientInfo[2];
         m_com = networkCommunication;
     }
 
@@ -38,13 +42,13 @@ public class GameServer
 
     public void AddClient(ClientInfo clientInfo)
     {
-        if (m_clientInfos[0] == null)
+        if (ClientInfos[0] == null)
         {
-            m_clientInfos[0] = clientInfo;
+            ClientInfos[0] = clientInfo;
         }
-        else if (m_clientInfos[1] == null)
+        else if (ClientInfos[1] == null)
         {
-            m_clientInfos[1] = clientInfo;
+            ClientInfos[1] = clientInfo;
         }
 
         Debug.LogFormat("Added client, team={0}, addr={1}", clientInfo.Team, clientInfo.Address.ToString());
@@ -53,27 +57,27 @@ public class GameServer
     public bool IsClientConnected(INetworkAddress address)
     {
         return
-            (m_clientInfos[0] != null && m_clientInfos[0].Address.Equals(address)) ||
-            (m_clientInfos[1] != null && m_clientInfos[1].Address.Equals(address));
+            (ClientInfos[0] != null && ClientInfos[0].Address.Equals(address)) ||
+            (ClientInfos[1] != null && ClientInfos[1].Address.Equals(address));
     }
 
     public ClientInfo GetClientInfoByAddress(INetworkAddress address)
     {
-        if (m_clientInfos[0] != null && m_clientInfos[0].Address.Equals(address))
-            return m_clientInfos[0];
+        if (ClientInfos[0] != null && ClientInfos[0].Address.Equals(address))
+            return ClientInfos[0];
 
-        if (m_clientInfos[1] != null && m_clientInfos[1].Address.Equals(address))
-            return m_clientInfos[1];
+        if (ClientInfos[1] != null && ClientInfos[1].Address.Equals(address))
+            return ClientInfos[1];
 
         return null;
     }
 
     public int GetClientCount()
     {
-        if (m_clientInfos[1] != null)
+        if (ClientInfos[1] != null)
             return 2;
 
-        if (m_clientInfos[0] != null)
+        if (ClientInfos[0] != null)
             return 1;
 
         return 0;
@@ -99,40 +103,46 @@ public class GameServer
     public void AcceptClient(INetworkAddress address)
     {
         var joinAccept = new JoinAccept();
+        joinAccept.m_team = (byte)(GetClientCount() - 1);
         m_netMsgSerializer.Serialize(joinAccept);
         m_com.Send(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize, address);
     }
 
     public void SendStartMatch()
     {
-        Debug.Assert(m_clientInfos[0] != null && m_clientInfos[1] != null);
+        Debug.Assert(ClientInfos[0] != null && ClientInfos[1] != null);
 
         var msg = new StartMatch();
         m_netMsgSerializer.Serialize(msg);
 
-        m_com.Send(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize, m_clientInfos[0].Address);
-        m_com.Send(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize, m_clientInfos[1].Address);
+        m_com.Send(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize, ClientInfos[0].Address);
+        m_com.Send(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize, ClientInfos[1].Address);
     }
 
     public void SendOpponentFound()
     {
-        Debug.Assert(m_clientInfos[0] != null && m_clientInfos[1] != null);
+        Debug.Assert(ClientInfos[0] != null && ClientInfos[1] != null);
 
         var msg = new OpponentFound();
-        msg.m_playerName = m_clientInfos[1].Name;
+        msg.m_playerName = ClientInfos[1].Name;
         m_netMsgSerializer.Serialize(msg);
-        m_com.Send(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize, m_clientInfos[0].Address);
+        m_com.Send(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize, ClientInfos[0].Address);
 
         msg = new OpponentFound();
-        msg.m_playerName = m_clientInfos[0].Name;
+        msg.m_playerName = ClientInfos[0].Name;
         m_netMsgSerializer.Serialize(msg);
-        m_com.Send(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize, m_clientInfos[1].Address);
+        m_com.Send(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize, ClientInfos[1].Address);
     }
 
     public void SendToAll(byte[] data, int size)
     {
-        m_com.Send(data, size, m_clientInfos[0].Address);
-        m_com.Send(data, size, m_clientInfos[1].Address);
+        m_com.Send(data, size, ClientInfos[0].Address);
+        m_com.Send(data, size, ClientInfos[1].Address);
+    }
+
+    public void Send(byte[] data, int size, INetworkAddress address)
+    {
+        m_com.Send(data, size, address);
     }
 
     public void SetReadyToStart(INetworkAddress address)
@@ -150,8 +160,8 @@ public class GameServer
     public bool ClientsReady()
     {
         return
-            (m_clientInfos[0] != null && m_clientInfos[0].IsReadyToStart &&
-            (m_clientInfos[1] != null && m_clientInfos[1].IsReadyToStart));
+            (ClientInfos[0] != null && ClientInfos[0].IsReadyToStart &&
+            (ClientInfos[1] != null && ClientInfos[1].IsReadyToStart));
     }
 
     public void NotifyPlayersConnected()

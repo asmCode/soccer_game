@@ -34,6 +34,7 @@ public class NetworkMessageSerializer
     {
         m_writer.Reset();
         m_writer.Write(NetworkMessageType.JoinAccept);
+        m_writer.Write(message.m_team);
         m_writer.Flush();
     }
 
@@ -94,6 +95,7 @@ public class NetworkMessageSerializer
     {
         m_writer.Reset();
         m_writer.Write(NetworkMessageType.BallPosition);
+        m_writer.Write(message.m_clientMsgNum);
         m_writer.Write(message.m_position);
         m_writer.Write(message.m_velocity);
         m_writer.Flush();
@@ -117,7 +119,12 @@ public class NetworkMessageSerializer
                 }
 
             case NetworkMessageType.JoinAccept:
-                break;
+                {
+                    var msg = new JoinAccept();
+                    m_reader.Read(out msg.m_team);
+                    message.m_msg = msg;
+                    break;
+                }
 
             case NetworkMessageType.OpponentFound:
                 {
@@ -169,6 +176,7 @@ public class NetworkMessageSerializer
             case NetworkMessageType.BallPosition:
                 {
                     var msg = new BallPosition();
+                    m_reader.Read(out msg.m_clientMsgNum);
                     m_reader.Read(out msg.m_position);
                     m_reader.Read(out msg.m_velocity);
                     message.m_msg = msg;

@@ -54,6 +54,21 @@ public class ClientScene : MonoBehaviour
                     break;
 
                 m_match.ProcessMessage(msg);
+
+                if (msg.m_messageType == MessageType.BallPosition)
+                {
+                    var ballPosMsg = (BallPosition)msg.m_message;
+                    m_msgSync.DiscardProcessedMssages(ballPosMsg.m_clientMsgNum);
+
+                    for (int i = 0; i < m_msgSync.Messages.Count; i++)
+                    {
+                        var matchMessage = new MatchMessage();
+                        matchMessage.m_messageType = MessageType.PlayerMove;
+                        matchMessage.m_message = m_msgSync.Messages[i];
+
+                        m_match.ProcessMessage(matchMessage);
+                    }
+                }
             }
         }
     }
@@ -137,6 +152,9 @@ public class ClientScene : MonoBehaviour
             moveMessage.m_messageNumber = m_clientMessageNumber;
             m_clientMessageNumber++;
             SendPlayerMoveMessage(moveMessage);
+
+            moveMessage.m_team = GameClient.Team;
+            m_msgSync.AddMessage(moveMessage);
         }
 
         float actionDuration;

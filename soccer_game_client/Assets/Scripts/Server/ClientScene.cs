@@ -159,12 +159,13 @@ public class ClientScene : MonoBehaviour
         var moveMessage = m_inputProc.GetMoveMessage();
         if (moveMessage != null)
         {
-            moveMessage.m_messageNumber = m_clientMessageNumber;
             m_clientMessageNumber++;
+            moveMessage.m_messageNumber = m_clientMessageNumber;
             SendPlayerMoveMessage(moveMessage);
 
             moveMessage.m_team = GameClient.Team;
             m_msgSync.AddMessage(moveMessage);
+
         }
 
         float actionDuration;

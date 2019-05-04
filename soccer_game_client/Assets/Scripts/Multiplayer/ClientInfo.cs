@@ -9,6 +9,7 @@ public class ClientInfo
         Name = name;
         Team = team;
         Address = address;
+        LastMsgNum = -1;
     }
 
     public string Name { get; set; }

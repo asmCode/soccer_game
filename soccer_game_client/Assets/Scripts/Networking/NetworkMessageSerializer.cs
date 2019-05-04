@@ -76,6 +76,7 @@ public class NetworkMessageSerializer
     {
         m_writer.Reset();
         m_writer.Write(NetworkMessageType.PlayerPosition);
+        m_writer.Write(message.m_clientMsgNum);
         m_writer.Write(message.m_team);
         m_writer.Write(message.m_index);
         m_writer.Write(message.m_position);
@@ -155,6 +156,7 @@ public class NetworkMessageSerializer
             case NetworkMessageType.PlayerPosition:
                 {
                     var msg = new PlayerPosition();
+                    m_reader.Read(out msg.m_clientMsgNum);
                     m_reader.Read(out msg.m_team);
                     m_reader.Read(out msg.m_index);
                     m_reader.Read(out msg.m_position);

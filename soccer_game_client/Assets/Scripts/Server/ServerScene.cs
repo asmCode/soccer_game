@@ -121,9 +121,13 @@ public class ServerScene : MonoBehaviour
 
         foreach (var player in players)
         {
-            var msg = PlayerPosition.Create(player.Team, player.Index, player.GetPosition(), player.GetDirection());
+            var msg = PlayerPosition.Create(GameServer.ClientInfos[0].LastMsgNum, player.Team, player.Index, player.GetPosition(), player.GetDirection());
             GameServer.m_netMsgSerializer.Serialize(msg);
-            GameServer.SendToAll(GameServer.m_netMsgSerializer.Data, GameServer.m_netMsgSerializer.DataSize);
+            GameServer.Send(GameServer.m_netMsgSerializer.Data, GameServer.m_netMsgSerializer.DataSize, GameServer.ClientInfos[0].Address);
+
+            msg = PlayerPosition.Create(GameServer.ClientInfos[1].LastMsgNum, player.Team, player.Index, player.GetPosition(), player.GetDirection());
+            GameServer.m_netMsgSerializer.Serialize(msg);
+            GameServer.Send(GameServer.m_netMsgSerializer.Data, GameServer.m_netMsgSerializer.DataSize, GameServer.ClientInfos[1].Address);
         }
     }
 

@@ -59,14 +59,24 @@ public class ClientScene : MonoBehaviour
                 {
                     var ballPosMsg = (BallPosition)msg.m_message;
                     m_msgSync.DiscardProcessedMssages(ballPosMsg.m_clientMsgNum);
+                }
+
+                if (msg.m_messageType == MessageType.PlayerPosition)
+                {
+                    var playerPosMsg = (PlayerPosition)msg.m_message;
+                    m_msgSync.DiscardProcessedMssages(playerPosMsg.m_clientMsgNum);
 
                     for (int i = 0; i < m_msgSync.Messages.Count; i++)
                     {
-                        var matchMessage = new MatchMessage();
-                        matchMessage.m_messageType = MessageType.PlayerMove;
-                        matchMessage.m_message = m_msgSync.Messages[i];
+                        if (playerPosMsg.m_index == m_msgSync.Messages[i].m_playerIndex &&
+                            playerPosMsg.m_team == m_msgSync.Messages[i].m_team)
+                        {
+                            var matchMessage = new MatchMessage();
+                            matchMessage.m_messageType = MessageType.PlayerMove;
+                            matchMessage.m_message = m_msgSync.Messages[i];
 
-                        m_match.ProcessMessage(matchMessage);
+                            m_match.ProcessMessage(matchMessage);
+                        }
                     }
                 }
             }

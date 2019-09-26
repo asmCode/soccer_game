@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Match
@@ -91,6 +89,14 @@ public class Match
     {
         var player = m_teams[team].Players[playerIndex];
         player.SetPosition(position);
+        player.SetDirection(direction);
+    }
+
+    public void OffsetPlayerPosition(byte team, byte playerIndex, Vector3 offset, PlayerDirection direction)
+    {
+        var player = m_teams[team].Players[playerIndex];
+        var position = player.GetPosition();
+        player.SetPosition(position + offset);
         player.SetDirection(direction);
     }
 

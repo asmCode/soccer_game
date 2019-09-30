@@ -10,6 +10,11 @@ public class Player : IPlayer
     public byte Team { get; set; }
     public byte Index { get; set; }
 
+    public float SlideTime { get; set; }
+    public Vector3 SlideBasePos { get; set; }
+
+    public IPlayerState State { get; set; }
+
     public Player(PlayerView playerView, byte team, byte index, PlayerDirection playerDirection)
     {
         m_playerView = playerView;
@@ -17,7 +22,13 @@ public class Player : IPlayer
         Index = index;
         m_direction = playerDirection;
 
+        SetIdle();
         SetDirection(playerDirection);
+    }
+
+    public void Update(float deltaTime)
+    {
+        State.Update(this, deltaTime);
     }
 
     public Vector3 GetPosition()
@@ -28,6 +39,11 @@ public class Player : IPlayer
     public void SetPosition(Vector3 position)
     {
         m_playerView.transform.position = position;
+    }
+
+    public void OffsetPosition(Vector3 offset)
+    {
+        m_playerView.transform.position = m_playerView.transform.position + offset;
     }
 
     public void SetDirection(PlayerDirection direction)
@@ -44,5 +60,24 @@ public class Player : IPlayer
     public Vector3 GetDirectionVector()
     {
         return PlayerDirectionVector.GetVector(m_direction);
+    }
+
+    public void PlayAnimation(PlayerAnimationType playerAnimationType)
+    {
+
+    }
+
+    public void SetIdle()
+    {
+        State = PlayerStateIdle.Get();
+        State.Enter(this);
+
+        Debug.Log("set idle");
+    }
+
+    public void Slide()
+    {
+        State = PlayerStateSlide.Get();
+        State.Enter(this);
     }
 }

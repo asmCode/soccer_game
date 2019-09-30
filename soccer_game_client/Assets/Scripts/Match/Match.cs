@@ -41,6 +41,14 @@ public class Match
         }
 
         m_physics.Update(dt);
+
+        foreach (var team in m_teams)
+        {
+            foreach (var player in team.Players)
+            {
+                player.Update(dt);
+            }
+        }
     }
 
     public void SetPlayers(List<IPlayer> players)
@@ -57,7 +65,13 @@ public class Match
         var activePlayer = m_ball.GetPlayer();
 
         if (activePlayer == null)
-            return;
+        {
+            activePlayer = Teams[team].Players[0];
+        }
+
+        if (activePlayer.State != PlayerStateSlide.Get())
+            activePlayer.Slide();
+        return;
 
         m_ball.ClearPlayer();
         m_ball.EnablePhysics(true);

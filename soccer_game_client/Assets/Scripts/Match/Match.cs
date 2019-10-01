@@ -51,6 +51,11 @@ public class Match
         }
     }
 
+    public void Run(byte team, byte playerIndex, PlayerDirection direction, float deltaTime)
+    {
+        m_teams[team].Players[playerIndex].Run(direction, deltaTime);
+    }
+
     public void SetPlayers(List<IPlayer> players)
     {
         m_teams[0] = new Team();
@@ -113,6 +118,9 @@ public class Match
         player.SetPosition(position + offset);
         player.SetDirection(direction);
     }
+
+    // Do I need this?
+    // public void PlayerSlide(byte team, byte playerIndex, Vector3 position, PlayerDirection direction) {}
 
     public void AttachBallToPlayer(PlayerId playerId)
     {

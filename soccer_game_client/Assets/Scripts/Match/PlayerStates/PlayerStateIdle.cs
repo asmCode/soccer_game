@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStateIdle : IPlayerState
+public class PlayerStateIdle : PlayerState
 {
     private static PlayerStateIdle m_instance;
 
@@ -16,16 +16,14 @@ public class PlayerStateIdle : IPlayerState
         return m_instance;
     }
 
-    public void Enter(IPlayer player)
+    public override void Enter(IPlayer player)
     {
         player.PlayAnimation(PlayerAnimationType.Idle);
     }
 
-    public void Leave(IPlayer player)
+    public override void Run(IPlayer player, PlayerDirection direction, float deltaTime)
     {
-    }
-
-    public void Update(IPlayer player, float deltaTime)
-    {
+        player.State = PlayerStateRun.Get();
+        player.State.Enter(player);
     }
 }

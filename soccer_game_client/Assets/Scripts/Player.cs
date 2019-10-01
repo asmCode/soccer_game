@@ -13,7 +13,7 @@ public class Player : IPlayer
     public float SlideTime { get; set; }
     public Vector3 SlideBasePos { get; set; }
 
-    public IPlayerState State { get; set; }
+    public PlayerState State { get; set; }
 
     public Player(PlayerView playerView, byte team, byte index, PlayerDirection playerDirection)
     {
@@ -44,6 +44,11 @@ public class Player : IPlayer
     public void OffsetPosition(Vector3 offset)
     {
         m_playerView.transform.position = m_playerView.transform.position + offset;
+    }
+
+    public void Run(PlayerDirection playerDirection, float deltaTime)
+    {
+        State.Run(this, playerDirection, deltaTime);
     }
 
     public void SetDirection(PlayerDirection direction)

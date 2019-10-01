@@ -7,7 +7,7 @@ public interface IPlayer
     byte Team { get; }
     byte Index { get; }
 
-    IPlayerState State { get; set; }
+    PlayerState State { get; set; }
 
     float SlideTime { get; set; }
     Vector3 SlideBasePos { get; set; }
@@ -17,6 +17,7 @@ public interface IPlayer
     Vector3 GetPosition();
     void SetPosition(Vector3 position);
     void OffsetPosition(Vector3 offset);
+    void Run(PlayerDirection playerDirection, float deltaTime);
 
     void SetDirection(PlayerDirection direction);
     PlayerDirection GetDirection();

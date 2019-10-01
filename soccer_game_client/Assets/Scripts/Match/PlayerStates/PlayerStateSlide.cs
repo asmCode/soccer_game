@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStateSlide : IPlayerState
+public class PlayerStateSlide : PlayerState
 {
     private static PlayerStateSlide m_instance;
 
@@ -16,18 +16,14 @@ public class PlayerStateSlide : IPlayerState
         return m_instance;
     }
 
-    public void Enter(IPlayer player)
+    public override void Enter(IPlayer player)
     {
         player.PlayAnimation(PlayerAnimationType.Slide);
         player.SlideTime = 0.0f;
         player.SlideBasePos = player.GetPosition();
     }
 
-    public void Leave(IPlayer player)
-    {
-    }
-
-    public void Update(IPlayer player, float deltaTime)
+    public override void Update(IPlayer player, float deltaTime)
     {
         player.SlideTime = Mathf.Min(player.SlideTime + deltaTime, GameSettings.SlideDuration);
 

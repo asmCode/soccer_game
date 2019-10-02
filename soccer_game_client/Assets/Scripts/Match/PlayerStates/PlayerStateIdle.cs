@@ -19,6 +19,7 @@ public class PlayerStateIdle : PlayerState
     public override void Enter(IPlayer player)
     {
         player.PlayAnimation(PlayerAnimationType.Idle);
+        (player as Player).PhysicsObject.Velocity = Vector3.zero;
     }
 
     public override void Run(IPlayer player, PlayerDirection direction, float deltaTime)

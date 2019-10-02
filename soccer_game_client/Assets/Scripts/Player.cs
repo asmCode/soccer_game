@@ -13,6 +13,8 @@ public class Player : IPlayer
     public float SlideTime { get; set; }
     public Vector3 SlideBasePos { get; set; }
 
+    public PhysicsObject PhysicsObject { get; set; }
+
     public PlayerState State { get; set; }
 
     public Player(PlayerView playerView, byte team, byte index, PlayerDirection playerDirection)
@@ -22,13 +24,25 @@ public class Player : IPlayer
         Index = index;
         m_direction = playerDirection;
 
-        SetIdle();
         SetDirection(playerDirection);
+        PhysicsObject = new PhysicsObject();
+        PhysicsObject.Position = m_playerView.transform.position;
+        PhysicsObject.Rotation = m_playerView.transform.rotation;
+
+        SetIdle();
     }
 
     public void Update(float deltaTime)
     {
+        ApplyPhysics();
+
         State.Update(this, deltaTime);
+    }
+
+    private void ApplyPhysics()
+    {
+        m_playerView.transform.position = PhysicsObject.Position;
+        m_playerView.transform.rotation = PhysicsObject.Rotation;
     }
 
     public Vector3 GetPosition()
@@ -38,6 +52,7 @@ public class Player : IPlayer
 
     public void SetPosition(Vector3 position)
     {
+        PhysicsObject.Position = position;
         m_playerView.transform.position = position;
     }
 
@@ -76,13 +91,41 @@ public class Player : IPlayer
     {
         State = PlayerStateIdle.Get();
         State.Enter(this);
-
-        Debug.Log("set idle");
     }
 
     public void Slide()
     {
         State = PlayerStateSlide.Get();
         State.Enter(this);
+    }
+
+    public Quaternion GetRotation()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void SetRotation(Quaternion rotation)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public Vector3 GetVelocity()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void SetVelocity(Vector3 velocity)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public float GetAngleVelocity()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void SetAngleVelocity(float angleVelocity)
+    {
+        throw new System.NotImplementedException();
     }
 }

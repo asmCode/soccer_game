@@ -8,17 +8,17 @@ namespace ssg.Physics
     {
         private float m_timer;
         private IBall m_ball;
-        private const float FixedDeltaTime = 0.01f;
+        private const float FixedDeltaTime = 0.02f;
 
         public SoccerPhysics(IBall ball)
         {
             m_ball = ball;
         }
 
-        public void Update(float dt)
+        public void Update(List<PhysicsObject> objects, float dt)
         {
-            if (!m_ball.IsPhysicsEnabled())
-                return;
+            //if (!m_ball.IsPhysicsEnabled())
+            //    return;
 
             if (Input.GetKeyDown(KeyCode.F))
             {
@@ -31,14 +31,14 @@ namespace ssg.Physics
             {
                 m_timer -= FixedDeltaTime;
 
-                FixedUpdate(FixedDeltaTime);
+                FixedUpdate(objects, FixedDeltaTime);
             }
 
-            //FixedUpdate(FixedDeltaTime - m_timer);
-            //m_timer = 0.0f;
+            FixedUpdate(objects, m_timer);
+            m_timer = 0.0f;
         }
 
-        public void FixedUpdate(float fixedDeltaTime)
+        public void FixedUpdate(List<PhysicsObject> objects, float fixedDeltaTime)
         {
             var velocity = m_ball.GetVelocity();
             velocity += new Vector3(0, -9.8f, 0.0f) * fixedDeltaTime;
@@ -54,6 +54,11 @@ namespace ssg.Physics
 
             m_ball.SetVelocity(velocity);
             m_ball.SetPosition(ballPos);
+
+            foreach (var po in objects)
+            {
+                po.Position += po.Velocity * fixedDeltaTime;
+            }
         }
     }
 }

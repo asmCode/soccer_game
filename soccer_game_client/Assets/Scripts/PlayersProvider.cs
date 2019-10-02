@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PlayersProvider
 {
-    public List<IPlayer> GetPlayers()
+    public List<Player> GetPlayers()
     {
-        var players = new List<IPlayer>();
+        var players = new List<Player>();
 
         GetPlayersFromTeam(players, GameObject.Find("Teams/Team1").transform, 0);
         GetPlayersFromTeam(players, GameObject.Find("Teams/Team2").transform, 1);
@@ -14,7 +14,7 @@ public class PlayersProvider
         return players;
     }
 
-    private void GetPlayersFromTeam(List<IPlayer> players, Transform teamContainer, byte team)
+    private void GetPlayersFromTeam(List<Player> players, Transform teamContainer, byte team)
     {
         for (int i = 0; i < teamContainer.childCount; i++)
         {

@@ -23,7 +23,10 @@ public class PlayerStateRun : PlayerState
 
     public override void Run(IPlayer player, PlayerDirection direction, float deltaTime)
     {
-        player.SetDirection(direction);
-        player.OffsetPosition(PlayerDirectionVector.GetVector(direction) * deltaTime * GameSettings.PlayerSpeed);
+        var player2 = player as Player;
+
+        player2.SetDirection(direction);
+        player2.PhysicsObject.Velocity = PlayerDirectionVector.GetVector(direction) * GameSettings.PlayerSpeed;
+        // player2.OffsetPosition();
     }
 }

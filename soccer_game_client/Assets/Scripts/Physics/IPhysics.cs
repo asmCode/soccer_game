@@ -6,6 +6,6 @@ namespace ssg.Physics
 {
     public interface IPhysics
     {
-        void Update(float dt);
+        void Update(List<PhysicsObject> objects, float dt);
     }
 }

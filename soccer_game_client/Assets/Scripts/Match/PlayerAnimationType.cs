@@ -2,6 +2,7 @@
 {
     Idle,
     Run,
+
     Slide,
     Fall
 }

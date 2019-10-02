@@ -1,18 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public abstract class PhysicsObject
+public class PhysicsObject
 {
-    public abstract Vector3 GetPosition();
-    public abstract void SetPosition(Vector3 position);
-
-    public abstract Quaternion GetRotation();
-    public abstract void SetRotation(Quaternion rotation);
-
-    public abstract Vector3 GetVelocity();
-    public abstract void SetVelocity(Vector3 velocity);
-
-    public abstract float GetAngleVelocity();
-    public abstract void SetAngleVelocity(float angleVelocity);
+    public Vector3 Position;
+    public Quaternion Rotation = Quaternion.identity;
+    public Vector3 Velocity;
+    public float AngularVelocity;
 }

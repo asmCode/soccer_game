@@ -8,6 +8,7 @@ public class Match
     private MessageInterpreter m_messageInterpreter;
     private ssg.Physics.IPhysics m_physics;
     private IMatchLogic m_logic;
+    private List<PhysicsObject> m_physiscObjects = new List<PhysicsObject>();
 
     public Team[] Teams
     {
@@ -40,7 +41,7 @@ public class Match
             m_ball.SetPosition(ballPos);
         }
 
-        m_physics.Update(dt);
+        m_physics.Update(m_physiscObjects, dt);
 
         foreach (var team in m_teams)
         {
@@ -55,14 +56,23 @@ public class Match
     {
         m_teams[team].Players[playerIndex].Run(direction, deltaTime);
     }
+    public void Idle (byte team, byte playerIndex)
+    {
+        var player = m_teams[team].Players[playerIndex];
+        if (!(player.State is PlayerStateIdle))
+            player.SetIdle();
+    }
 
-    public void SetPlayers(List<IPlayer> players)
+    public void SetPlayers(List<Player> players)
     {
         m_teams[0] = new Team();
         m_teams[1] = new Team();
 
-        foreach (var data in players)
-            m_teams[data.Team].Players.Add(data);
+        foreach (var player in players)
+        {
+            m_teams[player.Team].Players.Add(player);
+            m_physiscObjects.Add(player.PhysicsObject);
+        }
     }
 
     public void PlayerAction(byte team, float duration)

@@ -57,3 +57,4 @@ public class Ball : IBall
         m_ballView.SetVelocity(velocity);
     }
 }
+

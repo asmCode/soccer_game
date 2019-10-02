@@ -8,7 +8,7 @@ namespace ssg.Physics
     {
         private float m_timer;
 
-        public void Update(float dt)
+        public void Update(List<PhysicsObject> objects, float dt)
         {
             if (UnityEngine.Physics.autoSimulation)
                 return;

@@ -32,6 +32,10 @@ public class LocalGameScene : MonoBehaviour
             // var direction = PlayerDirectionVector.GetVector(directionType);
             m_match.Run(0, 0, directionType, Time.deltaTime);
         }
+        else
+        {
+            m_match.Idle(0, 0);
+        }
 
         if (m_userInput.GetAction())
         {

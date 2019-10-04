@@ -5,5 +5,6 @@ public class PhysicsObject
     public Vector3 Position;
     public Quaternion Rotation = Quaternion.identity;
     public Vector3 Velocity;
+    public float Friction;
     public float AngularVelocity;
 }

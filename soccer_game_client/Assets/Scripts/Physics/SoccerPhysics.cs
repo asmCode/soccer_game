@@ -58,6 +58,7 @@ namespace ssg.Physics
             foreach (var po in objects)
             {
                 po.Position += po.Velocity * fixedDeltaTime;
+                po.Velocity = Vector3.MoveTowards(po.Velocity, Vector3.zero, po.Friction * fixedDeltaTime);
             }
         }
     }

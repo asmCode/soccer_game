@@ -34,7 +34,7 @@ public class LocalGameScene : MonoBehaviour
         }
         else
         {
-            m_match.Idle(0, 0);
+            m_match.StopRunning(0, 0);
         }
 
         if (m_userInput.GetAction())

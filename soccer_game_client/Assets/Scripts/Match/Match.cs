@@ -56,6 +56,11 @@ public class Match
     {
         m_teams[team].Players[playerIndex].Run(direction, deltaTime);
     }
+    public void StopRunning(byte team, byte playerIndex)
+    {
+        (m_teams[team].Players[playerIndex] as Player).StopRunning();
+    }
+
     public void Idle (byte team, byte playerIndex)
     {
         var player = m_teams[team].Players[playerIndex];

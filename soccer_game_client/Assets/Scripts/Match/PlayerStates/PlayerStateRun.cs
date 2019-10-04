@@ -29,4 +29,9 @@ public class PlayerStateRun : PlayerState
         player2.PhysicsObject.Velocity = PlayerDirectionVector.GetVector(direction) * GameSettings.PlayerSpeed;
         // player2.OffsetPosition();
     }
+
+    public override void StopRunning(Player player)
+    {
+        player.SetIdle();
+    }
 }

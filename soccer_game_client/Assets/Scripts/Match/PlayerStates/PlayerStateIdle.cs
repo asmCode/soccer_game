@@ -18,6 +18,8 @@ public class PlayerStateIdle : PlayerState
 
     public override void Enter(IPlayer player)
     {
+        Debug.Log("Entering PlayerStateIdle");
+
         player.PlayAnimation(PlayerAnimationType.Idle);
         (player as Player).PhysicsObject.Velocity = Vector3.zero;
     }

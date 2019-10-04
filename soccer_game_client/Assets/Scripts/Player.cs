@@ -28,6 +28,7 @@ public class Player : IPlayer
         PhysicsObject = new PhysicsObject();
         PhysicsObject.Position = m_playerView.transform.position;
         PhysicsObject.Rotation = m_playerView.transform.rotation;
+        PhysicsObject.Friction = 20.0f;
 
         SetIdle();
     }
@@ -91,6 +92,11 @@ public class Player : IPlayer
     {
         State = PlayerStateIdle.Get();
         State.Enter(this);
+    }
+
+    public void StopRunning()
+    {
+        State.StopRunning(this);
     }
 
     public void Slide()

@@ -21,15 +21,20 @@ public class PlayerStateSlide : PlayerState
         player.PlayAnimation(PlayerAnimationType.Slide);
         player.SlideTime = 0.0f;
         player.SlideBasePos = player.GetPosition();
+
+        var player2 = player as Player;
+        player2.PhysicsObject.Velocity = player2.GetDirectionVector() * GameSettings.SlideSpeed;
     }
 
     public override void Update(IPlayer player, float deltaTime)
     {
         player.SlideTime = Mathf.Min(player.SlideTime + deltaTime, GameSettings.SlideDuration);
 
-        Vector3 newPos = player.SlideBasePos + player.GetDirectionVector() * SlideCurve.Get().m_curve.Evaluate(player.SlideTime / GameSettings.SlideDuration) * GameSettings.SlideDistance;
+        // Vector3 newPos = player.SlideBasePos + player.GetDirectionVector() * SlideCurve.Get().m_curve.Evaluate(player.SlideTime / GameSettings.SlideDuration) * GameSettings.SlideDistance;
         // Vector3 newPos = player.SlideBasePos + player.GetDirectionVector() * SlideCurve.Get().m_curve.Evaluate(1.0f) * GameSettings.SlideDistance;
-        player.SetPosition(newPos);
+        // player.SetPosition(newPos);
+
+        
 
         if (player.SlideTime >= GameSettings.SlideDuration)
             player.SetIdle();

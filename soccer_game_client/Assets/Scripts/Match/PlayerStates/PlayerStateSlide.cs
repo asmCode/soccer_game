@@ -26,17 +26,15 @@ public class PlayerStateSlide : PlayerState
         player2.PhysicsObject.Velocity = player2.GetDirectionVector() * GameSettings.SlideSpeed;
     }
 
-    public override void Update(IPlayer player, float deltaTime)
+    public override void Update(Player player, float deltaTime)
     {
-        player.SlideTime = Mathf.Min(player.SlideTime + deltaTime, GameSettings.SlideDuration);
+        //player.SlideTime = Mathf.Min(player.SlideTime + deltaTime, GameSettings.SlideDuration);
 
         // Vector3 newPos = player.SlideBasePos + player.GetDirectionVector() * SlideCurve.Get().m_curve.Evaluate(player.SlideTime / GameSettings.SlideDuration) * GameSettings.SlideDistance;
         // Vector3 newPos = player.SlideBasePos + player.GetDirectionVector() * SlideCurve.Get().m_curve.Evaluate(1.0f) * GameSettings.SlideDistance;
         // player.SetPosition(newPos);
 
-        
-
-        if (player.SlideTime >= GameSettings.SlideDuration)
+        if (player.PhysicsObject.Velocity.sqrMagnitude == 0.0f)
             player.SetIdle();
     }
 }

@@ -8,7 +8,7 @@ public class PlayerState
 {
     public virtual void Enter(IPlayer player) { }
     public virtual void Leave(IPlayer player) { }
-    public virtual void Update(IPlayer player, float deltaTime) { }
+    public virtual void Update(Player player, float deltaTime) { }
     public virtual void Run(IPlayer player, PlayerDirection direction, float deltaTime) { }
 
     public virtual void StopRunning(Player player) { }

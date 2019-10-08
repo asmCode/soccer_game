@@ -28,7 +28,7 @@ public class Player : IPlayer
         PhysicsObject = new PhysicsObject();
         PhysicsObject.Position = m_playerView.transform.position;
         PhysicsObject.Rotation = m_playerView.transform.rotation;
-        PhysicsObject.Friction = 20.0f;
+        PhysicsObject.Friction = 40.0f;
 
         SetIdle();
     }

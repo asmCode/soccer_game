@@ -9,10 +9,12 @@ public class LocalGameScene : MonoBehaviour
     private Match m_match;
     private bool m_matchStarted;
     private UserInput m_userInput;
+    private MatchInput m_matchInput;
 
     private void Awake()
     {
         m_userInput = new MouseAndKbInput();
+        m_matchInput = new MatchInput(m_userInput);
 
         LoadMatchScene();
     }
@@ -26,20 +28,21 @@ public class LocalGameScene : MonoBehaviour
         if (!m_matchStarted)
             return;
 
-        var directionType = m_userInput.GetDirection();
-        if (directionType != PlayerDirection.None)
-        {
-            // var direction = PlayerDirectionVector.GetVector(directionType);
-            m_match.Run(0, 0, directionType, Time.deltaTime);
-        }
-        else
+        m_matchInput.Update(Time.deltaTime);
+
+        var direction = m_matchInput.GetDirection();
+        if (direction == PlayerDirection.None && m_matchInput.DirectionChanged())
         {
             m_match.StopRunning(0, 0);
         }
-
-        if (m_userInput.GetAction())
+        else
         {
-            m_match.PlayerAction(0, 0);
+            m_match.Run(0, 0, direction, Time.deltaTime);
+        }
+
+        if (m_matchInput.GetAction())
+        {
+            m_match.PlayerAction(0, m_matchInput.GetActionDuration());
         }
     }
 

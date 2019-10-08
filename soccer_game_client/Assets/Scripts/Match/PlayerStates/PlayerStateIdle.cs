@@ -28,4 +28,9 @@ public class PlayerStateIdle : PlayerState
         player.State.Enter(player);
         player.State.Run(player, direction, deltaTime);
     }
+
+    public override void Slide(Player player)
+    {
+        player.SetSlideState();
+    }
 }

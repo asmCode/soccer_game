@@ -61,7 +61,7 @@ public class Match
         (m_teams[team].Players[playerIndex] as Player).StopRunning();
     }
 
-    public void Idle (byte team, byte playerIndex)
+    public void Idle(byte team, byte playerIndex)
     {
         var player = m_teams[team].Players[playerIndex];
         if (!(player.State is PlayerStateIdle))
@@ -89,8 +89,7 @@ public class Match
             activePlayer = Teams[team].Players[0];
         }
 
-        if (activePlayer.State != PlayerStateSlide.Get())
-            activePlayer.Slide();
+        activePlayer.Slide();
         return;
 
         m_ball.ClearPlayer();

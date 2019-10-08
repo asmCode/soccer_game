@@ -105,6 +105,21 @@ public class Player : IPlayer
         State.Enter(this);
     }
 
+    public void SetSlideState()
+    {
+        SetState(PlayerStateSlide.Get());
+    }
+
+    private void SetState(PlayerState newState)
+    {
+        if (State != null)
+            State.Leave(this);
+
+        State = newState;
+
+        State.Enter(this);
+    }
+
     public Quaternion GetRotation()
     {
         throw new System.NotImplementedException();

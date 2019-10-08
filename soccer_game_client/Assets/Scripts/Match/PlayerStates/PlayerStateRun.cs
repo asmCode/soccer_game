@@ -34,4 +34,9 @@ public class PlayerStateRun : PlayerState
     {
         player.SetIdle();
     }
+
+    public override void Slide(Player player)
+    {
+        player.SetSlideState();
+    }
 }

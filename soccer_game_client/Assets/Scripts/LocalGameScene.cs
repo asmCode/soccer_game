@@ -31,13 +31,13 @@ public class LocalGameScene : MonoBehaviour
         m_matchInput.Update(Time.deltaTime);
 
         var direction = m_matchInput.GetDirection();
-        if (direction == PlayerDirection.None && m_matchInput.DirectionChanged())
-        {
-            m_match.StopRunning(0, 0);
-        }
-        else
+        if (direction != PlayerDirection.None)
         {
             m_match.Run(0, 0, direction, Time.deltaTime);
+        }
+        else if (m_matchInput.DirectionChanged())
+        {
+            m_match.StopRunning(0, 0);
         }
 
         if (m_matchInput.GetAction())

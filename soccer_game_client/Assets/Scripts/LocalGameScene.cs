@@ -71,7 +71,7 @@ public class LocalGameScene : MonoBehaviour
     {
         var matchScene = GameObject.Find("MatchScene").GetComponent<MatchScene>();
         m_match = matchScene.Match;
-        m_match.SetLogic(new ClientMatchLogic(m_match));
+        m_match.SetLogic(new LocalMatchLogic(m_match));
 
         m_matchStarted = true;
     }

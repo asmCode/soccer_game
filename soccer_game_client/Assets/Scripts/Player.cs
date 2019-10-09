@@ -101,8 +101,7 @@ public class Player : IPlayer
 
     public void Slide()
     {
-        State = PlayerStateSlide.Get();
-        State.Enter(this);
+        State.Slide(this);
     }
 
     public void SetSlideState()

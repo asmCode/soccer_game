@@ -10,9 +10,16 @@ namespace ssg.Physics
         private IBall m_ball;
         private const float FixedDeltaTime = 0.02f;
 
+        private List<Collider> m_colliders = new List<Collider>();
+
         public SoccerPhysics(IBall ball)
         {
             m_ball = ball;
+        }
+
+        public void AddCollider(Collider collider)
+        {
+            m_colliders.Add(collider);
         }
 
         public void Update(List<PhysicsObject> objects, float dt)
@@ -32,10 +39,28 @@ namespace ssg.Physics
                 m_timer -= FixedDeltaTime;
 
                 FixedUpdate(objects, FixedDeltaTime);
+                CalculateCollisions();
             }
 
-            FixedUpdate(objects, m_timer);
-            m_timer = 0.0f;
+            if (m_timer > 0.0)
+            {
+                FixedUpdate(objects, m_timer);
+                m_timer = 0.0f;
+            }
+        }
+
+        private void CalculateCollisions()
+        {
+            for (int i = 0; i < m_colliders.Count; i++)
+            {
+                for (int j = i; j < m_colliders.Count; j++)
+                {
+                    if (i == j)
+                        continue;
+
+                    ssg.CollisionChecker.CheckCollision(m_colliders[i], m_colliders[j]);
+                }
+            }
         }
 
         public void FixedUpdate(List<PhysicsObject> objects, float fixedDeltaTime)

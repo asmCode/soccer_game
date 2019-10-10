@@ -1,4 +1,4 @@
 ﻿namespace ssg
 {
-    public delegate void CollistionDelegate(ICollider otherCollider);
+    public delegate void CollisionDelegate(Collider otherCollider);
 }

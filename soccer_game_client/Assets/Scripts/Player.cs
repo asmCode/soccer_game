@@ -6,6 +6,7 @@ public class Player : IPlayer
 {
     private PlayerView m_playerView;
     private PlayerDirection m_direction;
+    public ssg.CapsuleCollider BallTakeoverCollider { get; private set; }
 
     public byte Team { get; set; }
     public byte Index { get; set; }
@@ -17,44 +18,42 @@ public class Player : IPlayer
 
     public PlayerState State { get; set; }
 
-    public Player(PlayerView playerView, byte team, byte index, PlayerDirection playerDirection)
+    public Player(PlayerView playerView, byte team, byte index, PlayerDirection playerDirection, ssg.CapsuleCollider ballTakeoverCollider)
     {
         m_playerView = playerView;
         Team = team;
         Index = index;
         m_direction = playerDirection;
+        BallTakeoverCollider = ballTakeoverCollider;
+        BallTakeoverCollider.Trans = this;
 
         SetDirection(playerDirection);
-        PhysicsObject = new PhysicsObject();
-        PhysicsObject.Position = m_playerView.transform.position;
-        PhysicsObject.Rotation = m_playerView.transform.rotation;
+        PhysicsObject = new PhysicsObject(this);
         PhysicsObject.Friction = 40.0f;
+
+        BallTakeoverCollider.Collision += BallTakeoverCollider_Collision;
 
         SetIdle();
     }
 
+    private void BallTakeoverCollider_Collision(ssg.Collider otherCollider)
+    {
+        Debug.Log("Collision");
+    }
+
     public void Update(float deltaTime)
     {
-        ApplyPhysics();
-
         State.Update(this, deltaTime);
     }
 
-    private void ApplyPhysics()
+    public void SetPosition(Vector3 position)
     {
-        m_playerView.transform.position = PhysicsObject.Position;
-        m_playerView.transform.rotation = PhysicsObject.Rotation;
+        m_playerView.transform.position = position;
     }
 
     public Vector3 GetPosition()
     {
         return m_playerView.transform.position;
-    }
-
-    public void SetPosition(Vector3 position)
-    {
-        PhysicsObject.Position = position;
-        m_playerView.transform.position = position;
     }
 
     public void OffsetPosition(Vector3 offset)
@@ -121,12 +120,12 @@ public class Player : IPlayer
 
     public Quaternion GetRotation()
     {
-        throw new System.NotImplementedException();
+        return m_playerView.transform.rotation;
     }
 
     public void SetRotation(Quaternion rotation)
     {
-        throw new System.NotImplementedException();
+        m_playerView.transform.rotation = rotation;
     }
 
     public Vector3 GetVelocity()

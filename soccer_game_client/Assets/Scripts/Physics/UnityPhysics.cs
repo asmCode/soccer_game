@@ -8,6 +8,11 @@ namespace ssg.Physics
     {
         private float m_timer;
 
+        public void AddCollider(Collider collider)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void Update(List<PhysicsObject> objects, float dt)
         {
             if (UnityEngine.Physics.autoSimulation)

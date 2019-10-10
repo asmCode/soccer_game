@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IPlayer
+public interface IPlayer : ITransformable
 {
     byte Team { get; }
     byte Index { get; }
@@ -14,8 +14,6 @@ public interface IPlayer
 
     void Update(float deltaTime);
 
-    Vector3 GetPosition();
-    void SetPosition(Vector3 position);
     void OffsetPosition(Vector3 offset);
     void Run(PlayerDirection playerDirection, float deltaTime);
 

@@ -77,6 +77,7 @@ public class Match
         {
             m_teams[player.Team].Players.Add(player);
             m_physiscObjects.Add(player.PhysicsObject);
+            m_physics.AddCollider(player.BallTakeoverCollider);
         }
     }
 

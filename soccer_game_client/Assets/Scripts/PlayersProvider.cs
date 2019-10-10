@@ -22,7 +22,9 @@ public class PlayersProvider
             var playerView = child.GetComponent<PlayerView>();
             var direction = team == 0 ? PlayerDirection.Up : PlayerDirection.Bottom;
 
-            var data = new Player(playerView, team, (byte)i, direction);
+            var ballTakeoverCollider = playerView.GetBallTakeoverCollider();
+
+            var data = new Player(playerView, team, (byte)i, direction, ballTakeoverCollider);
             players.Add(data);
         }
     }

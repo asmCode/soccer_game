@@ -9,8 +9,7 @@ namespace ssg
             get { return ColliderId.Capsule; }
         }
 
-        public Vector3 Point1WorldPosition { get; set; }
-        public Vector3 Point2WorldPosition { get; set; }
-        public float radius { get; set; }
+        public Vector3 LocalCenter { get; set; }
+        public float Radius { get; set; }
     }
 }

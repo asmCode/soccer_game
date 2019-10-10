@@ -17,10 +17,13 @@ namespace ssg
 
         public static CollisionResult CheckCapsuleCapsuleCollision(CapsuleCollider collider1, CapsuleCollider collider2)
         {
-            Vector2 pos1 = new Vector2(collider1.Point1WorldPosition.x, collider1.Point1WorldPosition.z);
-            Vector2 pos2 = new Vector2(collider2.Point1WorldPosition.x, collider2.Point1WorldPosition.z);
+            var tr1Pos = collider1.Trans.GetPosition();
+            var tr2Pos = collider2.Trans.GetPosition();
 
-            if (Vector2.Distance(pos1, pos1) < collider1.radius + collider2.radius)
+            Vector2 pos1 = new Vector2(collider1.LocalCenter.x + tr1Pos.x, collider1.LocalCenter.z + tr1Pos.z);
+            Vector2 pos2 = new Vector2(collider2.LocalCenter.x + tr2Pos.x, collider2.LocalCenter.z + tr2Pos.z);
+
+            if (Vector2.Distance(pos1, pos2) < collider1.Radius + collider2.Radius)
                 return new CollisionResult();
 
             return null;

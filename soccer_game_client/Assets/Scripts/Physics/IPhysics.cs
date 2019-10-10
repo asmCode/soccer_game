@@ -7,5 +7,7 @@ namespace ssg.Physics
     public interface IPhysics
     {
         void Update(List<PhysicsObject> objects, float dt);
+
+        void AddCollider(Collider collider);
     }
 }

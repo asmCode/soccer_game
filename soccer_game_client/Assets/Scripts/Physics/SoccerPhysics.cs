@@ -51,6 +51,8 @@ namespace ssg.Physics
 
         private void CalculateCollisions()
         {
+            Debug.Log("Collision 3");
+
             for (int i = 0; i < m_colliders.Count; i++)
             {
                 for (int j = i; j < m_colliders.Count; j++)
@@ -58,7 +60,12 @@ namespace ssg.Physics
                     if (i == j)
                         continue;
 
-                    ssg.CollisionChecker.CheckCollision(m_colliders[i], m_colliders[j]);
+                    var collisionResult = ssg.CollisionChecker.CheckCollision(m_colliders[i], m_colliders[j]);
+                    if (collisionResult != null)
+                    {
+                        m_colliders[i].NotifyCollision(m_colliders[j]);
+                        m_colliders[j].NotifyCollision(m_colliders[i]);
+                    }
                 }
             }
         }

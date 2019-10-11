@@ -11,8 +11,6 @@ namespace ssg
 
         public void NotifyCollision(Collider otherCollider)
         {
-            Debug.Log("Collision2");
-
             if (Collision != null)
                 Collision(otherCollider);
         }

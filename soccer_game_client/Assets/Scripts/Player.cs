@@ -38,7 +38,6 @@ public class Player : IPlayer
 
     private void BallTakeoverCollider_Collision(ssg.Collider otherCollider)
     {
-        Debug.Log("Collision");
     }
 
     public void Update(float deltaTime)
@@ -54,6 +53,11 @@ public class Player : IPlayer
     public Vector3 GetPosition()
     {
         return m_playerView.transform.position;
+    }
+
+    public Transform GetTransform()
+    {
+        return m_playerView.transform;
     }
 
     public void OffsetPosition(Vector3 offset)

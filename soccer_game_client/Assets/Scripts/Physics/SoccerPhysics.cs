@@ -37,9 +37,8 @@ namespace ssg.Physics
             while (m_timer >= FixedDeltaTime)
             {
                 m_timer -= FixedDeltaTime;
-
+             
                 FixedUpdate(objects, FixedDeltaTime);
-                CalculateCollisions();
             }
 
             if (m_timer > 0.0)
@@ -51,8 +50,6 @@ namespace ssg.Physics
 
         private void CalculateCollisions()
         {
-            Debug.Log("Collision 3");
-
             for (int i = 0; i < m_colliders.Count; i++)
             {
                 for (int j = i; j < m_colliders.Count; j++)
@@ -92,6 +89,8 @@ namespace ssg.Physics
                 po.Position += po.Velocity * fixedDeltaTime;
                 po.Velocity = Vector3.MoveTowards(po.Velocity, Vector3.zero, po.Friction * fixedDeltaTime);
             }
+
+            CalculateCollisions();
         }
     }
 }

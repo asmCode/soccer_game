@@ -7,5 +7,7 @@ public interface ITransformable
 
     void SetRotation(Quaternion rotation);
     Quaternion GetRotation();
+
+    Transform GetTransform();
 }
 

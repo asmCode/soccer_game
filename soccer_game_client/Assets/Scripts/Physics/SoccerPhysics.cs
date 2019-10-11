@@ -52,16 +52,30 @@ namespace ssg.Physics
         {
             for (int i = 0; i < m_colliders.Count; i++)
             {
+                // First check if the existing collisions still occure.
+                var currentColliders = new HashSet<Collider>(m_colliders[i].CurrentColliders);
+                foreach (var collider in currentColliders)
+                {
+                    var collisionResult = ssg.CollisionChecker.CheckCollision(m_colliders[i], collider);
+                    if (collisionResult == null)
+                    {
+                        m_colliders[i].NotifyCollisionLeave(collider);
+                    }
+                }
+
                 for (int j = i; j < m_colliders.Count; j++)
                 {
                     if (i == j)
                         continue;
 
+                    if (m_colliders[i].CurrentColliders.Contains(m_colliders[j]))
+                        continue;
+
                     var collisionResult = ssg.CollisionChecker.CheckCollision(m_colliders[i], m_colliders[j]);
                     if (collisionResult != null)
                     {
-                        m_colliders[i].NotifyCollision(m_colliders[j]);
-                        m_colliders[j].NotifyCollision(m_colliders[i]);
+                        m_colliders[i].NotifyCollisionEnter(m_colliders[j]);
+                        m_colliders[j].NotifyCollisionEnter(m_colliders[i]);
                     }
                 }
             }

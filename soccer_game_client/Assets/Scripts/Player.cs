@@ -31,14 +31,20 @@ public class Player : IPlayer
         PhysicsObject = new PhysicsObject(this);
         PhysicsObject.Friction = 40.0f;
 
-        BallTakeoverCollider.Collision += BallTakeoverCollider_Collision;
+        BallTakeoverCollider.CollisionEnter += BallTakeoverCollider_CollisionEnter;
+        BallTakeoverCollider.CollisionLeave += BallTakeoverCollider_CollisionLeave;
 
         SetIdle();
     }
 
-    private void BallTakeoverCollider_Collision(ssg.Collider otherCollider)
+    private void BallTakeoverCollider_CollisionEnter(ssg.Collider otherCollider)
     {
-        Debug.Log("collision against: " + otherCollider.Trans.GetTransform().name);
+        Debug.Log("collision enter: " + otherCollider.Trans.GetTransform().name);
+    }
+
+    private void BallTakeoverCollider_CollisionLeave(ssg.Collider otherCollider)
+    {
+        Debug.Log("collision leave: " + otherCollider.Trans.GetTransform().name);
     }
 
     public void Update(float deltaTime)

@@ -38,6 +38,7 @@ public class Player : IPlayer
 
     private void BallTakeoverCollider_Collision(ssg.Collider otherCollider)
     {
+        Debug.Log("collision against: " + otherCollider.Trans.GetTransform().name);
     }
 
     public void Update(float deltaTime)

@@ -7,6 +7,7 @@ public class Player : IPlayer
     private PlayerView m_playerView;
     private PlayerDirection m_direction;
     public ssg.CapsuleCollider BallTakeoverCollider { get; private set; }
+    private Match m_match;
 
     public byte Team { get; set; }
     public byte Index { get; set; }
@@ -18,7 +19,7 @@ public class Player : IPlayer
 
     public PlayerState State { get; set; }
 
-    public Player(PlayerView playerView, byte team, byte index, PlayerDirection playerDirection, ssg.CapsuleCollider ballTakeoverCollider)
+    public Player(PlayerView playerView, byte team, byte index, PlayerDirection playerDirection, ssg.CapsuleCollider ballTakeoverCollider, Match match)
     {
         m_playerView = playerView;
         Team = team;
@@ -26,6 +27,7 @@ public class Player : IPlayer
         m_direction = playerDirection;
         BallTakeoverCollider = ballTakeoverCollider;
         BallTakeoverCollider.Trans = this;
+        m_match = match;
 
         SetDirection(playerDirection);
         PhysicsObject = new PhysicsObject(this);
@@ -40,6 +42,8 @@ public class Player : IPlayer
     private void BallTakeoverCollider_CollisionEnter(ssg.Collider otherCollider)
     {
         Debug.Log("collision enter: " + otherCollider.Trans.GetTransform().name);
+
+        if ()
     }
 
     private void BallTakeoverCollider_CollisionLeave(ssg.Collider otherCollider)

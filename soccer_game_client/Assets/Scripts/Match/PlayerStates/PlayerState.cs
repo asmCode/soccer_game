@@ -12,4 +12,5 @@ public class PlayerState
     public virtual void Run(IPlayer player, PlayerDirection direction, float deltaTime) { }
     public virtual void Slide(Player player) { }
     public virtual void StopRunning(Player player) { }
+    public virtual void BallCollision(Player player, Match match) { }
 }

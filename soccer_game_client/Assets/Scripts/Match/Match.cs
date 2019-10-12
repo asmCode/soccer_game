@@ -21,6 +21,7 @@ public class Match
         m_messageInterpreter = new MessageInterpreter();
 
         m_physics = new ssg.Physics.SoccerPhysics(m_ball);
+        m_physics.AddCollider(((Ball)m_ball).Collider);
 
         var playersProvider = new PlayersProvider();
         var players = playersProvider.GetPlayers();

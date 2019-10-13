@@ -14,10 +14,12 @@ public class Ball : IBall, ITransformable
         m_ballView = ballView;
 
         Collider = new ssg.SphereCollider();
-        Collider.Radius = 0.5f;
+        Collider.Radius = Radius;
         Collider.Trans = this;
         Collider.Tag = (int)ObjectId.Ball;
     }
+
+    public float Radius { get { return 0.11f; } }
 
     public IPlayer GetPlayer()
     {
@@ -34,14 +36,20 @@ public class Ball : IBall, ITransformable
         m_player = null;
     }
 
+    private bool m_isPhysicsEnabled = true;
+
     public void EnablePhysics(bool enable)
     {
-        m_ballView.EnablePhysics(enable);
+        // m_ballView.EnablePhysics(enable);
+
+        m_isPhysicsEnabled = enable;
     }
 
     public bool IsPhysicsEnabled()
     {
-        return m_ballView.IsPhysicsEnbaled(); 
+        // return m_ballView.IsPhysicsEnbaled();
+
+        return m_isPhysicsEnabled;
     }
 
     public Vector3 GetPosition()

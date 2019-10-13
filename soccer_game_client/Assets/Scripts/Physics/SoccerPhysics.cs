@@ -9,6 +9,7 @@ namespace ssg.Physics
         private float m_timer;
         private IBall m_ball;
         private const float FixedDeltaTime = 0.02f;
+        private BallPhysics m_ballPhysics = new BallPhysics();
 
         private List<Collider> m_colliders = new List<Collider>();
 
@@ -30,6 +31,7 @@ namespace ssg.Physics
             if (Input.GetKeyDown(KeyCode.F))
             {
                 m_ball.SetVelocity(new Vector3(1, 1, 0).normalized * 10.0f);
+                m_ball.EnablePhysics(true);
             }
 
             m_timer += dt;
@@ -83,20 +85,8 @@ namespace ssg.Physics
 
         public void FixedUpdate(List<PhysicsObject> objects, float fixedDeltaTime)
         {
-            var velocity = m_ball.GetVelocity();
-            velocity += new Vector3(0, -9.8f, 0.0f) * fixedDeltaTime;
-
-            var ballPos = m_ball.GetPosition();
-            ballPos += velocity * fixedDeltaTime;
-
-            if (ballPos.y <= 0.0f)
-            {
-                ballPos.y = 0.0f;
-                velocity.y = -velocity.y;
-            }
-
-            m_ball.SetVelocity(velocity);
-            m_ball.SetPosition(ballPos);
+            if (m_ball.IsPhysicsEnabled())
+                m_ballPhysics.Update((Ball)m_ball, fixedDeltaTime);
 
             foreach (var po in objects)
             {

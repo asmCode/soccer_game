@@ -13,7 +13,7 @@ public class LocalMatchController : MatchController
         m_inputCtrl = new InputController(userInput, 0);
 
         var initialData = new PlayersProvider();
-        var players = initialData.GetPlayers();
+        var players = initialData.GetPlayers(match);
         m_match.SetPlayers(players);
     }
 

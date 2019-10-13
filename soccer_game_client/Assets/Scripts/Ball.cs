@@ -16,6 +16,7 @@ public class Ball : IBall, ITransformable
         Collider = new ssg.SphereCollider();
         Collider.Radius = 0.5f;
         Collider.Trans = this;
+        Collider.Tag = (int)ObjectId.Ball;
     }
 
     public IPlayer GetPlayer()

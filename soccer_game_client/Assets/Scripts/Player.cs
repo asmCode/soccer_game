@@ -27,6 +27,7 @@ public class Player : IPlayer
         m_direction = playerDirection;
         BallTakeoverCollider = ballTakeoverCollider;
         BallTakeoverCollider.Trans = this;
+        ballTakeoverCollider.Tag = (int)ObjectId.Player;
         m_match = match;
 
         SetDirection(playerDirection);
@@ -43,7 +44,10 @@ public class Player : IPlayer
     {
         Debug.Log("collision enter: " + otherCollider.Trans.GetTransform().name);
 
-        if ()
+        if ((ObjectId)otherCollider.Tag == ObjectId.Ball)
+        {
+            m_match.NotifyPlayerBallCollision(new PlayerId(Team, Index));
+        }
     }
 
     private void BallTakeoverCollider_CollisionLeave(ssg.Collider otherCollider)

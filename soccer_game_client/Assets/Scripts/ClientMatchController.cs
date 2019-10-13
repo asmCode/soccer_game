@@ -15,7 +15,7 @@ public class ClientMatchController : MatchController
         m_gameClient = GameClientFactory.Create();
 
         var initialData = new PlayersProvider();
-        var players = initialData.GetPlayers();
+        var players = initialData.GetPlayers(match);
         m_match.SetPlayers(players);
     }
 

@@ -24,7 +24,7 @@ public class Match
         m_physics.AddCollider(((Ball)m_ball).Collider);
 
         var playersProvider = new PlayersProvider();
-        var players = playersProvider.GetPlayers();
+        var players = playersProvider.GetPlayers(this);
         SetPlayers(players);
     }
 

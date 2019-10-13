@@ -11,6 +11,7 @@ namespace ssg
         public HashSet<Collider> CurrentColliders = new HashSet<Collider>();
 
         public abstract ColliderId ColliderId { get; }
+        public int Tag { get; set; }
 
         public void NotifyCollisionEnter(Collider otherCollider)
         {

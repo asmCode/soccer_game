@@ -30,7 +30,7 @@ namespace ssg.Physics
 
             if (Input.GetKeyDown(KeyCode.F))
             {
-                m_ball.SetVelocity(new Vector3(1, 1, 0).normalized * 10.0f);
+                m_ball.SetVelocity(new Vector3(0, 1.0f, 1).normalized * 15.0f);
                 m_ball.EnablePhysics(true);
             }
 

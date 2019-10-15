@@ -35,14 +35,14 @@ public class Match
 
     public void Update(float dt)
     {
+        m_physics.Update(m_physiscObjects, dt);
+
         var ballPlayer = m_ball.GetPlayer();
         if (ballPlayer != null)
         {
             var ballPos = ballPlayer.GetPosition() + ballPlayer.GetDirectionVector() * PlayerProps.Instance.BallDistance;
             m_ball.SetPosition(ballPos);
         }
-
-        m_physics.Update(m_physiscObjects, dt);
 
         foreach (var team in m_teams)
         {

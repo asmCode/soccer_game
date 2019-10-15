@@ -13,7 +13,6 @@ public class LocalMatchLogic : IMatchLogic
 
     public void BallAndPlayerCollision(PlayerId playerId)
     {
-        return;
         var ball = m_match.GetBall();
         ball.EnablePhysics(false);
         ball.SetPlayer(m_match.GetPlayer(playerId));

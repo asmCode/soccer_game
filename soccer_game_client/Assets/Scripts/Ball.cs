@@ -5,7 +5,6 @@ using UnityEngine;
 public class Ball : IBall, ITransformable
 {
     private BallView m_ballView;
-    private IPlayer m_player;
 
     public ssg.SphereCollider Collider { get; private set; }
 
@@ -20,21 +19,6 @@ public class Ball : IBall, ITransformable
     }
 
     public float Radius { get { return 0.11f; } }
-
-    public IPlayer GetPlayer()
-    {
-        return m_player;
-    }
-
-    public void SetPlayer(IPlayer player)
-    {
-        m_player = player;
-    }
-
-    public void ClearPlayer()
-    {
-        m_player = null;
-    }
 
     private bool m_isPhysicsEnabled = true;
 

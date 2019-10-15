@@ -15,6 +15,6 @@ public class LocalMatchLogic : IMatchLogic
     {
         var ball = m_match.GetBall();
         ball.EnablePhysics(false);
-        ball.SetPlayer(m_match.GetPlayer(playerId));
+        m_match.SetBallOwner(playerId);
     }
 }

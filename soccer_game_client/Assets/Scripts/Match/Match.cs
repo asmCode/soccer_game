@@ -9,6 +9,7 @@ public class Match
     private ssg.Physics.IPhysics m_physics;
     private IMatchLogic m_logic;
     private List<PhysicsObject> m_physiscObjects = new List<PhysicsObject>();
+    private PlayerId m_playerIdWithBall = PlayerId.None;
 
     public Team[] Teams
     {
@@ -37,9 +38,9 @@ public class Match
     {
         m_physics.Update(m_physiscObjects, dt);
 
-        var ballPlayer = m_ball.GetPlayer();
-        if (ballPlayer != null)
+        if (m_playerIdWithBall != PlayerId.None)
         {
+            var ballPlayer = GetPlayer(m_playerIdWithBall);
             var ballPos = ballPlayer.GetPosition() + ballPlayer.GetDirectionVector() * PlayerProps.Instance.BallDistance;
             m_ball.SetPosition(ballPos);
         }
@@ -67,6 +68,11 @@ public class Match
         var player = m_teams[team].Players[playerIndex];
         if (!(player.State is PlayerStateIdle))
             player.SetIdle();
+    }
+
+    public void SetBallOwner(PlayerId playerId)
+    {
+        m_playerIdWithBall = playerId;
     }
 
     public void SetPlayers(List<Player> players)

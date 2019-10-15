@@ -1,5 +1,7 @@
 ﻿public struct PlayerId
 {
+    public static PlayerId None = new PlayerId{ Team = 255, Index = 255 };
+
     public byte Team { get; set; }
     public byte Index { get; set; }
 

@@ -10,7 +10,7 @@ class PostMsg
 
 public class DelayedNetworkCommunication : INetworkCommunication
 {
-    private const float m_delay = 1.0f;
+    private const float m_delay = 0.2f;
     private INetworkCommunication m_com;
     private Queue<PostMsg> m_postMsgQueue = new Queue<PostMsg>();
 

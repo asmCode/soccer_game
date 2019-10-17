@@ -53,7 +53,7 @@ public class FakeClients : MonoBehaviour
 
     public void UIEventClien2ReadyToStart()
     {
-        m_client1.SendReadyToStart();
+        m_client2.SendReadyToStart();
     }
 
     public void UIEventStartAll()

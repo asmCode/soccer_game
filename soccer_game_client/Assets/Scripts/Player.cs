@@ -12,6 +12,11 @@ public class Player : IPlayer
     public byte Team { get; set; }
     public byte Index { get; set; }
 
+    public PlayerId PlayerId
+    {
+        get { return new PlayerId(Team, Index); }
+    }
+
     public float SlideTime { get; set; }
     public Vector3 SlideBasePos { get; set; }
 

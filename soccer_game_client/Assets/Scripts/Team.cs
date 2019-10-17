@@ -5,4 +5,5 @@ using UnityEngine;
 public class Team
 {
     public List<IPlayer> Players = new List<IPlayer>();
+    public int ActivePlayerIndex;
 }

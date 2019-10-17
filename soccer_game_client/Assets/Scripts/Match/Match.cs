@@ -42,6 +42,7 @@ public class Match
         {
             var ballPlayer = GetPlayer(m_playerIdWithBall);
             var ballPos = ballPlayer.GetPosition() + ballPlayer.GetDirectionVector() * PlayerProps.Instance.BallDistance;
+            ballPos.y += ((Ball)m_ball).Radius;
             m_ball.SetPosition(ballPos);
         }
 
@@ -88,21 +89,33 @@ public class Match
         }
     }
 
+    public Player GetActivePlayer(byte team)
+    {
+        return (Player)m_teams[team].Players[m_teams[team].ActivePlayerIndex];
+    }
+
     public void PlayerAction(byte team, float duration)
     {
-        var activePlayer = m_ball.GetPlayer();
+        var player = GetActivePlayer(team);
+        if (player == null)
+            return;
 
-        if (activePlayer == null)
+        if (player.PlayerId == m_playerIdWithBall)
         {
-            activePlayer = Teams[team].Players[0];
+            var velocity = player.GetDirectionVector();
+            velocity.y = 0.5f;
+            velocity *= 20.0f;
+            KickBall(velocity);
         }
+        else
+            player.Slide();
+    }
 
-        activePlayer.Slide();
-        return;
-
-        m_ball.ClearPlayer();
+    private void KickBall(Vector3 velocity)
+    {
+        m_playerIdWithBall = PlayerId.None;
         m_ball.EnablePhysics(true);
-        m_ball.SetVelocity(ShootVelocity.GetVelocity(activePlayer.GetDirection(), duration));
+        m_ball.SetVelocity(velocity);
     }
 
     public void SetBallPosition(Vector3 position, Vector3 velocity)
@@ -143,12 +156,6 @@ public class Match
 
     // Do I need this?
     // public void PlayerSlide(byte team, byte playerIndex, Vector3 position, PlayerDirection direction) {}
-
-    public void AttachBallToPlayer(PlayerId playerId)
-    {
-        var player = GetPlayer(playerId);
-        m_ball.SetPlayer(player);
-    }
 
     public void ProcessMessage(MatchMessage message)
     {

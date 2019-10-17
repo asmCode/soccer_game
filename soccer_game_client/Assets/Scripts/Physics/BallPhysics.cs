@@ -5,7 +5,7 @@ using UnityEngine;
 public class BallPhysics
 {
     private const float Gravity = -9.8f;
-    private const float NoBouncePositionTreshold = 0.01f;
+    private const float NoBouncePositionTreshold = 0.02f;
     private const float NoBounceVelocityTreshold = 0.1f;
     private const float StopVelocityTreshold = 0.2f;
     private const float GrassFriction = 2.0f;
@@ -48,8 +48,9 @@ public class BallPhysics
 
         if (newBallBottom < 0.0f)
         {
+            // Debug.Log("bounce");
             position.y = ball.Radius;
-            velocity.y = -velocity.y;
+            velocity.y = Mathf.Abs(velocity.y);
             velocity.y *= BounceVelocityMultiplierY;
             velocity.x *= BounceVelocityMultiplierXZ;
             velocity.z *= BounceVelocityMultiplierXZ;

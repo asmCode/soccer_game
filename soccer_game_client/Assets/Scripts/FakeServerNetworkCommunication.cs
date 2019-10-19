@@ -35,6 +35,9 @@ public class FakeServerNetworkCommunication : INetworkCommunication
         {
             case NetworkMessageType.JoinRequest:
                 var msg = new JoinAccept();
+                msg.m_team = 0;
+                m_netMsgSerializer.Serialize(msg);
+                OutMessages.Enqueue(new RawData(m_netMsgSerializer.Data, m_netMsgSerializer.DataSize));
                 // TODO: add this message to OutMessages
                 break;
         }

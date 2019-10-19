@@ -123,7 +123,6 @@ public class ClientScene : MonoBehaviour
             return new DelayedNetworkCommunication(udpCom);
         }
 
-
         var fakeServer = fakeServerGO.GetComponent<FakeServer>();
 
         return fakeServer.NetworkCommunication;

@@ -39,6 +39,11 @@ public class MixedNetworkCommunication : INetworkCommunication
 
     public void Send(byte[] data, int size, INetworkAddress address)
     {
-        throw new System.NotImplementedException();
+        foreach (var netCom in m_netComs)
+        {
+            if (netCom.)
+            if (netCom.Receive(data, out size, out address))
+                return true;
+        }
     }
 }

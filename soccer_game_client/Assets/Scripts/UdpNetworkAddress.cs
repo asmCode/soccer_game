@@ -15,7 +15,9 @@ public class UdpNetworkAddress : INetworkAddress
 
     public override bool Equals(object obj)
     {
-        return EndPoint.Equals(((UdpNetworkAddress)obj).EndPoint);
+        return
+            obj is UdpNetworkAddress &&
+            EndPoint.Equals(((UdpNetworkAddress)obj).EndPoint);
     }
 
     public override int GetHashCode()

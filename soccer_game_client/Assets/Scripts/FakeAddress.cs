@@ -16,7 +16,9 @@ public class FakeAddress : INetworkAddress
 
     public override bool Equals(object obj)
     {
-        return m_clientName.Equals(((FakeAddress)obj).m_clientName);
+        return
+            obj is FakeAddress &&
+            m_clientName.Equals(((FakeAddress)obj).m_clientName);
     }
 
     public override int GetHashCode()

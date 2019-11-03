@@ -41,9 +41,6 @@ public class MixedNetworkCommunication : INetworkCommunication
     {
         foreach (var netCom in m_netComs)
         {
-            if (netCom.)
-            if (netCom.Receive(data, out size, out address))
-                return true;
         }
     }
 }

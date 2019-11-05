@@ -6,6 +6,12 @@ public class PlayerView : MonoBehaviour
 {
     private Match m_match;
     private PlayerId m_playerId;
+    private Animator m_animator;
+
+    private void Awake()
+    {
+        m_animator = GetComponent<Animator>();
+    }
 
     public PlayerId PlayerId
     {
@@ -42,5 +48,15 @@ public class PlayerView : MonoBehaviour
     public void TriggerBallCollision()
     {
         m_match.NotifyPlayerBallCollision(PlayerId);
+    }
+
+    public void SetIdleAnim()
+    {
+        m_animator.SetTrigger("Idle");
+    }
+
+    public void SetSlideAnim()
+    {
+        m_animator.SetTrigger("Slide");
     }
 }

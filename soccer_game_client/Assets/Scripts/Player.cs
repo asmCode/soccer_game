@@ -129,6 +129,7 @@ public class Player : IPlayer
 
     public void SetSlideState()
     {
+        m_playerView.SetSlideAnim();
         SetState(PlayerStateSlide.Get());
     }
 

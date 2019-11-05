@@ -10,7 +10,7 @@ public class PlayerView : MonoBehaviour
 
     private void Awake()
     {
-        m_animator = GetComponent<Animator>();
+        m_animator = transform.Find("Model").GetComponent<Animator>();
     }
 
     public PlayerId PlayerId

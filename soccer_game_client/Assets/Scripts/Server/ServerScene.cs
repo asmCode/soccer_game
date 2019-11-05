@@ -10,6 +10,8 @@ public class ServerScene : MonoBehaviour
     private Match m_match;
     private bool m_matchStarted;
 
+    FakeClientOnServer m_fakeClient = new FakeClientOnServer();
+
     public GameServer GameServer
     {
         get;
@@ -30,10 +32,12 @@ public class ServerScene : MonoBehaviour
     private void Start()
     {
         m_gameServerController.StartServer();
+        m_fakeClient.JoinServer();
     }
 
     private void Update()
     {
+        m_fakeClient.Update();
         m_gameServerController.Update(Time.deltaTime);
 
         if (!MatchSceneLoaded())

@@ -5,10 +5,18 @@ using UnityEngine;
 public class MixedNetworkCommunication : INetworkCommunication
 {
     private List<INetworkCommunication> m_netComs = new List<INetworkCommunication>();
+    private INetworkCommunication m_defaultSendCom;
+    private Dictionary<INetworkAddress, INetworkCommunication> m_addrToCom =
+        new Dictionary<INetworkAddress, INetworkCommunication>();
 
-    public void AddNetworkCommunication(INetworkCommunication netCom)
+    public void AddNetworkCommunication(INetworkCommunication netCom, INetworkAddress address)
     {
         m_netComs.Add(netCom);
+
+        if (address == null)
+            m_defaultSendCom = netCom;
+        else
+            m_addrToCom[address] = netCom;
     }
 
     public void Close()
@@ -39,8 +47,10 @@ public class MixedNetworkCommunication : INetworkCommunication
 
     public void Send(byte[] data, int size, INetworkAddress address)
     {
-        foreach (var netCom in m_netComs)
-        {
-        }
+        INetworkCommunication netCom;
+        if (!m_addrToCom.TryGetValue(address, out netCom))
+            netCom = m_defaultSendCom;
+
+        netCom.Send(data, size, address);
     }
 }

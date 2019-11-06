@@ -113,6 +113,7 @@ public class Player : IPlayer
 
     public void SetIdle()
     {
+        m_playerView.SetAnim(PlayerAnimationType.Idle);
         State = PlayerStateIdle.Get();
         State.Enter(this);
     }
@@ -129,7 +130,7 @@ public class Player : IPlayer
 
     public void SetSlideState()
     {
-        m_playerView.SetSlideAnim();
+        m_playerView.SetAnim(PlayerAnimationType.Slide);
         SetState(PlayerStateSlide.Get());
     }
 

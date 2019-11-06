@@ -7,6 +7,7 @@ public class PlayerView : MonoBehaviour
     private Match m_match;
     private PlayerId m_playerId;
     private Animator m_animator;
+    public PlayerAnimationType AnimationType { get; private set; }
 
     private void Awake()
     {
@@ -50,13 +51,28 @@ public class PlayerView : MonoBehaviour
         m_match.NotifyPlayerBallCollision(PlayerId);
     }
 
-    public void SetIdleAnim()
+    public void SetAnim(PlayerAnimationType animType)
     {
-        m_animator.SetTrigger("Idle");
-    }
+        if (AnimationType == animType)
+            return;
 
-    public void SetSlideAnim()
-    {
-        m_animator.SetTrigger("Slide");
+        AnimationType = animType;
+
+        string clipName = null;
+
+        switch (animType)
+        {
+            case PlayerAnimationType.Idle:
+                clipName = "Idle";
+                break;
+
+            case PlayerAnimationType.Slide:
+                clipName = "Slide";
+                break;
+
+        }
+
+        if (clipName != null)
+            m_animator.SetTrigger(clipName);
     }
 }

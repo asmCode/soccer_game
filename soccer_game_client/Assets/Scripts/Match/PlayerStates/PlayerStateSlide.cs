@@ -28,12 +28,6 @@ public class PlayerStateSlide : PlayerState
 
     public override void Update(Player player, float deltaTime)
     {
-        //player.SlideTime = Mathf.Min(player.SlideTime + deltaTime, GameSettings.SlideDuration);
-
-        // Vector3 newPos = player.SlideBasePos + player.GetDirectionVector() * SlideCurve.Get().m_curve.Evaluate(player.SlideTime / GameSettings.SlideDuration) * GameSettings.SlideDistance;
-        // Vector3 newPos = player.SlideBasePos + player.GetDirectionVector() * SlideCurve.Get().m_curve.Evaluate(1.0f) * GameSettings.SlideDistance;
-        // player.SetPosition(newPos);
-
         if (player.PhysicsObject.Velocity.sqrMagnitude == 0.0f)
             player.SetIdle();
     }

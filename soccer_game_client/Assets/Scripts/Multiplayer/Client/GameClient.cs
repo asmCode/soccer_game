@@ -8,7 +8,6 @@ public class GameClient
     // TODO: poor design, should client know what team is that?
     public byte Team { get; private set; }
 
-    private MessageSerializer m_msgSerializer;
     // TODO: poor design, shouldn't be public.
     public NetworkMessageSerializer m_netMsgSerializer = new NetworkMessageSerializer(new BinaryDataWriter(), new BinaryDataReader());
     private MessageQueue m_msgQueue = new MessageQueue();
@@ -25,9 +24,8 @@ public class GameClient
         m_com = com;
         m_com.Initialize();
 
-        m_msgSerializer = MessageSerializerFactory.Create();
         m_msgQueue = new MessageQueue();
-}
+    }
 
     public bool IsConnected()
     {
@@ -60,22 +58,6 @@ public class GameClient
 
             ProcessMessage(msg);
         }
-    }
-
-    private void GetMessagesFromSever()
-    {
-        //if (m_connection == null)
-        //    return;
-
-        //while (true)
-        //{
-        //    var netMsg = m_connection.GetMessage();
-        //    if (netMsg == null)
-        //        break;
-
-        //    // var msg = m_msgSerializer.Deserialize(netMsg.Data);
-        //    // m_msgQueue.AddMessage(msg);
-        //}
     }
 
     public void SendReadyToStart()

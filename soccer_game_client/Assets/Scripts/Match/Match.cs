@@ -94,6 +94,12 @@ public class Match
         return (Player)m_teams[team].Players[m_teams[team].ActivePlayerIndex];
     }
 
+    public void Slide(byte team, byte playerIndex)
+    {
+        var player = GetPlayer(new PlayerId(team, playerIndex));
+        player.Slide();
+    }
+
     public void PlayerAction(byte team, float duration)
     {
         var player = GetActivePlayer(team);
@@ -153,9 +159,6 @@ public class Match
         player.SetPosition(position + offset);
         player.SetDirection(direction);
     }
-
-    // Do I need this?
-    // public void PlayerSlide(byte team, byte playerIndex, Vector3 position, PlayerDirection direction) {}
 
     public void ProcessMessage(MatchMessage message)
     {

@@ -20,11 +20,12 @@ public class GameServerMatchState : IGameServerState
             return;
         }
 
+        var clientInfo = gameServer.GetClientInfoByAddress(address);
+
         switch (netMsg.m_type)
         {
             case NetworkMessageType.PlayerMove:
                 {
-                    var clientInfo = gameServer.GetClientInfoByAddress(address);
                     var playerMove = netMsg.m_msg as PlayerMove;
                     playerMove.m_team = clientInfo.Team;
                     MatchMessage matchMsg = new MatchMessage();
@@ -33,18 +34,21 @@ public class GameServerMatchState : IGameServerState
                     gameServer.AddMatchMessage(matchMsg);
 
                     // Not sure it it supposed to be here.
-                    clientInfo.LastMsgNum = playerMove.m_messageNumber;
+                    clientInfo.LastMsgNum = Mathf.Max(clientInfo.LastMsgNum, playerMove.m_messageNumber);
                     break;
                 }
 
             case NetworkMessageType.PlayerAction:
                 {
-                    var clientInfo = gameServer.GetClientInfoByAddress(address);
                     var msg = netMsg.m_msg as Action;
+                    msg.m_team = clientInfo.Team;
                     MatchMessage matchMsg = new MatchMessage();
                     matchMsg.m_message = msg;
                     matchMsg.m_messageType = MessageType.PlayerAction;
                     gameServer.AddMatchMessage(matchMsg);
+
+                    // Not sure it it supposed to be here.
+                    clientInfo.LastMsgNum = Mathf.Max(clientInfo.LastMsgNum, msg.m_messageNumber);
                     break;
                 }
         }

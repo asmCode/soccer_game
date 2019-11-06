@@ -1,11 +1,12 @@
 ﻿public enum MessageType
 {
-    PlayerMove = 1,
-    PlayerAction = 2,
-    PlayerSelect = 3,
+    PlayerMove,
+    PlayerAction,
+    PlayerSelect,
+    Slide,
 
-    BallPosition = 3,
-    PlayerPosition = 5,
+    BallPosition,
+    PlayerPosition,
 }
 
 /*

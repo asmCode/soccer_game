@@ -41,7 +41,6 @@ public class GameServerMatchState : IGameServerState
                 {
                     var clientInfo = gameServer.GetClientInfoByAddress(address);
                     var msg = netMsg.m_msg as Action;
-                    msg.m_team = clientInfo.Team;
                     MatchMessage matchMsg = new MatchMessage();
                     matchMsg.m_message = msg;
                     matchMsg.m_messageType = MessageType.PlayerAction;

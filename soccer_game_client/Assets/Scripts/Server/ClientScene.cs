@@ -169,7 +169,10 @@ public class ClientScene : MonoBehaviour
 
         float actionDuration;
         if (m_inputProc.GetAction(out actionDuration))
+        {
+
             SendPlayerActionMessage(actionDuration);
+        }
     }
 
     private void SendPlayerMoveMessage(PlayerMove msg)

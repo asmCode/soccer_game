@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class FakeClientOnServer
 {
-    private bool m_matchStarted;
     private MatchInputProcessor m_inputProc;
 
     private int m_clientMessageNumber;
@@ -58,7 +57,6 @@ public class FakeClientOnServer
 
     private void HandleMatchStarted()
     {
-        m_matchStarted = true;
     }
 
     public void JoinServer()

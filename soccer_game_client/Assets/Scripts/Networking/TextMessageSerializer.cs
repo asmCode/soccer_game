@@ -14,12 +14,11 @@ public class TextMessageSerializer : MessageSerializer
 
         if (command[0] == "Action")
         {
-            Debug.Assert(command.Length == 4);
+            //Debug.Assert(command.Length == 4);
 
-            return Action.Create(
-                byte.Parse(command[1].Trim()),
-                byte.Parse(command[2].Trim()),
-                float.Parse(command[3].Trim()));
+            //return Action.Create(
+            //    byte.Parse(command[2].Trim()),
+            //    float.Parse(command[3].Trim()));
         }
         else if (command[0] == "BallPosition")
         {
@@ -80,8 +79,7 @@ public class TextMessageSerializer : MessageSerializer
         {
             case MessageType.PlayerAction:
                 var action = message.m_message as Action;
-                serialized = string.Format("Action {0} {1} {2:0.000}",
-                    action.m_team,
+                serialized = string.Format("Action {0} {1:0.000}",
                     action.m_playerIndex,
                     action.m_duration);
                 break;

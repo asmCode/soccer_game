@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Action
 {
-    public byte m_team;
+    public int m_messageNumber;
     public byte m_playerIndex;
     public float m_duration;
 
-    public static MatchMessage Create(byte team, byte playerIndex, float duration)
+    public static MatchMessage Create(int messageNumber, byte playerIndex, float duration)
     {
         var payload = new Action();
-        payload.m_team = team;
+        payload.m_messageNumber = messageNumber;
         payload.m_playerIndex = playerIndex;
         payload.m_duration = duration;
 

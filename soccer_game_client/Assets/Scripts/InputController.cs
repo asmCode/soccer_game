@@ -39,7 +39,6 @@ public class InputController
             else
             {
                 var actionMsg = new Action();
-                actionMsg.m_team = m_team;
                 actionMsg.m_duration = Time.time - m_actionStartTime;
 
                 var msg = new MatchMessage();

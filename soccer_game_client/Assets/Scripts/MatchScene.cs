@@ -32,6 +32,6 @@ public class MatchScene : MonoBehaviour
 
     private void Update()
     {
-        Match.Update(Time.deltaTime);
+        // Match.Update(Time.deltaTime);
     }
 }

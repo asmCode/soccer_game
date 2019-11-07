@@ -98,6 +98,11 @@ public class Match
     {
         var player = GetPlayer(new PlayerId(team, playerIndex));
         player.Slide();
+
+        var position = player.GetPosition();
+        var direction = player.GetDirection();
+
+        AddSlideToMatchEvents(team, playerIndex, new Vector2(position.x, position.z), direction);
     }
 
     public void PlayerAction(byte team, float duration)
@@ -184,5 +189,23 @@ public class Match
         players.AddRange(m_teams[1].Players);
 
         return players;
+    }
+
+    private List<MatchMessage> m_matchEvents = new List<MatchMessage>();
+
+    public void ClearMatchEvents()
+    {
+        m_matchEvents.Clear();
+    }
+
+    public void AddSlideToMatchEvents(byte team, byte index, Vector2 position, PlayerDirection direction)
+    {
+        var matchEvent = global::Slide.Create(0, team, index, position, direction);
+        m_matchEvents.Add(matchEvent);
+    }
+
+    public List<MatchMessage> GetMatchEvents()
+    {
+        return m_matchEvents;
     }
 }

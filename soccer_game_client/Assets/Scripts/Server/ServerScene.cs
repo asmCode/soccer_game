@@ -43,6 +43,8 @@ public class ServerScene : MonoBehaviour
         if (!MatchSceneLoaded())
             return;
 
+        m_match.ClearMatchEvents();
+
         if (MatchSceneLoaded() && GameServer.ClientsReady() && !m_matchStarted)
         {
             m_matchStarted = true;
@@ -60,9 +62,17 @@ public class ServerScene : MonoBehaviour
                 m_match.ProcessMessage(msg);
             }
 
+            m_match.Update(Time.deltaTime);
+
             SendPlayersPositions();
             SendBallPosition();
+            SendMatchMessages();
         }
+    }
+
+    private void SendMatchMessages()
+    {
+        // here process slide.
     }
 
     private void OnDisable()
